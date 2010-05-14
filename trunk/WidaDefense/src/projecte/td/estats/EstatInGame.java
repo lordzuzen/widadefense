@@ -34,6 +34,7 @@ public class EstatInGame extends BasicGameState {
     MenuIngame mi;
     ManagerDiners md;
     String unitat = "null";
+    private int cont;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode
@@ -80,7 +81,26 @@ public class EstatInGame extends BasicGameState {
             }
         } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
-            u = FactoriaUnitats.getUnitatDolenta("Natiu");
+            if (cont ==0) {
+                u = FactoriaUnitats.getUnitatDolenta("Espasa");
+            }
+            else if(cont==1) {
+                u = FactoriaUnitats.getUnitatDolenta("Momia");
+            }
+            else if(cont==2) {
+                u = FactoriaUnitats.getUnitatDolenta("Ufo");
+            }
+            else if(cont==3){
+                u = FactoriaUnitats.getUnitatDolenta("Natiu");
+            }
+            else{
+                u = FactoriaUnitats.getUnitatDolenta("Cranc");
+            }
+            p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
+            cont++;
+            if(cont>4){
+                cont=0;
+            }
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
         }
         p.acciona(delta);

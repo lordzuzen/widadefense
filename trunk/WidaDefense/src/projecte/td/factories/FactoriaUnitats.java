@@ -65,6 +65,22 @@ public class FactoriaUnitats {
                     ManagerRecursos.getImageArray("natiuCaminaAnimation"),
                     ManagerRecursos.getImageArray("natiuAtacaAnimation"), 0.25);
         }
+        else if (tipus.equals("Espasa")) {
+            dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
+                    ManagerRecursos.getImageArray("espasaCaminaAnimation"),
+                    ManagerRecursos.getImageArray("espasaAtacaAnimation"),0.25);
+        }
+        else if (tipus.equals("Ufo")) {
+            dolent = new UnitatEnemigaAtkDistancia(100, 2000, ManagerRecursos.getImage("pistolerImage"),
+                    ManagerRecursos.getImageArray("ufoAnimation"),
+                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("ufoProjectilAnimation")),ManagerRecursos.getImageArray("ufoAnimation"),-2,20);
+        }
+
+        else if (tipus.equals("Cranc")) {
+            dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
+                    ManagerRecursos.getImageArray("crancCaminaAnimation"),
+                    ManagerRecursos.getImageArray("crancAtacaAnimation"),1);
+        }
         return dolent;
     }
 }
