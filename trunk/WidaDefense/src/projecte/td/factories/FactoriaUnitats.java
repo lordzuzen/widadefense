@@ -82,6 +82,11 @@ public class FactoriaUnitats {
                     ManagerRecursos.getImageArray("crancCaminaAnimation"),
                     ManagerRecursos.getImageArray("crancAtacaAnimation"),1);
         }
+        else if (tipus.equals("Robot")) {
+            dolent = new UnitatEnemigaAtkDistancia(100, 2000, ManagerRecursos.getImage("pistolerImage"),
+                    ManagerRecursos.getImageArray("robotCaminaAnimation"),
+                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation")),ManagerRecursos.getImageArray("robotAtacaAnimation"),-2,20);
+        }
         return dolent;
     }
 }
