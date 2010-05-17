@@ -1,18 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.joc;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.StateBasedGame;
+import projecte.td.estats.EstatGuanya;
 import projecte.td.estats.EstatInGame;
 import projecte.td.estats.EstatIntro;
 import projecte.td.estats.EstatLoading;
 import projecte.td.estats.EstatMenuIngame;
 import projecte.td.estats.EstatMenuPrincipal;
+import projecte.td.estats.EstatPerd;
 import projecte.td.estats.EstatPerfil;
 import projecte.td.estats.EstatSeguentWave;
 import projecte.td.estats.EstatSortir;
@@ -61,7 +59,12 @@ public class TDGame extends StateBasedGame {
         addState(new EstatSeguentWave());
         // Estat on es juga la partida
         addState(new EstatInGame());
+        // Estat on es mostra el menu ingame
         addState(new EstatMenuIngame());
+        // Estat que apareix si l'usuari no supera una wave
+        addState(new EstatPerd());
+        // Estat que apareix si l'usuari supera una wave
+        addState(new EstatGuanya());
         // Estat on es confirma la sortida a l'escriptori
         addState(new EstatSortir());
     }

@@ -32,7 +32,8 @@ public class FactoriaUnitats {
         }
         UnitatAbstract bo = null;
         if (tipus.equals("Pistoler")) {
-            bo = new UnitatDispara(100, 4000, ManagerRecursos.getImage("pistolerImage"),
+            bo = new UnitatDispara(unitats.getPropietatInt("vidaPistoler"), unitats.getPropietatInt("cadenciaPistoler"),
+                    ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("pistolerAnimation"),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 4);
         } else if (tipus.equals("Escopeta")) {
@@ -47,7 +48,7 @@ public class FactoriaUnitats {
             bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
                     unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("minerImage"),
                     ManagerRecursos.getImageArray("minerAnimation"));
-        } else if (tipus.equals("Escut")) {
+        } else if (tipus.equals("Escut")) { 
             bo = new UnitatAbstract(100, ManagerRecursos.getImage("escutImage"),
                     ManagerRecursos.getImageArray("escutAnimation"));
         }

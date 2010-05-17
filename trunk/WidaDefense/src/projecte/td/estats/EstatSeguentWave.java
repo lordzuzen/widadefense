@@ -54,7 +54,6 @@ public class EstatSeguentWave extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsSeguentWaveImage");
-
     }
 
     /**

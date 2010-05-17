@@ -34,8 +34,6 @@ public class EstatPerfil extends BasicGameState {
     private BotoMenu botoPerfil2;
     // Boto Perfil3
     private BotoMenu botoPerfil3;
-    // Arxiu de Configuració
-    private ArxiuConfiguracio opcions;
     // Informa si un boto ha estat premut
     private boolean triat;
     // Indica si els botons es poden renderitzar
@@ -67,7 +65,6 @@ public class EstatPerfil extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
-        opcions = Configuracio.getOpcions();
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
     }

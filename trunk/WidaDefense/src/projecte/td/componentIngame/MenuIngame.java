@@ -10,8 +10,9 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.estats.EstatMenuIngame;
-import projecte.td.estats.EstatMenuPrincipal;
+import projecte.td.componentIngame.*;
+import projecte.td.estats.EstatGuanya;
+import projecte.td.estats.EstatPerd;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerDiners;
@@ -144,7 +145,7 @@ public class MenuIngame extends AbstractComponent {
         botoOpcions.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatMenuPrincipal.ID);
+                state.enterState(EstatGuanya.ID);
             }
         });
     }
