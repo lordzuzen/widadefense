@@ -93,9 +93,13 @@ public class EstatInGame extends BasicGameState {
             else if(cont==3){
                 u = FactoriaUnitats.getUnitatDolenta("Natiu");
             }
+            else if(cont==4){
+                u = FactoriaUnitats.getUnitatDolenta("Robot");
+            }
             else{
                 u = FactoriaUnitats.getUnitatDolenta("Cranc");
             }
+
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
             cont++;
             if(cont>4){
