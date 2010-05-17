@@ -72,38 +72,37 @@ public class EstatInGame extends BasicGameState {
             if (!unitat.equals("null")) {
                 if (unitat.contains("Aura")) {
                 } else {
-                    UnitatAbstract u = null;
-                    u = FactoriaUnitats.getUnitatBona(unitat);
-                    p.posicionaUnitatAmiga(input.getMouseX(), input.getMouseY(), u);
-                    unitat = "null";
-                    mi.realitzaTransaccio();
+                    int[] posFC = p.mirarCoordenadesClick(input.getMouseX(), input.getMouseY());
+                    if (p.comprovarClick(posFC[0], posFC[1])) {
+                        UnitatAbstract u = null;
+                        u = FactoriaUnitats.getUnitatBona(unitat);
+                        p.posicionaUnitatAmiga(posFC[0], posFC[1], u);
+                        unitat = "null";
+                        mi.realitzaTransaccio();
+                    }
+
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
-            if (cont ==0) {
+            if (cont == 0) {
                 u = FactoriaUnitats.getUnitatDolenta("Espasa");
-            }
-            else if(cont==1) {
+            } else if (cont == 1) {
                 u = FactoriaUnitats.getUnitatDolenta("Momia");
-            }
-            else if(cont==2) {
+            } else if (cont == 2) {
                 u = FactoriaUnitats.getUnitatDolenta("Ufo");
-            }
-            else if(cont==3){
+            } else if (cont == 3) {
                 u = FactoriaUnitats.getUnitatDolenta("Natiu");
-            }
-            else if(cont==4){
+            } else if (cont == 4) {
                 u = FactoriaUnitats.getUnitatDolenta("Robot");
-            }
-            else{
+            } else {
                 u = FactoriaUnitats.getUnitatDolenta("Cranc");
             }
 
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
             cont++;
-            if(cont>5){
-                cont=0;
+            if (cont > 5) {
+                cont = 0;
             }
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
         }
