@@ -5,9 +5,6 @@
 
 package projecte.td.domini;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,12 +15,13 @@ public class UnitatEnemiga extends UnitatAbstract{
 
     protected boolean activat;
     protected Animation atck;
-    private final double velocitat = 0.05;
+    private double velocitat;
 
 
-    public UnitatEnemiga(int vida, Image image, Image[] frames, Image[] frames2) {
+    public UnitatEnemiga(int vida, Image image, Image[] frames, Image[] frames2,double velocitat) {
         super(vida, image, frames);        
         atck=new Animation(frames2, 100);
+        this.velocitat=velocitat;
     }
     @Override
     public void setLocation(float posX, float posY){
