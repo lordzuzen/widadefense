@@ -102,7 +102,7 @@ public class EstatInGame extends BasicGameState {
 
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
             cont++;
-            if(cont>4){
+            if(cont>5){
                 cont=0;
             }
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
