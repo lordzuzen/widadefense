@@ -17,8 +17,8 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga{
 
     double dany;
 
-    public UnitatEnemigaAtkNormal(int vida, Image image, Image[] frames, Image[] frames2,double dany) {
-        super(vida, image, frames, frames2);
+    public UnitatEnemigaAtkNormal(int vida, Image image, Image[] frames, Image[] frames2, double velocitat,double dany) {
+        super(vida, image, frames, frames2,velocitat);
         this.dany=dany;
     }
     public boolean isActivat() {

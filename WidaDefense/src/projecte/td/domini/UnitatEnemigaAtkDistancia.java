@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -13,36 +12,34 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-
-public class UnitatEnemigaAtkDistancia extends UnitatEnemiga{
+public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
 
     int cadencia;
     private ProjectilEstatic projectil;
     private Timer timer;
-    private boolean dispara=true;
+    private boolean dispara = true;
     private float posXProj;
     private float posYProj;
 
-
-    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image image
-            , Image[] frames, ProjectilEstatic projectil, Image[] frames2,float posXProj,float posYProj) {
-        super(vida, image, frames,frames2);
+    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj) {
+        super(vida, image, frames, frames2, velocitat);
         this.cadencia = cadencia;
         this.projectil = projectil;
-        this.posXProj=posXProj;
-        this.posYProj=posYProj;
+        this.posXProj = posXProj;
+        this.posYProj = posYProj;
         timer = new Timer(cadencia, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 dispara = true;
-                
+
             }
         });
     }
+
     @Override
-    public void setLocation(float posX, float posY){
+    public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
-        projectil.setLocation(posX-projectil.getAnimation().getWidth()+posXProj, posY+posYProj);
+        projectil.setLocation(posX - projectil.getAnimation().getWidth() + posXProj, posY + posYProj);
 
     }
 
@@ -56,7 +53,7 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga{
 
     public void haDisparat() {
         dispara = false;
-        
+
 
     }
 
@@ -85,6 +82,4 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga{
     public Projectil getProjectil() {
         return projectil.cloneProjectil();
     }
-
-
 }
