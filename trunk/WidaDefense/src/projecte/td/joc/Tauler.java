@@ -95,28 +95,43 @@ public class Tauler {
         mc = new ManagerColisions(arrays_enemics, arrays_projectils_amics, arrays_projectils_enemics, controlaFiles, unitatsAmigues);
     }
 
+    public int[] mirarCoordenadesClick(int x, int y) {
+        int[] posFC = new int[2];
+        for (int fil = 0; fil < nFiles; fil++) {
+            for (int col = 0; col < nColumnes; col++) {
+                if (celes[fil][col].contains(x, y)) {
+                    posFC[0] = fil;
+                    posFC[1] = col;
+                }
+            }
+        }
+        return posFC;
+    }
+
+    public boolean comprovarClick(int fil, int col) {
+        if (!clicades[fil][col]) {
+            return true;
+
+        }
+        return false;
+    }
+
     public Rectangle prova(int a, int b) {
         return celes[a][b];
     }
 
-    public void posicionaUnitatAmiga(int x, int y, UnitatAbstract unitatAmiga) {
-        for (int fil = 0; fil < nFiles; fil++) {
-            for (int col = 0; col < nColumnes; col++) {
-                if (celes[fil][col].contains(x, y)) {
-                    if (!clicades[fil][col]) {
-                        clicades[fil][col] = true;
-                        //Posiciona unitat Amiga
-                        float Lx=(float)(celes[fil][col].getCenterX() - (double)unitatAmiga.getAnimation().getImage(0).getWidth() / 2);
-                        float Ly=(float) (celes[fil][col].getY() + llargada - unitatAmiga.getAnimation().getImage(0).getHeight());
-                        unitatAmiga.setLocation(Lx,Ly);
-                        unitatsAmigues[fil][col] = unitatAmiga;
+    public void posicionaUnitatAmiga(int fil, int col, UnitatAbstract unitatAmiga) {
+        clicades[fil][col] = true;
+        //Posiciona unitat Amiga
+        float Lx = (float) (celes[fil][col].getCenterX() - (double) unitatAmiga.getAnimation().getImage(0).getWidth() / 2);
+        float Ly = (float) (celes[fil][col].getY() + llargada - unitatAmiga.getAnimation().getImage(0).getHeight());
+        unitatAmiga.setLocation(Lx, Ly);
+        unitatsAmigues[fil][col] = unitatAmiga;
+    }
 
-                    } else {
-                        System.out.println("ja las clikat!");
-                    }
-                }
-            }
-        }
+    public UnitatAbstract getUnitatAmiga(int x, int y) {
+        int[] posFC = mirarCoordenadesClick(x, y);
+        return unitatsAmigues[posFC[0]][posFC[1]];
     }
 
     public void eliminaUnitatAmiga(int fil, int col) {
@@ -153,8 +168,7 @@ public class Tauler {
             if (en instanceof UnitatEnemigaAtkDistancia) {
                 UnitatEnemigaAtkDistancia enemic = (UnitatEnemigaAtkDistancia) en;
                 enemic.desactivarDispars();
-            }
-            else if(en instanceof UnitatEnemigaAtkNormal){
+            } else if (en instanceof UnitatEnemigaAtkNormal) {
                 UnitatEnemigaAtkNormal enemic = (UnitatEnemigaAtkNormal) en;
                 enemic.setActivat(false);
             }
