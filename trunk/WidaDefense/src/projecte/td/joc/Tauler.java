@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
+import projecte.td.domini.Bomba;
 import projecte.td.managers.ManagerColisions;
 import projecte.td.domini.Projectil;
 import projecte.td.domini.ProjectilEstatic;
@@ -177,34 +178,47 @@ public class Tauler {
 
     }
 
-    private void dispararUnitatAmiga(UnitatDispara ud, int numFila, Projectil p) {
-        if (ud.estaDisparant()) {
-            arrays_projectils_amics[numFila].add(p);
-            ud.haDisparat();
-        }
-        if (!ud.estaActivat()) {
-            ud.activarDispars();
-
+    private void dispararUnitatAmiga(UnitatAbstract ud, int numFila, Projectil p) {
+        if (ud instanceof UnitatDispara) {
+            UnitatDispara ud2 = (UnitatDispara) ud;
+            if (ud2.estaDisparant()) {
+                arrays_projectils_amics[numFila].add(p);
+                ud2.haDisparat();
+            }
+            if (!ud2.estaActivat()) {
+                ud2.activarDispars();
+            }
+        } else if (ud instanceof Bomba) {
+            Bomba b = (Bomba) ud;
+            if (b.isDispara()) {
+                arrays_projectils_amics[numFila].add(p);
+                b.haDisparat();
+            }
         }
     }
 
     public void dispararUnitatsAmigues() {
         for (int i = 0; i < nFiles; i++) {
             for (UnitatAbstract t : unitatsAmigues[i]) {
-                if (controlaFiles[i]) {
-                    if (t != null && t instanceof UnitatDispara) {
-                        UnitatDispara ud = (UnitatDispara) t;
-                        Projectil p = ud.getProjectil();
-                        if (p instanceof ProjectilMobil) {
-                            dispararUnitatAmiga(ud, i, p);
-                        } else if (p instanceof ProjectilEstatic) {
-                            if (!arrays_enemics[i].isEmpty()) {
-                                UnitatAbstract enemic = (UnitatAbstract) arrays_enemics[i].get(0);
-                                if (enemic.getPosX() <= ud.getPosX() + 150) {
-                                    dispararUnitatAmiga(ud, i, p);
+                if (t instanceof Bomba) {
+                    Bomba b = (Bomba) t;
+                    dispararUnitatAmiga(b, i, b.getProjectil());
+                } else {
+                    if (controlaFiles[i]) {
+                        if (t != null && t instanceof UnitatDispara) {
+                            UnitatDispara ud = (UnitatDispara) t;
+                            Projectil p = ud.getProjectil();
+                            if (p instanceof ProjectilMobil) {
+                                dispararUnitatAmiga(ud, i, p);
+                            } else if (p instanceof ProjectilEstatic) {
+                                if (!arrays_enemics[i].isEmpty()) {
+                                    UnitatAbstract enemic = (UnitatAbstract) arrays_enemics[i].get(0);
+                                    if (enemic.getPosX() <= ud.getPosX() + 150) {
+                                        dispararUnitatAmiga(ud, i, p);
+                                    }
                                 }
-                            }
 
+                            }
                         }
                     }
                 }

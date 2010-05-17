@@ -51,6 +51,10 @@ public class FactoriaUnitats {
         } else if (tipus.equals("Escut")) { 
             bo = new UnitatAbstract(100, ManagerRecursos.getImage("escutImage"),
                     ManagerRecursos.getImageArray("escutAnimation"));
+        } else if (tipus.equals("Bomba")) {
+            bo = new Bomba(10000,ManagerRecursos.getImage("bombaImage"),
+                    ManagerRecursos.getImageArray("bombaAnimation"),
+                    new ProjectilEstatic(20, ManagerRecursos.getImageArray("bombaProjectilAnimation")));
         }
         return bo;
     }
