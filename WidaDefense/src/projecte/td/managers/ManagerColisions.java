@@ -68,7 +68,7 @@ public class ManagerColisions {
                     UnitatEnemiga enemic = (UnitatEnemiga) ob1;
                     for (UnitatAbstract unitatAmiga : unitatsAmigues[i]) {
                         if (unitatAmiga != null) {
-                            if (unitatAmiga.collideWith(enemic.getShape())) {
+                            if (unitatAmiga.collideWith(enemic.getShape()) && unitatAmiga.getPosX()<=enemic.getPosX()) {
                                 if (enemic instanceof UnitatEnemigaAtkDistancia) {
                                     UnitatEnemigaAtkDistancia enemicD = (UnitatEnemigaAtkDistancia) enemic;
                                     enemicD.activarDispars();
