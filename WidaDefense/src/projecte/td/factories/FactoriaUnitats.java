@@ -4,7 +4,7 @@ import java.util.HashMap;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.domini.*;
 import projecte.td.utilitats.*;
-
+ 
 /**
  *
  * @author wida47645633
@@ -55,6 +55,14 @@ public class FactoriaUnitats {
             bo = new Bomba(10000,ManagerRecursos.getImage("bombaImage"),
                     ManagerRecursos.getImageArray("bombaAnimation"),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("bombaProjectilAnimation")));
+        } else if (tipus.equals("Caixa")) {
+            bo = new UnitatDispara(300, 10000, ManagerRecursos.getImage("caixaImage"),
+                    ManagerRecursos.getImageArray("caixaAnimation"),
+                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), 10, 4);
+        } else if (tipus.equals("Foc")) {
+            bo = new UnitatDispara(100, 3000, ManagerRecursos.getImage("focImage"),
+                    ManagerRecursos.getImageArray("focAnimation"),
+                    new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("escopetaProjectilAnimation")), -2, -5);
         }
         return bo;
     }
