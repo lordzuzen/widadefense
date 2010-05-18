@@ -60,9 +60,9 @@ public class FactoriaUnitats {
                     ManagerRecursos.getImageArray("caixaAnimation"),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), 10, 4);
         } else if (tipus.equals("Foc")) {
-            bo = new UnitatDispara(100, 3000, ManagerRecursos.getImage("focImage"),
+            bo = new UnitatDispara(100, 4000, ManagerRecursos.getImage("focImage"),
                     ManagerRecursos.getImageArray("focAnimation"),
-                    new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("escopetaProjectilAnimation")), -2, -5);
+                    new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("focProjectilAnimation")), -2, -5);
         }
         return bo;
     }
