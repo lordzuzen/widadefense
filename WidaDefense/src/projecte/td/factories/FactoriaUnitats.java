@@ -63,6 +63,10 @@ public class FactoriaUnitats {
             bo = new UnitatDispara(100, 4000, ManagerRecursos.getImage("focImage"),
                     ManagerRecursos.getImageArray("focAnimation"),
                     new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("focProjectilAnimation")), -2, -5);
+        } else if (tipus.equals("Mina")) {
+            bo = new Mina(200,ManagerRecursos.getImage("minaImage"),
+                    ManagerRecursos.getImageArray("minaAnimation"),
+                    new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));
         }
         return bo;
     }
