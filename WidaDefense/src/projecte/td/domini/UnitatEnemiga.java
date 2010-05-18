@@ -15,7 +15,7 @@ public class UnitatEnemiga extends UnitatAbstract{
 
     protected boolean activat;
     protected Animation atck;
-    private double velocitat;
+    protected double velocitat;
 
 
     public UnitatEnemiga(int vida, Image image, Image[] frames, Image[] frames2,double velocitat) {

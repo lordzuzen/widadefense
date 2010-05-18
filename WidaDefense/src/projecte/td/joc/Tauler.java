@@ -17,6 +17,7 @@ import projecte.td.domini.ProjectilMobil;
 import projecte.td.domini.UnitatAbstract;
 import projecte.td.domini.UnitatDispara;
 import projecte.td.domini.UnitatEnemigaAtkDistancia;
+import projecte.td.domini.UnitatEnemigaAtkDistanciaSalta;
 import projecte.td.domini.UnitatEnemigaAtkNormal;
 
 /**
@@ -45,6 +46,7 @@ public class Tauler {
     ArrayList<Explosio> explosions;
     ArrayList<Explosio> explosions_finalitzades;
     ManagerColisions mc;
+    ArrayList<UnitatEnemigaAtkDistanciaSalta> unitatsSaltant;
 
     public Tauler(int nFiles, int nColumnes, int ampladaTotal, int llargadaTotal) {
         this.nFiles = nFiles;
@@ -95,6 +97,7 @@ public class Tauler {
         enemics_morts = new ArrayList<UnitatAbstract>();
         unitatsAmigues_mortes = new ArrayList<UnitatAbstract>();
         mc = new ManagerColisions(arrays_enemics, arrays_projectils_amics, arrays_projectils_enemics, controlaFiles, unitatsAmigues);
+        unitatsSaltant = new ArrayList<UnitatEnemigaAtkDistanciaSalta>();
     }
 
     public int[] mirarCoordenadesClick(int x, int y) {
@@ -296,8 +299,26 @@ public class Tauler {
             for (UnitatAbstract en : enemics_morts) {
                 arrays_enemics[i].remove(en);
             }
+            for (UnitatEnemigaAtkDistanciaSalta eS : unitatsSaltant) {
+                arrays_enemics[i].remove(eS);
+            }
+        }
+    }
 
+    public void colocarUnitatsSaltant() {
+        for (UnitatEnemigaAtkDistanciaSalta eS : unitatsSaltant) {
+            posicionaUnitatEnemigaSalta((int)eS.getPosX(), eS.getySalt(), eS);
+        }
+        unitatsSaltant.clear();
+    }
 
+    public void posicionaUnitatEnemigaSalta(int x, int y, UnitatAbstract enemic) {
+
+        int[] PosFC = mirarCoordenadesClick(x, y);
+        enemic.setLocation(x, (float) (celes[PosFC[0]][PosFC[1]].getY() + llargada - enemic.getAnimation().getHeight()));
+        arrays_enemics[PosFC[0]].add(enemic);
+        if (!controlaFiles[PosFC[0]]) {
+            controlaFiles[PosFC[0]] = true;
         }
     }
 
@@ -306,6 +327,14 @@ public class Tauler {
         for (int i = 0; i < nFiles; i++) {
             for (Object en : arrays_enemics[i]) {
                 UnitatAbstract enemic = (UnitatAbstract) en;
+                if (enemic instanceof UnitatEnemigaAtkDistanciaSalta) {
+                    UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) en;
+                    if (eS.isSaltant()&& !eS.estaActivat()) {
+                        eS.calculaSalt(llargadaTotal);
+                        eS.haSaltat();
+                        unitatsSaltant.add(eS);
+                    }
+                }
                 enemic.update(delta);
                 if (enemic.isMort()) {
                     enemics_morts.add(enemic);
@@ -339,6 +368,7 @@ public class Tauler {
 
         }
         dispararUnitatsAmigues();
+        colocarUnitatsSaltant();
         stopUnitatsAmigues();
         finalitzarProjectils_Enemics();
         mc.comprovarColisions();

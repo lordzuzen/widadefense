@@ -15,11 +15,11 @@ import org.newdawn.slick.Image;
 public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
 
     int cadencia;
-    private ProjectilEstatic projectil;
-    private Timer timer;
-    private boolean dispara = true;
-    private float posXProj;
-    private float posYProj;
+    protected ProjectilEstatic projectil;
+    protected Timer timer;
+    protected boolean dispara = true;
+    protected float posXProj;
+    protected float posYProj;
 
     public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj) {
         super(vida, image, frames, frames2, velocitat);
