@@ -10,7 +10,7 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.managers.ManagerRecursos;
+import projecte.td.managers.ManagerRecursos; 
 
 /**
  *
@@ -19,7 +19,7 @@ import projecte.td.managers.ManagerRecursos;
 public class EstatMenuPrincipal extends BasicGameState {
 
     // Identificador del estat
-    public static int ID = 3;
+    public static final int ID = 3;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris

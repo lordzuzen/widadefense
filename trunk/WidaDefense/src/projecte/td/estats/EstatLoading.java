@@ -13,7 +13,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerRecursos;
 
 

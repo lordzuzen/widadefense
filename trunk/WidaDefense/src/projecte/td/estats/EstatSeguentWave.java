@@ -20,7 +20,7 @@ import projecte.td.managers.ManagerRecursos;
 public class EstatSeguentWave extends BasicGameState {
 
     // Identificador del estat
-    public static int ID = 4;
+    public static final int ID = 4;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als diferents estats del joc

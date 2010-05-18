@@ -22,7 +22,7 @@ import projecte.td.managers.ManagerRecursos;
 public class EstatPerfil extends BasicGameState {
 
     // Identificador del BasicGameState
-    public static int ID = 2;
+    public static final int ID = 2;
     // Contenidor del joc
     private GameContainer container;
     // Estat on es podra controlar l'acces als altres estats
