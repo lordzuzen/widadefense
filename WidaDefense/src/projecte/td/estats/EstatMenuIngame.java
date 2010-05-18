@@ -15,7 +15,7 @@ import projecte.td.managers.ManagerRecursos;
  */
 public class EstatMenuIngame extends BasicGameState {
      // Identificador de l'estat
-    public static int ID = 6;
+    public static final int ID = 6;
     // Contenidors del joc
     private GameContainer container;
     private StateBasedGame state;
