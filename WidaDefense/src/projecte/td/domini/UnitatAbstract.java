@@ -56,7 +56,7 @@ public class UnitatAbstract extends Entitat {
     }
 
     public void impacte(double dany) {
-        if (vida <= 100 && vida > 0) {
+        if (vida > 0) {
             vida -= dany;
         }
         if (vida <= 0) {

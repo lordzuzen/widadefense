@@ -29,11 +29,11 @@ public class Bomba extends UnitatAbstract {
 
     @Override
     public void update(int delta) {
-        if (!animation.isStopped()) {
+        if (animation.getFrame() < 9) {
             posX += 1;
         } else if (animation.isStopped()) {
             dispara = true;
-        }
+        } 
     }
 
     public void haDisparat() {
