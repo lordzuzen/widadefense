@@ -52,7 +52,7 @@ public class UnitatAbstract extends Entitat {
 
     public void render(GameContainer gc, Graphics g) {
         g.drawAnimation(animation, posX, posY);
-        renderVida(gc,g);
+        renderVida(gc, g);
     }
 
     public void impacte(double dany) {
@@ -65,8 +65,10 @@ public class UnitatAbstract extends Entitat {
     }
 
     public void renderVida(GameContainer gc, Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect(posX + 5, posY - 15, (vida / vidaTotal) * 30, 5);
+        if (vida > 0) {
+            g.setColor(Color.red);
+            g.fillRect(posX + 5, posY - 15, (vida / vidaTotal) * 30, 5);
+        }
         g.setColor(Color.white);
         g.drawRect(posX + 5, posY - 15, 30, 5);
     }

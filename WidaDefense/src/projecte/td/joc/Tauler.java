@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import projecte.td.domini.Bomba;
 import projecte.td.domini.Mina;
+import projecte.td.domini.Motorista;
 import projecte.td.managers.ManagerColisions;
 import projecte.td.domini.Projectil;
 import projecte.td.domini.ProjectilEstatic;
@@ -204,6 +205,12 @@ public class Tauler {
                 arrays_projectils_amics[numFila].add(p);
                 m.haDisparat();
             }
+        } else if (ud instanceof Motorista) {
+            Motorista moto = (Motorista) ud;
+            if (moto.isDispara()) {
+                arrays_projectils_amics[numFila].add(p);
+                moto.haDisparat();
+            }
         }
     }
 
@@ -217,6 +224,11 @@ public class Tauler {
                     Mina m = (Mina) t;
                     if (m.isDispara()) {
                         dispararUnitatAmiga(m, i, m.getProjectil());
+                    }
+                } else if (t != null && t instanceof Motorista) {
+                    Motorista moto = (Motorista) t;
+                    if (moto.isDispara()) {
+                        dispararUnitatAmiga(moto, i, moto.getProjectil());
                     }
                 } else {
                     if (controlaFiles[i]) {
@@ -307,7 +319,7 @@ public class Tauler {
 
     public void colocarUnitatsSaltant() {
         for (UnitatEnemigaAtkDistanciaSalta eS : unitatsSaltant) {
-            posicionaUnitatEnemigaSalta((int)eS.getPosX(), eS.getySalt(), eS);
+            posicionaUnitatEnemigaSalta((int) eS.getPosX(), eS.getySalt(), eS);
         }
         unitatsSaltant.clear();
     }
@@ -329,7 +341,7 @@ public class Tauler {
                 UnitatAbstract enemic = (UnitatAbstract) en;
                 if (enemic instanceof UnitatEnemigaAtkDistanciaSalta) {
                     UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) en;
-                    if (eS.isSaltant()&& !eS.estaActivat()) {
+                    if (eS.isSaltant() && !eS.estaActivat()) {
                         eS.calculaSalt(llargadaTotal);
                         eS.haSaltat();
                         unitatsSaltant.add(eS);
