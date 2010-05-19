@@ -67,6 +67,11 @@ public class FactoriaUnitats {
             bo = new Mina(200,ManagerRecursos.getImage("minaImage"),
                     ManagerRecursos.getImageArray("minaAnimation"),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));
+        } else if (tipus.equals("Motorista")) {
+            bo = new Motorista(100,ManagerRecursos.getImage("motoristaImage"),
+                    ManagerRecursos.getImageArray("motoristaAnimation"),
+                    new ProjectilAnimat(200,ManagerRecursos.getImage("motoristaImage"),
+                    ManagerRecursos.getImageArray("motoristaAnimation")));
         }
         return bo;
     }
