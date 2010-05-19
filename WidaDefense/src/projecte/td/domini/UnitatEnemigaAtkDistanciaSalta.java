@@ -21,6 +21,7 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia{
     private boolean salta=false;
     private int ySalt;
 
+
     public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj,int cadenciaSalts) {
         super(vida, cadencia, image, frames, projectil, frames2, velocitat, posXProj, posYProj);
          timer2 = new Timer(cadenciaSalts, new ActionListener() {
@@ -32,6 +33,7 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia{
         });
         this.cadenciaSalts=cadenciaSalts;
         timer2.start();
+        //uooh
     }
 
     public void haSaltat(){
