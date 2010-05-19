@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import projecte.td.domini.Bomba;
+import projecte.td.domini.BombaAerea;
 import projecte.td.domini.Mina;
 import projecte.td.domini.Motorista;
 import projecte.td.managers.ManagerColisions;
@@ -211,6 +212,12 @@ public class Tauler {
                 arrays_projectils_amics[numFila].add(p);
                 moto.haDisparat();
             }
+        } else if (ud instanceof BombaAerea) {
+            BombaAerea ba = (BombaAerea) ud;
+            if (ba.isDispara()) {
+                arrays_projectils_amics[numFila].add(p);
+                ba.haDisparat();
+            }
         }
     }
 
@@ -229,6 +236,11 @@ public class Tauler {
                     Motorista moto = (Motorista) t;
                     if (moto.isDispara()) {
                         dispararUnitatAmiga(moto, i, moto.getProjectil());
+                    }
+                } else if (t != null && t instanceof BombaAerea) {
+                    BombaAerea ba = (BombaAerea) t;
+                    if (ba.isDispara()) {
+                        dispararUnitatAmiga(ba, i, ba.getProjectil());
                     }
                 } else {
                     if (controlaFiles[i]) {
