@@ -27,7 +27,7 @@ public class MenuSeleccio {
     // Posicio Y on es començara a col·locar el primer boto de tria d'unitat
     private int posYVariable;
     // Nombre de columnes que es volen mostrar en la tria d'unitats
-    private int nColumnes = 6;
+    private int nColumnes = 4;
     // Indica si hi ha hagut algun canvi
     private boolean canvi;
     // Posicio X del menu
