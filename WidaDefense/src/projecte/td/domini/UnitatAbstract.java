@@ -15,17 +15,19 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author media
  */
-public class UnitatAbstract extends Entitat {
+public class UnitatAbstract extends Entitat implements IAuraVida{
 
     // Vida de la unitat
     protected float vida;
+    // Vida de la unitat al col·locar-la al tauler
     protected float vidaTotal;
     // Animacion de la unitat
     protected Animation animation;
-    // Control d'aures
+    // Aura que pot equipar la unitat
     Aura aura;
+    // Float per dibuixar l'aura
     protected float alphaAura = 1;
-    protected Image imageAura;
+    // Indica si la unitat te una aura activa
     protected boolean auraActiva;
 
     /**
@@ -69,6 +71,10 @@ public class UnitatAbstract extends Entitat {
             g.setColor(Color.red);
             g.fillRect(posX + 5, posY - 15, (vida / vidaTotal) * 30, 5);
         }
+        if (auraActiva) {
+            aura.getImage().setAlpha(0.15f);
+            g.drawImage(aura.getImage(), posX, posY);
+        }
         g.setColor(Color.white);
         g.drawRect(posX + 5, posY - 15, 30, 5);
     }
@@ -76,14 +82,37 @@ public class UnitatAbstract extends Entitat {
     public void update(int delta) {
     }
 
+
+    @Override
     public void activarAura(Aura aura) {
+        auraActiva = true;
+        this.aura = aura;
+        this.aura.setBo(this);
+        this.aura.activarAura();
     }
 
+    @Override
     public void desactivarAura() {
+        auraActiva = false;
+        aura.desactivarAura();
+        aura = null;
     }
 
-    public float getAlphaAura() {
-        return alphaAura;
+    public boolean potEquiparAura(Aura aura) {
+        if (aura.getTipus().equals("MagVida")) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isAuraActiva() {
+        return auraActiva;
+    }
+
+    @Override
+    public void setAuraActiva(boolean auraActiva) {
+        this.auraActiva = auraActiva;
     }
 
     public void setAlphaAura(float alphaAura) {
@@ -105,28 +134,20 @@ public class UnitatAbstract extends Entitat {
     public void setAura(Aura aura) {
         this.aura = aura;
     }
-
-    public boolean isAuraActiva() {
-        return auraActiva;
-    }
-
-    public void setAuraActiva(boolean auraActiva) {
-        this.auraActiva = auraActiva;
-    }
-
-    public Image getImageAura() {
-        return imageAura;
-    }
-
-    public void setImageAura(Image imageAura) {
-        this.imageAura = imageAura;
-    }
-
+    
     public float getVida() {
         return vida;
     }
 
-    public void setVida(int vida) {
+    public void setVida(float vida) {
         this.vida = vida;
+    }
+
+    public float getVidaTotal() {
+        return vidaTotal;
+    }
+
+    public void setVidaTotal(float vidaTotal) {
+        this.vidaTotal = vidaTotal;
     }
 }

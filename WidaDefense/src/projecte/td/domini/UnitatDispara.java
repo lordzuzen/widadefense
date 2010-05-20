@@ -7,7 +7,6 @@ package projecte.td.domini;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -17,7 +16,7 @@ import projecte.td.managers.ManagerRecursos;
  *
  * @author media
  */
-public class UnitatDispara extends UnitatAbstract{
+public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
 
     private int cadencia;
    
@@ -35,7 +34,6 @@ public class UnitatDispara extends UnitatAbstract{
             , Image[] frames, Projectil projectil,float posXProj,float posYProj) {
         super(vida, image, frames);
         this.cadencia = cadencia;
-        this.imageAura = ManagerRecursos.getImage("auraVelocitatImage");
         this.projectil = projectil;
         this.posXProj=posXProj;
         this.posYProj=posYProj;
@@ -52,6 +50,14 @@ public class UnitatDispara extends UnitatAbstract{
         super.setLocation(posX, posY);
         projectil.setLocation(posX+animation.getWidth()+posXProj, posY+posYProj);
 
+    }
+
+    @Override
+    public boolean potEquiparAura(Aura aura) {
+        if (aura.getTipus().equals("MagRapidesa") || aura.getTipus().equals("MagVida")) {
+            return true;
+        }
+        return false;
     }
 
     public void activarDispars() {
@@ -95,41 +101,9 @@ public class UnitatDispara extends UnitatAbstract{
 
     @Override
     public void render(GameContainer gc, Graphics g) {
-        renderVida(gc, g);
-        if (auraActiva) {
-            imageAura.setAlpha(0.15f);
-            g.drawImage(aura.getImage(), posX, posY);
-        }
-        g.drawAnimation(animation, posX, posY);
+        super.render(gc, g);
     }
 
-    @Override
-    public void activarAura(Aura aura) {
-        auraActiva = true;
-        this.aura = aura;
-        this.aura.setBo(this);
-        this.aura.activarAura();
-        auraActiva = true;
-        ajustarTimer();
-    }
-
-    @Override
-    public void desactivarAura() {
-        auraActiva = false;
-        aura.desactivarAura();
-        aura = null;
-        ajustarTimer();
-    }
-
-    @Override
-    public boolean isAuraActiva() {
-        return auraActiva;
-    }
-
-    @Override
-    public void setAuraActiva(boolean auraActiva) {
-        this.auraActiva = auraActiva;
-    }
 
     public Projectil getProjectil() {
         return projectil.cloneProjectil();

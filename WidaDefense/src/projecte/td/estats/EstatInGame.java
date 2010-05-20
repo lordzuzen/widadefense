@@ -11,6 +11,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentIngame.MenuIngame;
+import projecte.td.domini.Aura;
+import projecte.td.domini.IAuraRapidesa;
+import projecte.td.domini.IAuraVida;
 import projecte.td.joc.Tauler;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerRecursos;
@@ -84,10 +87,24 @@ public class EstatInGame extends BasicGameState {
             }
         } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
             if (md.isAuraEnEspera()) {
-                md.clearAures();
+                UnitatAbstract ua = p.getUnitatAmiga(input.getMouseX(), input.getMouseY());
+                if (ua instanceof IAuraRapidesa && md.getTipusAuraEspera().equals("MagRapidesa")) {
+                    Aura aura = new Aura(md.getTipusAuraEspera(),
+                            ManagerRecursos.getImage("auraRapidesaImage"), 2);
+                    if (ua.potEquiparAura(aura) && !ua.isAuraActiva()) {
+                        ua.activarAura(aura);
+                        md.clearAures();
+                    }
+                } else if (ua instanceof IAuraVida && md.getTipusAuraEspera().equals("MagVida")) {
+                    Aura aura = new Aura(md.getTipusAuraEspera(),
+                            ManagerRecursos.getImage("auraVidaImage"), 10);
+                    if (ua.potEquiparAura(aura) && !ua.isAuraActiva()) {
+                        ua.activarAura(aura);
+                        md.clearAures();
+                    }
+                }
             }
-        }
-        else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+        } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
             if (cont == 0) {
                 u = FactoriaUnitats.getUnitatDolenta("Robot");
@@ -107,7 +124,7 @@ public class EstatInGame extends BasicGameState {
             if (cont > 5) {
                 cont = 0;
             }
-            
+
         }
         p.acciona(delta);
         mi.update();
