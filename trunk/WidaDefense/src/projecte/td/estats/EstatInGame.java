@@ -102,13 +102,12 @@ public class EstatInGame extends BasicGameState {
             } else {
                 u = FactoriaUnitats.getUnitatDolenta("Cranc");
             }
-
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
             cont++;
             if (cont > 5) {
                 cont = 0;
             }
-            p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
+            
         }
         p.acciona(delta);
         mi.update();
