@@ -90,7 +90,7 @@ public class EstatInGame extends BasicGameState {
         else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
             if (cont == 0) {
-                u = FactoriaUnitats.getUnitatDolenta("Espasa");
+                u = FactoriaUnitats.getUnitatDolenta("Robot");
             } else if (cont == 1) {
                 u = FactoriaUnitats.getUnitatDolenta("Momia");
             } else if (cont == 2) {
@@ -100,7 +100,7 @@ public class EstatInGame extends BasicGameState {
             } else if (cont == 4) {
                 u = FactoriaUnitats.getUnitatDolenta("Robot");
             } else {
-                u = FactoriaUnitats.getUnitatDolenta("Cranc");
+                u = FactoriaUnitats.getUnitatDolenta("Cuc");
             }
             p.posicionaUnitatEnemiga(input.getMouseX(), input.getMouseY(), u);
             cont++;
