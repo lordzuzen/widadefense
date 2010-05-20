@@ -46,6 +46,11 @@ public class FactoriaUnitats {
             bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
                     unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("magVidaImage"),
                     ManagerRecursos.getImageArray("magVidaAnimation"), "MagVida");
+        } // Unitat Mag Rapidesa
+        else if (tipus.equals("MagRapidesa")) {
+            bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
+                    unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("magRapidesaImage"),
+                    ManagerRecursos.getImageArray("magRapidesaAnimation"), "MagRapidesa");
         } // Unitat Escut
         else if (tipus.equals("Escut")) {
             bo = new UnitatAbstract(unitats.getPropietatInt("vidaEscut"),
@@ -111,7 +116,12 @@ public class FactoriaUnitats {
         } else if (tipus.equals("Robot")) {
             dolent = new UnitatEnemigaAtkDistanciaSalta(100, 2000, ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("robotCaminaAnimation"),
-                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation")), ManagerRecursos.getImageArray("robotAtacaAnimation"), 0.030, -2, 20, 2000);
+                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation")), ManagerRecursos.getImageArray("robotAtacaAnimation"), 0.030, -2, 20, ManagerRecursos.getImageArray("robotCanviAnimation"));
+        }
+        else if (tipus.equals("Cuc")) {
+            dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
+                    ManagerRecursos.getImageArray("cucCaminaAnimation"),
+                    ManagerRecursos.getImageArray("cucAtacaAnimation"), 0.020, 1);
         }
         return dolent;
     }
