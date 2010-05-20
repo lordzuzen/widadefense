@@ -54,7 +54,6 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         this.gc = container;
         this.state = game;
-        FactoriaUnitats.creaHashMap();
     }
 
     /**
@@ -83,7 +82,12 @@ public class EstatInGame extends BasicGameState {
 
                 }
             }
-        } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+        } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
+            if (md.isAuraEnEspera()) {
+                md.clearAures();
+            }
+        }
+        else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
             if (cont == 0) {
                 u = FactoriaUnitats.getUnitatDolenta("Espasa");
@@ -125,7 +129,6 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         p.dibuixar(g, gc);
         mi.render(gc, g);
-        g.drawString("Diners: " + md.getTotal() + "", 600, 600);
     }
 
     /**
