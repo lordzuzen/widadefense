@@ -12,13 +12,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import projecte.td.managers.ManagerContext;
 import projecte.td.managers.ManagerDiners;
-import projecte.td.managers.ManagerRecursos;
 
 /**
  *
  * @author media
  */
-public class Miner extends UnitatAbstract {
+public class Miner extends UnitatAbstract implements IAuraRapidesa {
 
     private int cadencia;
     private int capacitat;
@@ -31,7 +30,6 @@ public class Miner extends UnitatAbstract {
         super(vida, image, frames);
         this.cadencia = cadencia;
         this.capacitat = capacitat;
-        this.imageAura = ManagerRecursos.getImage("auraVelocitatImage");
         this.tipus = tipus;
         diners = ManagerContext.getDiners();
         activar();
@@ -39,11 +37,7 @@ public class Miner extends UnitatAbstract {
 
     @Override
     public void render(GameContainer gc, Graphics g) {
-        renderVida(gc, g);
-        if (auraActiva) {
-            imageAura.setAlpha(0.15f);
-            g.drawImage(aura.getImage(), posX, posY);
-        }
+        super.render(gc, g);
         if (moneda != null) {
             moneda.render(gc, g);
         }
@@ -59,7 +53,7 @@ public class Miner extends UnitatAbstract {
             } else if (moneda.isActiu()) {
                 if (tipus.equals("Miner")) {
                     diners.afegirDiners(capacitat);
-                } else if (tipus.equals("MagVida") || tipus.equals("MagAtac")) {
+                } else if (tipus.equals("MagVida") || tipus.equals("MagRapidesa")) {
                     diners.setTipusAuraEspera(tipus);
                 }   
                 moneda = null;
@@ -77,6 +71,14 @@ public class Miner extends UnitatAbstract {
         timer.start();
     }
 
+    @Override
+    public boolean potEquiparAura(Aura aura) {
+        if (aura.getTipus().equals("MagRapidesa") || aura.getTipus().equals("MagVida")) {
+            return true;
+        }
+        return false;
+    }
+
     protected void ajustarTimer() {
         timer.setDelay(cadencia);
     }
@@ -92,5 +94,13 @@ public class Miner extends UnitatAbstract {
 
     public void setCapacitat(int capacitat) {
         this.capacitat = capacitat;
+    }
+
+    public int getCadencia() {
+        return cadencia;
+    }
+
+    public void setCadencia(int cadencia) {
+        this.cadencia = cadencia;
     }
 }

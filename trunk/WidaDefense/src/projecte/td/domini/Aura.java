@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -19,7 +18,7 @@ public class Aura {
     private String tipus;
     private Image image;
     private int capacitat;
-    UnitatDispara bo;
+    UnitatAbstract bo;
     Timer timer;
 
     public Aura(String tipus, Image image, int capacitat) {
@@ -29,33 +28,43 @@ public class Aura {
     }
 
     public void activarAura() {
-        if (tipus.equals("cadencia")) {
-            bo.setCadencia(bo.getCadencia() / capacitat);
-        } else if (tipus.equals("vida")) {
-            timer = new Timer(2000, new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                //bo.setVida(bo.getVida()+1);
+        if (tipus.equals("MagRapidesa")) {
+            if (bo instanceof Miner) {
+                Miner miner = (Miner) bo;
+                miner.setCadencia(miner.getCadencia() / capacitat);
+                miner.ajustarTimer();
+            } else if (bo instanceof UnitatDispara) {
+                UnitatDispara ud = (UnitatDispara) bo;
+                ud.setCadencia(ud.getCadencia() / capacitat);
+                ud.ajustarTimer();
             }
-        });
-        timer.start();
+        } else if (tipus.equals("MagVida")) {
+            timer = new Timer(500, new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    if (bo.getVida() <= bo.getVidaTotal() + 1) {
+                        bo.setVida(bo.getVida() + 1);
+                    }
+                }
+            });
+            timer.start();
         }
     }
 
     public void desactivarAura() {
-        if (tipus.equals("cadencia")) {
-            bo.setCadencia(bo.getCadencia() * capacitat);
-        } else if (tipus.equals("vida")) {
+        if (tipus.equals("MagRapidesa")) {
+            //bo.setCadencia(bo.getCadencia() * capacitat);
+        } else if (tipus.equals("MagVida")) {
             timer.stop();
             timer = null;
         }
     }
 
-    public UnitatDispara getBo() {
+    public UnitatAbstract getBo() {
         return bo;
     }
 
-    public void setBo(UnitatDispara bo) {
+    public void setBo(UnitatAbstract bo) {
         this.bo = bo;
     }
 
@@ -65,5 +74,13 @@ public class Aura {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public String getTipus() {
+        return tipus;
+    }
+
+    public void setTipus(String tipus) {
+        this.tipus = tipus;
     }
 }
