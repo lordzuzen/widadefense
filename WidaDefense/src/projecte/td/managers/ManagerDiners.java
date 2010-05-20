@@ -12,6 +12,8 @@ package projecte.td.managers;
 public class ManagerDiners {
 
     private int total;
+    private boolean auraEnEspera;
+    private String tipusAuraEspera;
 
     public ManagerDiners() {
         total = 10000;
@@ -38,6 +40,24 @@ public class ManagerDiners {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public void clearAures() {
+        auraEnEspera = false;
+        tipusAuraEspera = "null";
+    }
+
+    public boolean isAuraEnEspera() {
+        return auraEnEspera;
+    }
+
+    public String getTipusAuraEspera() {
+        return tipusAuraEspera;
+    }
+
+    public void setTipusAuraEspera(String tipusAuraEspera) {
+        auraEnEspera = true;
+        this.tipusAuraEspera = tipusAuraEspera;
     }
 
 }
