@@ -26,7 +26,7 @@ public class Moneda extends AbstractComponent {
     private boolean desapareix;
     private boolean actiu;
 
-    public Moneda(GUIContext gui, int posX, int posY) {
+    public Moneda(GUIContext gui, int posX, int posY, String tipus) {
         super(gui);
         imatgeMoneda = ManagerRecursos.getImage("botoIngameTapatImage");
         area = new Rectangle(posX, posY, imatgeMoneda.getWidth(), imatgeMoneda.getHeight());
