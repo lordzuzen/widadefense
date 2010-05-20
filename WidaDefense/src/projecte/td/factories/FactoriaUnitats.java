@@ -12,67 +12,73 @@ import projecte.td.utilitats.*;
 public class FactoriaUnitats {
 
     private static ArxiuConfiguracio unitats;
-    private static HashMap<String, UnitatAbstract> llistaUnitats;
-
-    public static void creaHashMap() {
-        if (unitats == null) {
-            unitats = Configuracio.getUnitats();
-        }
-        llistaUnitats = new HashMap<String, UnitatAbstract>();
-        UnitatAbstract ua = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
-                unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("minerImage"),
-                ManagerRecursos.getImageArray("minerAnimation"));
-        llistaUnitats.put("Miner", ua);
-
-    }
 
     public static UnitatAbstract getUnitatBona(String tipus) {
         if (unitats == null) {
             unitats = Configuracio.getUnitats();
         }
         UnitatAbstract bo = null;
+        // Unitat Pistoler
         if (tipus.equals("Pistoler")) {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaPistoler"), unitats.getPropietatInt("cadenciaPistoler"),
-                    ManagerRecursos.getImage("pistolerImage"),
-                    ManagerRecursos.getImageArray("pistolerAnimation"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imagePistoler")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationPistoler")),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 4);
-        } else if (tipus.equals("Escopeta")) {
-            bo = new UnitatDispara(100, 3000, ManagerRecursos.getImage("escopetaImage"),
-                    ManagerRecursos.getImageArray("escopetaAnimation"),
+        } // Unitat Escopeta
+        else if (tipus.equals("Escopeta")) {
+            bo = new UnitatDispara(unitats.getPropietatInt("vidaEscopeta"), unitats.getPropietatInt("cadenciaEscopeta"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageEscopeta")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscopeta")),
                     new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("escopetaProjectilAnimation")), -2, -5);
-        } else if (tipus.equals("MetralletaLleugera")) {
-            bo = new UnitatDispara(100, 2000, ManagerRecursos.getImage("escopetaImage"),
-                    ManagerRecursos.getImageArray("metralletaLleugeraAnimation"),
+        } // Unitat MetralletaLleugera
+        else if (tipus.equals("MetralletaLleugera")) {
+            bo = new UnitatDispara(unitats.getPropietatInt("vidaMetralletaLleugera"), unitats.getPropietatInt("cadenciaMetralletaLleugera"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageMetralletaLleugera")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMetralletaLleugera")),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 4);
-        } else if (tipus.equals("Miner")) {
+        } // Unitat Miner
+        else if (tipus.equals("Miner")) {
             bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
                     unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("minerImage"),
-                    ManagerRecursos.getImageArray("minerAnimation"));
-        } else if (tipus.equals("Escut")) {
-            bo = new UnitatAbstract(100, ManagerRecursos.getImage("escutImage"),
-                    ManagerRecursos.getImageArray("escutAnimation"));
-        } else if (tipus.equals("Bomba")) {
+                    ManagerRecursos.getImageArray("minerAnimation"), "Miner");
+        } // Unitat Mag Vida
+        else if (tipus.equals("MagVida")) {
+            bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
+                    unitats.getPropietatInt("capacitatMiner"), ManagerRecursos.getImage("magVidaImage"),
+                    ManagerRecursos.getImageArray("magVidaAnimation"), "MagVida");
+        } // Unitat Escut
+        else if (tipus.equals("Escut")) {
+            bo = new UnitatAbstract(unitats.getPropietatInt("vidaEscut"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageEscut")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscut")));
+        } // Unitat Bomba
+        else if (tipus.equals("Bomba")) {
             bo = new Bomba(10000, ManagerRecursos.getImage("bombaImage"),
                     ManagerRecursos.getImageArray("bombaAnimation"),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("bombaProjectilAnimation")));
-        } else if (tipus.equals("Caixa")) {
+        } // Unitat Caixa
+        else if (tipus.equals("Caixa")) {
             bo = new UnitatDispara(300, 10000, ManagerRecursos.getImage("caixaImage"),
                     ManagerRecursos.getImageArray("caixaAnimation"),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), 10, 4);
-        } else if (tipus.equals("Foc")) {
+        } // Unitat Foc
+        else if (tipus.equals("Foc")) {
             bo = new UnitatDispara(100, 4000, ManagerRecursos.getImage("focImage"),
                     ManagerRecursos.getImageArray("focAnimation"),
                     new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("focProjectilAnimation")), -2, -5);
-        } else if (tipus.equals("Mina")) {
+        } // Unitat Mina
+        else if (tipus.equals("Mina")) {
             bo = new Mina(200, ManagerRecursos.getImage("minaImage"),
                     ManagerRecursos.getImageArray("minaAnimation"),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));
-        } else if (tipus.equals("Motorista")) {
+        } // Unitat Motorista
+        else if (tipus.equals("Motorista")) {
             bo = new Motorista(100, ManagerRecursos.getImage("motoristaImage"),
                     ManagerRecursos.getImageArray("motoristaAnimation"),
                     new ProjectilAnimat(200, ManagerRecursos.getImage("motoristaImage"),
                     ManagerRecursos.getImageArray("motoristaAnimation")));
-        } else if (tipus.equals("BombaAerea")) {
+        } // Unitat BombaAerea
+        else if (tipus.equals("BombaAerea")) {
             bo = new BombaAerea(100, ManagerRecursos.getImage("bombaAereaImage"),
                     ManagerRecursos.getImageArray("bombaAereaAnimation"),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));

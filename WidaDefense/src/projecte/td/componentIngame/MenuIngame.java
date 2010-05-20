@@ -59,8 +59,7 @@ public class MenuIngame extends AbstractComponent {
      * @param unitats: unitats que estaran disponibles per seleccionar
      * @param md: manager que controla els diners que te el jugador durant la partida
      */
-    public MenuIngame(GUIContext gui, int posX, int posY, Image image, String unitats
-            , ManagerDiners md, StateBasedGame state) {
+    public MenuIngame(GUIContext gui, int posX, int posY, Image image, String unitats, ManagerDiners md, StateBasedGame state) {
         super(gui);
         this.gui = gui;
         this.state = state;
@@ -97,6 +96,10 @@ public class MenuIngame extends AbstractComponent {
             b.render(gui, g);
         }
         botoOpcions.render(container, g);
+        g.drawString("Diners: " + md.getTotal() + "", 600, 600);
+        if (md.isAuraEnEspera()) {
+            g.drawString("Aura: " + md.getTipusAuraEspera() + "", 600, 630);
+        }
     }
 
     /**
@@ -134,7 +137,6 @@ public class MenuIngame extends AbstractComponent {
     /**
      * Crea el boto per accedir al menu ingame
      */
-
     private void crearBotoMenu() {
         botoOpcions = new BotoMenu(container, ManagerRecursos.getImage("marcIngameImage"), 420, 300);
         botoOpcions.setLocation(900, 500);

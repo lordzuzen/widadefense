@@ -25,12 +25,14 @@ public class Miner extends UnitatAbstract {
     private Timer timer;
     private Moneda moneda;
     private static ManagerDiners diners;
+    private String tipus;
 
-    public Miner(int vida, int cadencia, int capacitat, Image image, Image[] frames) {
+    public Miner(int vida, int cadencia, int capacitat, Image image, Image[] frames, String tipus) {
         super(vida, image, frames);
         this.cadencia = cadencia;
         this.capacitat = capacitat;
         this.imageAura = ManagerRecursos.getImage("auraVelocitatImage");
+        this.tipus = tipus;
         diners = ManagerContext.getDiners();
         activar();
     }
@@ -55,8 +57,12 @@ public class Miner extends UnitatAbstract {
             if (moneda.isDesapareix()) {
                 moneda = null;
             } else if (moneda.isActiu()) {
+                if (tipus.equals("Miner")) {
+                    diners.afegirDiners(capacitat);
+                } else if (tipus.equals("MagVida") || tipus.equals("MagAtac")) {
+                    diners.setTipusAuraEspera(tipus);
+                }   
                 moneda = null;
-                diners.afegirDiners(capacitat);
             }
         }
     }
@@ -65,7 +71,7 @@ public class Miner extends UnitatAbstract {
         timer = new Timer(15000, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                moneda = new Moneda(ManagerContext.getGui(), (int) posX + 10, (int) posY + 20);
+                moneda = new Moneda(ManagerContext.getGui(), (int) posX + 10, (int) posY + 20, "Color");
             }
         });
         timer.start();
