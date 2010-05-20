@@ -354,7 +354,7 @@ public class Tauler {
                 UnitatAbstract enemic = (UnitatAbstract) en;
                 if (enemic instanceof UnitatEnemigaAtkDistanciaSalta) {
                     UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) enemic;                  
-                    if (eS.isSaltant() && !eS.estaActivat()) {
+                    if (eS.isSaltant() && !eS.estaActivat() && eS.haFinalitzatAnimacio()) {
                         eS.setMort(true);
                         eS.calculaSalt(llargadaTotal);
                         eS.haSaltat();
