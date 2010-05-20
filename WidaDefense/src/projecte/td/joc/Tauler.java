@@ -323,10 +323,10 @@ public class Tauler {
             for (UnitatAbstract en : enemics_morts) {
                 arrays_enemics[i].remove(en);
             }
-            for (UnitatEnemigaAtkDistanciaSalta eS : unitatsSaltant) {
-                arrays_enemics[i].remove(eS);
-            }
+            
         }
+        projectils_finalitzats.clear();
+        enemics_morts.clear();
     }
 
     public void colocarUnitatsSaltant() {
@@ -339,6 +339,7 @@ public class Tauler {
     public void posicionaUnitatEnemigaSalta(int x, int y, UnitatAbstract enemic) {
 
         int[] PosFC = mirarCoordenadesClick(x, y);
+        enemic.setMort(false);
         enemic.setLocation(x, (float) (celes[PosFC[0]][PosFC[1]].getY() + llargada - enemic.getAnimation().getHeight()));
         arrays_enemics[PosFC[0]].add(enemic);
         if (!controlaFiles[PosFC[0]]) {
@@ -352,8 +353,9 @@ public class Tauler {
             for (Object en : arrays_enemics[i]) {
                 UnitatAbstract enemic = (UnitatAbstract) en;
                 if (enemic instanceof UnitatEnemigaAtkDistanciaSalta) {
-                    UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) en;
+                    UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) enemic;                  
                     if (eS.isSaltant() && !eS.estaActivat()) {
+                        eS.setMort(true);
                         eS.calculaSalt(llargadaTotal);
                         eS.haSaltat();
                         unitatsSaltant.add(eS);
@@ -388,13 +390,11 @@ public class Tauler {
                 }
             }
 
-
-
         }
-        dispararUnitatsAmigues();
-        colocarUnitatsSaltant();
+        dispararUnitatsAmigues();       
         stopUnitatsAmigues();
         finalitzarProjectils_Enemics();
+        colocarUnitatsSaltant();
         mc.comprovarColisions();
         disparaUnitatsEnemigues();
 

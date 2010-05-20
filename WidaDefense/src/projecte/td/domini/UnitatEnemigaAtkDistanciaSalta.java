@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -14,41 +13,48 @@ import org.newdawn.slick.Image;
  *
  * @author wida47909974
  */
-public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia{
-    
+public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
+
     private Timer timer2;
     private int cadenciaSalts;
-    private boolean salta=false;
+    private boolean salta = false;
+    private boolean haAtacat;
     private int ySalt;
 
-
-    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj,int cadenciaSalts) {
+    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj, int cadenciaSalts) {
         super(vida, cadencia, image, frames, projectil, frames2, velocitat, posXProj, posYProj);
-         timer2 = new Timer(cadenciaSalts, new ActionListener() {
+        timer2 = new Timer(cadenciaSalts, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                salta=true;
+                if (!haAtacat) {
+                    salta = true;
+                }
 
             }
         });
-        this.cadenciaSalts=cadenciaSalts;
+        this.cadenciaSalts = cadenciaSalts;
         timer2.start();
-        //uooh
     }
 
-    public void haSaltat(){
-        salta=false;
+    @Override
+    public void activarDispars() {
+        super.activarDispars();
+        haAtacat = true;
     }
-    public boolean isSaltant(){
+
+    public void haSaltat() {
+        salta = false;
+    }
+
+    public boolean isSaltant() {
         return salta;
     }
-    public void calculaSalt(int llargadaTotal){
-        ySalt=(int)(Math.random()*llargadaTotal);        
+
+    public void calculaSalt(int llargadaTotal) {
+        ySalt = (int) (Math.random() * llargadaTotal);
     }
 
     public int getySalt() {
         return ySalt;
     }
-
-
 }
