@@ -27,7 +27,9 @@ public class MenuSeleccio {
     // Posicio Y on es començara a col·locar el primer boto de tria d'unitat
     private int posYVariable;
     // Nombre de columnes que es volen mostrar en la tria d'unitats
-    private int nColumnes = 4;
+    private int nColumnesMenu1 = 4;
+    // Nombre de columnes que es volen mostrar en la tria d'unitats
+    private int nColumnesMenu2 = 8;
     // Indica si hi ha hagut algun canvi
     private boolean canvi;
     // Posicio X del menu
@@ -47,8 +49,8 @@ public class MenuSeleccio {
         this.container = container;
         posX = x;
         posY = y;
-        posXVariable = posX + 60;
-        posYVariable = posY + 60;
+        posXVariable = posX + 40;
+        posYVariable = posY + 220;
         botonsSeleccio = new ArrayList<BotoSeleccio>();
         botonsSeleccio2 = new ArrayList<BotoSeleccio>();
         botonsTriats = new ArrayList<BotoSeleccio>();
@@ -99,8 +101,8 @@ public class MenuSeleccio {
         for (BotoSeleccio b : botonsTriats) {
             b.render(container, g);
         }
-        g.drawString(informacio, 200, 400);
-        g.drawString("Wave: " + ManagerPerfil.getWave(), 500, 500);
+        g.drawString(informacio, 730, 300);
+        g.drawString("Wave: " + ManagerPerfil.getWave(), 730, 220);
     }
 
     /**
@@ -108,16 +110,24 @@ public class MenuSeleccio {
      * (Zona de seleccio a zona d'unitat ja triada i viceversa)
      */
     private void comprovarMoviments() {
-        for (BotoSeleccio b : botonsSeleccio) {
-            if (b.isNotaCanvi()) {
-                b.setNotaCanvi(false);
-                botonsSeleccio2.add(b);
-                botonsTriats.add(b);
-                canvi = true;
+        if (botonsTriats.size() < 8) {
+            for (BotoSeleccio b : botonsSeleccio) {
+                if (b.isNotaCanvi()) {
+                    b.setNotaCanvi(false);
+                    botonsSeleccio2.add(b);
+                    botonsTriats.add(b);
+                    canvi = true;
+                }
+            }
+            botonsSeleccio.removeAll(botonsSeleccio2);
+            botonsSeleccio2.clear();
+        } else {
+            for (BotoSeleccio b : botonsSeleccio) {
+                if (b.isNotaCanvi()) {
+                    b.setNotaCanvi(false);
+                }
             }
         }
-        botonsSeleccio.removeAll(botonsSeleccio2);
-        botonsSeleccio2.clear();
         for (BotoSeleccio b : botonsTriats) {
             if (b.isNotaCanvi()) {
                 b.setNotaCanvi(false);
@@ -138,10 +148,10 @@ public class MenuSeleccio {
         int columnes = 0;
         int files = 0;
         for (BotoSeleccio b : botonsSeleccio) {
-            int posicioBotoX = (columnes * 70) + posXVariable;
-            int posicioBotoY = (files * 100) + posYVariable;
+            int posicioBotoX = (columnes * 90) + posXVariable;
+            int posicioBotoY = (files * 110) + posYVariable;
             b.setLocation(posicioBotoX, posicioBotoY);
-            if (columnes == nColumnes) {
+            if (columnes == nColumnesMenu1) {
                 columnes = 0;
                 files++;
             } else {
@@ -151,10 +161,10 @@ public class MenuSeleccio {
         columnes = 0;
         files = 0;
         for (BotoSeleccio b : botonsTriats) {
-            int posicioBotoX = (columnes * 70) + posXVariable + 400;
-            int posicioBotoY = (files * 100) + posYVariable;
+            int posicioBotoX = (columnes * 90) + 40;
+            int posicioBotoY = (files * 110) + 40;
             b.setLocation(posicioBotoX, posicioBotoY);
-            if (columnes == nColumnes) {
+            if (columnes == nColumnesMenu2) {
                 columnes = 0;
                 files++;
             } else {
@@ -168,8 +178,10 @@ public class MenuSeleccio {
      */
     private void crearBotons() {
         String[] s = unitatsAMostrar.split("-");
+        BotoSeleccio.setImatgeCarta(ManagerRecursos.getImage("botoCartaImage"));
+        BotoSeleccio.setImatgeCartaOver(ManagerRecursos.getImage("botoCartaOverImage"));
         for (String text : s) {
-            BotoSeleccio bs = new BotoSeleccio(container, ManagerRecursos.getImage("botoIngame" + text + "Image"),
+            BotoSeleccio bs = new BotoSeleccio(container, ManagerRecursos.getImage("carta" + text + "Image"),
                     0, 0, text);
             bs.addListener();
             botonsSeleccio.add(bs);
@@ -186,7 +198,7 @@ public class MenuSeleccio {
             seleccio += b.getUnitat() + "-";
         }
         if (seleccio.length() > 1) {
-            return seleccio.substring(0,seleccio.length()-1);
+            return seleccio.substring(0, seleccio.length() - 1);
         }
         return "";
     }

@@ -13,30 +13,30 @@ import org.newdawn.slick.gui.GUIContext;
 
 public class BotoMenu extends AbstractComponent {
 
-    private  static final int NORMAL = 1;
-    private static final int MOUSE_CLICK = 2;
-    private static final int MOUSE_OVER = 3;
+    protected  static final int NORMAL = 1;
+    protected static final int MOUSE_CLICK = 2;
+    protected static final int MOUSE_OVER = 3;
 
-    private Image imatgeNormal;
-    private Image imatgeMouseOver;
-    private Image mouseDownImage;
+    protected Image imatgeNormal;
+    protected Image imatgeMouseOver;
+    protected Image mouseDownImage;
 
-    private Color colorNormal = Color.white;
-    private Color colorMouserOver = Color.white;
-    private Color colorMouseClick = Color.white;
+    protected Color colorNormal = Color.white;
+    protected Color colorMouserOver = Color.white;
+    protected Color colorMouseClick = Color.white;
 
-    private Sound soOver;
-    private Sound soClick;
+    protected Sound soOver;
+    protected Sound soClick;
     protected Shape area;
 
-    private Image imatgeActual;
-    private Color colorActual;
+    protected Image imatgeActual;
+    protected Color colorActual;
 
     protected boolean over;
-    private boolean click;
-    private boolean noClick;
+    protected boolean click;
+    protected boolean noClick;
 
-    private int state = NORMAL;
+    protected int state = NORMAL;
     
     public BotoMenu(GUIContext container, Image image, int x, int y,
             ComponentListener listener) {
@@ -178,7 +178,7 @@ public class BotoMenu extends AbstractComponent {
     /**
      * Update the current normalImage based on the mouse state
      */
-    private void updateImage() {
+    protected void updateImage() {
         if (!over) {
             imatgeActual = imatgeNormal;
             colorActual = colorNormal;

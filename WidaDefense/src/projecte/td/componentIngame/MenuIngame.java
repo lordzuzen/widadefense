@@ -10,9 +10,7 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.componentIngame.*;
 import projecte.td.estats.EstatGuanya;
-import projecte.td.estats.EstatPerd;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerDiners;
@@ -32,6 +30,8 @@ public class MenuIngame extends AbstractComponent {
     private Shape area;
     // botonsUnitat: arraylist on es guardaran els botonsUnitat de que disposa el menu
     private ArrayList<BotoIngame> botonsUnitat;
+    // botoAux : boto que s'utilitza per guarda la referencia a un boto 
+    private BotoIngame botoAux;
     // botoOpcions: para la partida i accedeix al menu
     private BotoMenu botoOpcions;
     // unitats: s'utilitza per inicialitzar correctament els botonsUnitat i les imatges corresponents
@@ -111,7 +111,7 @@ public class MenuIngame extends AbstractComponent {
             if (b.isClicat()) {
                 elementEsperant = b.getAccio();
                 enEspera = true;
-                cost = b.getCost();
+                botoAux = b;
             }
         }
     }
@@ -198,8 +198,10 @@ public class MenuIngame extends AbstractComponent {
     }
 
     public void realitzaTransaccio() {
-        md.restarDiners(cost);
+        md.restarDiners(botoAux.getCost());
         reiniciarBotons();
+        botoAux.activarTimer();
+        botoAux = null;
     }
 
     public ArrayList<BotoIngame> getBotons() {

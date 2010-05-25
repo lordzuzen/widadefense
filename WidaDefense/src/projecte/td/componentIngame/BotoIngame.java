@@ -1,5 +1,8 @@
 package projecte.td.componentIngame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
@@ -7,7 +10,7 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
-
+ 
 /**
  *
  * @author media
@@ -28,12 +31,16 @@ public class BotoIngame extends AbstractComponent {
     private boolean clicat;
     // seleccionat: flag per determinar si el boto esta seleccionat
     private boolean seleccionat;
+    // timerActiu: flag per determinar si el timer del boto esta activat
+    private boolean timerActiu;
     // area: shape que s'utilitza per les posicions dels botons i control d'events (clicks)
     private Shape area;
     // cost: el que costa la unitat que representa el boto
     private int cost;
     // accio: informa de l'accio que s'ha de dur a terme
     private String accio;
+    // timer: s'utilitza per inhabilitar el boto durant un periode de temps
+    private Timer timer;
 
     /**
      * Botons que s'utilitzen en el transcurs del joc (ingame) per seleccionar les unitats o elements
@@ -57,7 +64,7 @@ public class BotoIngame extends AbstractComponent {
      * @param diners : diners necessaris per comprar l'element
      */
     public void update(int diners) {
-        if (diners >= cost) {
+        if (diners >= cost && !timerActiu) {
             disponible = true;
         } else {
             disponible = false;
@@ -70,8 +77,6 @@ public class BotoIngame extends AbstractComponent {
      * @param g : objecte grafics que s'utilitza per renderitzar imatges i animacions
      */
     public void render(GUIContext gc, Graphics g) {
-        int xp = (int) (area.getX() + ((getWidth() - imatgeNormal.getWidth()) / 2));
-        int yp = (int) (area.getY() + ((getHeight() - imatgeNormal.getHeight()) / 2));
         if (disponible && seleccionat) {
             g.drawImage(imatgeSeleccionat, area.getX(), area.getY());
             g.drawImage(imatgeNormal, area.getX(), area.getY());
@@ -126,7 +131,6 @@ public class BotoIngame extends AbstractComponent {
      */
     public void addListener(final String unitat) {
         addListener(new ComponentListener() {
-
             public void componentActivated(AbstractComponent comp) {
                 if (disponible && !botoSeleccionat) {
                     botoSeleccionat = true;
@@ -136,6 +140,22 @@ public class BotoIngame extends AbstractComponent {
                 }
             }
         });
+    }
+
+    /**
+     * Activa el timer per inhabilitar el boto durant un periode de temps determinat
+     */
+    public void activarTimer() {
+        disponible = false;
+        timerActiu = true;
+        timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clear();
+                timerActiu = false;
+            }
+        });
+        timer.start();
+        timer.setRepeats(false);
     }
 
     // Getters i setters
