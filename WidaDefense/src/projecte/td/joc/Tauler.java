@@ -105,8 +105,25 @@ public class Tauler {
         unitatsSaltant = new ArrayList<UnitatEnemigaAtkDistanciaSalta>();
     }
 
+    public boolean comprovaClickCorrecte(int x, int y) {
+        int[] posFC = {-1,-1};
+        for (int fil = 0; fil < nFiles; fil++) {
+            for (int col = 0; col < nColumnes; col++) {
+                if (celes[fil][col].contains(x, y)) {
+                    posFC[0] = fil;
+                    posFC[1] = col;
+                }
+            }
+        }
+        if (posFC[0] == -1 && posFC[1] == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public int[] mirarCoordenadesClick(int x, int y) {
-        int[] posFC = {15,15};
+        int[] posFC = {0,0};
         for (int fil = 0; fil < nFiles; fil++) {
             for (int col = 0; col < nColumnes; col++) {
                 if (celes[fil][col].contains(x, y)) {

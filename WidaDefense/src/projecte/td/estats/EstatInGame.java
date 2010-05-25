@@ -72,17 +72,14 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         Input input = gc.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && input.getMouseY() <= 600) {
-            if (!unitat.equals("null")) {
-                if (unitat.contains("Aura")) {
-                } else {
-                    int[] posFC = p.mirarCoordenadesClick(input.getMouseX(), input.getMouseY());
-                    if (p.comprovarClick(posFC[0], posFC[1])) {
-                        UnitatAbstract u = null;
-                        u = FactoriaUnitats.getUnitatBona(unitat);
-                        p.posicionaUnitatAmiga(posFC[0], posFC[1], u);
-                        unitat = "null";
-                        mi.realitzaTransaccio();
-                    }
+            if (!unitat.equals("null") && p.comprovaClickCorrecte(input.getMouseX(), input.getMouseY())) {
+                int[] posFC = p.mirarCoordenadesClick(input.getMouseX(), input.getMouseY());
+                if (p.comprovarClick(posFC[0], posFC[1])) {
+                    UnitatAbstract u = null;
+                    u = FactoriaUnitats.getUnitatBona(unitat);
+                    p.posicionaUnitatAmiga(posFC[0], posFC[1], u);
+                    unitat = "null";
+                    mi.realitzaTransaccio();
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
@@ -132,7 +129,7 @@ public class EstatInGame extends BasicGameState {
             unitat = mi.getElementEsperant();
             mi.clear();
         }
-        if (!unitat.equals("null") && input.getMouseY() <= 600) {
+        if (!unitat.equals("null") && input.getMouseY() <= 600 && p.comprovaClickCorrecte(input.getMouseX(), input.getMouseY())) {
             p.setDibuixarQuadrat(true);
             p.setPosicioDibuixQuadrat(input.getMouseX(), input.getMouseY());
         } else {
