@@ -31,8 +31,8 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
     private float posYProj;
 
     public UnitatDispara(int vida, int cadencia, Image image
-            , Image[] frames, Projectil projectil,float posXProj,float posYProj) {
-        super(vida, image, frames);
+            , Image[] frames,Image[] framesMort, Projectil projectil,float posXProj,float posYProj) {
+        super(vida, image, frames,framesMort);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj=posXProj;
@@ -98,12 +98,6 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
     public void setCadencia(int cadencia) {
         this.cadencia = cadencia;
     }
-
-    @Override
-    public void render(GameContainer gc, Graphics g) {
-        super.render(gc, g);
-    }
-
 
     public Projectil getProjectil() {
         return projectil.cloneProjectil();

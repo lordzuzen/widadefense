@@ -15,7 +15,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author media
  */
-public class UnitatAbstract extends Entitat implements IAuraVida{
+public class UnitatAbstract extends Entitat implements IAuraVida {
 
     // Vida de la unitat
     protected float vida;
@@ -29,6 +29,7 @@ public class UnitatAbstract extends Entitat implements IAuraVida{
     protected float alphaAura = 1;
     // Indica si la unitat te una aura activa
     protected boolean auraActiva;
+    protected Animation animation_mort;
 
     /**
      *
@@ -38,6 +39,14 @@ public class UnitatAbstract extends Entitat implements IAuraVida{
      * @param image
      * @param frames
      */
+    public UnitatAbstract(int vida, Image image, Image[] frames, Image[] framesMort) {
+        this.vida = vida;
+        this.vidaTotal = vida;
+        this.animation = new Animation(frames, 60);
+        this.animation_mort = new Animation(framesMort, 90);
+
+    }
+
     public UnitatAbstract(int vida, Image image, Image[] frames) {
         this.vida = vida;
         this.vidaTotal = vida;
@@ -55,6 +64,29 @@ public class UnitatAbstract extends Entitat implements IAuraVida{
     public void render(GameContainer gc, Graphics g) {
         g.drawAnimation(animation, posX, posY);
         renderVida(gc, g);
+
+    }
+
+    public void renderMort(GameContainer gc, Graphics g) {
+        if (mort && animation_mort != null) {
+            g.drawAnimation(animation_mort, posX + shape.getWidth() / 2, posY);
+            animation_mort.setLooping(false);
+        }
+    }
+
+    @Override
+    public boolean isMort() {
+        if (animation_mort != null) {
+            if (mort && animation_mort.isStopped()) {
+                return true;
+            }
+        }
+        else{
+            if(mort){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void impacte(double dany) {
@@ -81,7 +113,6 @@ public class UnitatAbstract extends Entitat implements IAuraVida{
 
     public void update(int delta) {
     }
-
 
     @Override
     public void activarAura(Aura aura) {
@@ -134,7 +165,7 @@ public class UnitatAbstract extends Entitat implements IAuraVida{
     public void setAura(Aura aura) {
         this.aura = aura;
     }
-    
+
     public float getVida() {
         return vida;
     }
