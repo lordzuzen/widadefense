@@ -37,6 +37,7 @@ public class EstatInGame extends BasicGameState {
     MenuIngame mi;
     ManagerDiners md;
     String unitat = "null";
+    String ocupat = "lliure";
     private int cont;
 
     /**
@@ -82,7 +83,6 @@ public class EstatInGame extends BasicGameState {
                         unitat = "null";
                         mi.realitzaTransaccio();
                     }
-
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
@@ -132,6 +132,12 @@ public class EstatInGame extends BasicGameState {
             unitat = mi.getElementEsperant();
             mi.clear();
         }
+        if (!unitat.equals("null") && input.getMouseY() <= 600) {
+            p.setDibuixarQuadrat(true);
+            p.setPosicioDibuixQuadrat(input.getMouseX(), input.getMouseY());
+        } else {
+            p.setDibuixarQuadrat(false);
+        }
     }
 
     /**
@@ -145,6 +151,7 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         p.dibuixar(g, gc);
         mi.render(gc, g);
+        g.drawString(ocupat, 800, 600);
     }
 
     /**

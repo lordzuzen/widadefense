@@ -8,8 +8,11 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.componentGUI.MenuSeleccio;
+import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
 
@@ -27,6 +30,10 @@ public class EstatSeguentWave extends BasicGameState {
     private StateBasedGame state;
     // Fons de pantalla
     private Image imatgeFons;
+    // Image del boto X que s'utilitza per començar a jugar
+    private Image imatgeBotoX;
+    // Image del boto V que s'utilitza per començar a jugar.
+    private Image imatgeBotoV;
     // Objecte menu que comprova les unitats que es poden seleccionar i les que s'han seleccionat
     private MenuSeleccio ms;
     // Boto per accedir al seguent estat
@@ -54,6 +61,8 @@ public class EstatSeguentWave extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsSeguentWaveImage");
+        imatgeBotoX = ManagerRecursos.getImage("botoXImage");
+        imatgeBotoV = ManagerRecursos.getImage("botoVImage");
     }
 
     /**
@@ -83,14 +92,21 @@ public class EstatSeguentWave extends BasicGameState {
      * Crea els botons necessaris per continuar o tornar enrere
      */
     private void crearBotons() {
-        botoContinuar = new BotoMenu(container, ManagerRecursos.getImage("botoPerfilImage"), 420, 500);
-        botoContinuar.setMouseOverImage(ManagerRecursos.getImage("botoPerfilOverImage"));
+        botoContinuar = new BotoMenu(container, imatgeBotoV, 660, 630);
         botoContinuar.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 if (ms.unitatsNoNull()) {
                     botoApretat = true;
+                    ManagerEnemics.iniciaWave(ManagerPerfil.getWave());
                 }
+            }
+        });
+        botoTornar = new BotoMenu(container, imatgeBotoX, 800, 630);
+        botoTornar.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                state.enterState(EstatMenuPrincipal.ID, new FadeOutTransition(), new FadeInTransition());
             }
         });
     }
@@ -121,6 +137,7 @@ public class EstatSeguentWave extends BasicGameState {
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
         imatgeFons.draw(0, 0);
         botoContinuar.render(container, g);
+        botoTornar.render(container, g);
         ms.render(game, state, g);
     }
 }

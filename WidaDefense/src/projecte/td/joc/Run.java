@@ -20,7 +20,7 @@ public class Run {
         game.setTargetFrameRate(60);
         game.setVSync(true);
         game.setDisplayMode(1024, 768, false);
-        game.setFullscreen(true);
+        //game.setFullscreen(true);
         game.start();
     }
 }

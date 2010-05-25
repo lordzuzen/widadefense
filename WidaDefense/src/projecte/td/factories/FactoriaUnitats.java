@@ -12,6 +12,7 @@ import projecte.td.utilitats.*;
 public class FactoriaUnitats {
 
     private static ArxiuConfiguracio unitats;
+    private static ArxiuConfiguracio enemics;
 
     public static UnitatAbstract getUnitatBona(String tipus) {
         if (unitats == null) {
@@ -92,11 +93,18 @@ public class FactoriaUnitats {
     }
 
     public static UnitatAbstract getUnitatDolenta(String tipus) {
+        if (enemics == null) {
+            enemics = Configuracio.getEnemics();
+        }
         UnitatAbstract dolent = null;
         if (tipus.equals("Momia")) {
-            dolent = new UnitatEnemigaAtkDistancia(100, 2000, ManagerRecursos.getImage("pistolerImage"),
+            dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaMomia"), enemics.getPropietatInt("cadenciaMomia"),
+                    ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("momiaCaminaAnimation"),
-                    new ProjectilEstatic(0.10, ManagerRecursos.getImageArray("momiaProjectilAnimation")), ManagerRecursos.getImageArray("momiaAtacaAnimation"), 0.030, -2, 4);
+                    new ProjectilEstatic(enemics.getPropietatFloat("atacMomia"), ManagerRecursos.getImageArray("momiaProjectilAnimation")), 
+                    ManagerRecursos.getImageArray("momiaAtacaAnimation"), enemics.getDoublePropietat("velocitatMomia"),
+                    enemics.getPropietatFloat("projXMomia"),
+                    enemics.getPropietatFloat("projXMomia"));
         } else if (tipus.equals("Natiu")) {
             dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("natiuCaminaAnimation"),
