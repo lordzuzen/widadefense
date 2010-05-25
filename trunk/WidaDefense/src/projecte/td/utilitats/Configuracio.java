@@ -13,6 +13,7 @@ import projecte.td.utilitats.ArxiuConfiguracio;
 public class Configuracio {
 
     private static ArxiuConfiguracio configuracio;
+    private static ArxiuConfiguracio enemics;
     private static ArxiuConfiguracio recursos;
     private static ArxiuConfiguracio opcions;
     private static ArxiuConfiguracio unitats;
@@ -72,5 +73,12 @@ public class Configuracio {
             unitats = new ArxiuConfiguracio(configuracio.getPropietatString("unitats"));
         }
         return unitats;
+    }
+
+    public static ArxiuConfiguracio getEnemics() {
+        if (enemics == null) {
+            enemics = new ArxiuConfiguracio(configuracio.getPropietatString("enemics"));
+        }
+        return enemics;
     }
 }

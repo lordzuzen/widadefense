@@ -81,7 +81,7 @@ public class EstatLoading extends BasicGameState {
             Input input = container.getInput();
             if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
                 container.setMouseGrabbed(false);
-                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                game.enterState(EstatPerfil.ID);
             }
 
             // La variable parpadeig s'utilitza per realitzar l'efecte de pampallugues del text que

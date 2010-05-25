@@ -5,6 +5,7 @@
 package projecte.td.joc;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -36,6 +37,8 @@ public class Tauler {
     private double amplada;
     private double llargada;
     private boolean[][] clicades;
+    private boolean dibuixarQuadrat;
+    private int[] posicioQuadrat;
     private Rectangle[][] celes;
     private UnitatAbstract[][] unitatsAmigues;
     ArrayList<UnitatAbstract> unitatsAmigues_mortes;
@@ -103,7 +106,7 @@ public class Tauler {
     }
 
     public int[] mirarCoordenadesClick(int x, int y) {
-        int[] posFC = new int[2];
+        int[] posFC = {15,15};
         for (int fil = 0; fil < nFiles; fil++) {
             for (int col = 0; col < nColumnes; col++) {
                 if (celes[fil][col].contains(x, y)) {
@@ -305,11 +308,29 @@ public class Tauler {
 
             }
         }
-
         for (Explosio ex : explosions) {
             ex.dibuixar();
         }
+        dibuixarQuadrat(g, gc);
+    }
 
+    public void dibuixarQuadrat(Graphics g, GameContainer gc) {
+        if (dibuixarQuadrat) {
+            int[] quadricula = mirarCoordenadesClick(posicioQuadrat[0], posicioQuadrat[1]);
+            if (quadricula[0]!=15) {
+            Rectangle rectangle = prova(quadricula[0], quadricula[1]);
+            if (comprovarClick(quadricula[0], quadricula[1])) {
+                g.setColor(Color.green);
+            } else {
+                g.setColor(Color.red);
+            }
+            g.setLineWidth(2);
+            g.drawRoundRect(rectangle.getX() + 2, rectangle.getY() + 2, rectangle.getWidth() - 2,
+                    rectangle.getHeight() - 2, 15);
+            g.setColor(Color.white);
+            g.setLineWidth(1);
+            }
+        }
     }
 
     public void finalitzarProjectils_Enemics() {
@@ -323,7 +344,7 @@ public class Tauler {
             for (UnitatAbstract en : enemics_morts) {
                 arrays_enemics[i].remove(en);
             }
-            
+
         }
         projectils_finalitzats.clear();
         enemics_morts.clear();
@@ -353,7 +374,7 @@ public class Tauler {
             for (Object en : arrays_enemics[i]) {
                 UnitatAbstract enemic = (UnitatAbstract) en;
                 if (enemic instanceof UnitatEnemigaAtkDistanciaSalta) {
-                    UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) enemic;                  
+                    UnitatEnemigaAtkDistanciaSalta eS = (UnitatEnemigaAtkDistanciaSalta) enemic;
                     if (eS.isSaltant() && !eS.estaActivat() && eS.haFinalitzatAnimacio()) {
                         eS.setMort(true);
                         eS.calculaSalt(llargadaTotal);
@@ -391,12 +412,21 @@ public class Tauler {
             }
 
         }
-        dispararUnitatsAmigues();       
+        dispararUnitatsAmigues();
         stopUnitatsAmigues();
         finalitzarProjectils_Enemics();
         colocarUnitatsSaltant();
         mc.comprovarColisions();
         disparaUnitatsEnemigues();
+    }
 
+    public void setDibuixarQuadrat(boolean dibuixarQuadrat) {
+        this.dibuixarQuadrat = dibuixarQuadrat;
+    }
+
+    public void setPosicioDibuixQuadrat(int x, int y) {
+        posicioQuadrat = new int[2];
+        posicioQuadrat[0] = x;
+        posicioQuadrat[1] = y;
     }
 }
