@@ -324,6 +324,16 @@ public class Tauler {
                 p.render(gc, g);
 
             }
+            for (UnitatAbstract t : unitatsAmigues[i]) {
+                if (t != null) {
+                    t.renderMort(gc, g);
+                }
+            }
+            for (Object en : arrays_enemics[i]) {
+                UnitatAbstract enemic = (UnitatAbstract) en;
+                enemic.renderMort(gc, g);
+
+            }
         }
         for (Explosio ex : explosions) {
             ex.dibuixar();

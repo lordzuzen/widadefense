@@ -24,8 +24,8 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
     private int ySalt;
     private Animation salt;
 
-    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj, Image[] frames3) {
-        super(vida, cadencia, image, frames, projectil, frames2, velocitat, posXProj, posYProj);
+    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames,Image[] framesMort, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj, Image[] frames3) {
+        super(vida, cadencia, image, frames,framesMort, projectil, frames2, velocitat, posXProj, posYProj);
         salt = new Animation(frames3, 100);
     }
 
