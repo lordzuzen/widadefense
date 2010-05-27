@@ -106,7 +106,7 @@ public class Tauler {
     }
 
     public boolean comprovaClickCorrecte(int x, int y) {
-        int[] posFC = {-1,-1};
+        int[] posFC = {-1, -1};
         for (int fil = 0; fil < nFiles; fil++) {
             for (int col = 0; col < nColumnes; col++) {
                 if (celes[fil][col].contains(x, y)) {
@@ -123,7 +123,7 @@ public class Tauler {
     }
 
     public int[] mirarCoordenadesClick(int x, int y) {
-        int[] posFC = {0,0};
+        int[] posFC = {0, 0};
         for (int fil = 0; fil < nFiles; fil++) {
             for (int col = 0; col < nColumnes; col++) {
                 if (celes[fil][col].contains(x, y)) {
@@ -265,18 +265,22 @@ public class Tauler {
                 } else {
                     if (controlaFiles[i]) {
                         if (t != null && t instanceof UnitatDispara) {
-                            UnitatDispara ud = (UnitatDispara) t;
-                            Projectil p = ud.getProjectil();
-                            if (p instanceof ProjectilMobil) {
-                                dispararUnitatAmiga(ud, i, p);
-                            } else if (p instanceof ProjectilEstatic) {
-                                if (!arrays_enemics[i].isEmpty()) {
-                                    UnitatAbstract enemic = (UnitatAbstract) arrays_enemics[i].get(0);
-                                    if (enemic.getPosX() <= ud.getPosX() + 150) {
+                            for (Object ob : arrays_enemics[i]) {
+                                UnitatAbstract enemic = (UnitatAbstract) ob;
+                                UnitatDispara ud = (UnitatDispara) t;
+                                Projectil p = ud.getProjectil();
+                                if (enemic.getPosX() >= ud.getPosX()) {
+                                    if (p instanceof ProjectilMobil) {
                                         dispararUnitatAmiga(ud, i, p);
+                                    } else if (p instanceof ProjectilEstatic) {
+                                        if (!arrays_enemics[i].isEmpty()) {
+                                            if (enemic.getPosX() <= ud.getPosX() + 150) {
+                                                dispararUnitatAmiga(ud, i, p);
+                                            }
+                                        }
+
                                     }
                                 }
-
                             }
                         }
                     }
@@ -344,18 +348,18 @@ public class Tauler {
     public void dibuixarQuadrat(Graphics g, GameContainer gc) {
         if (dibuixarQuadrat) {
             int[] quadricula = mirarCoordenadesClick(posicioQuadrat[0], posicioQuadrat[1]);
-            if (quadricula[0]!=15) {
-            Rectangle rectangle = prova(quadricula[0], quadricula[1]);
-            if (comprovarClick(quadricula[0], quadricula[1])) {
-                g.setColor(Color.green);
-            } else {
-                g.setColor(Color.red);
-            }
-            g.setLineWidth(2);
-            g.drawRoundRect(rectangle.getX() + 2, rectangle.getY() + 2, rectangle.getWidth() - 2,
-                    rectangle.getHeight() - 2, 15);
-            g.setColor(Color.white);
-            g.setLineWidth(1);
+            if (quadricula[0] != 15) {
+                Rectangle rectangle = prova(quadricula[0], quadricula[1]);
+                if (comprovarClick(quadricula[0], quadricula[1])) {
+                    g.setColor(Color.green);
+                } else {
+                    g.setColor(Color.red);
+                }
+                g.setLineWidth(2);
+                g.drawRoundRect(rectangle.getX() + 2, rectangle.getY() + 2, rectangle.getWidth() - 2,
+                        rectangle.getHeight() - 2, 15);
+                g.setColor(Color.white);
+                g.setLineWidth(1);
             }
         }
     }
@@ -455,5 +459,10 @@ public class Tauler {
         posicioQuadrat = new int[2];
         posicioQuadrat[0] = x;
         posicioQuadrat[1] = y;
+    }
+
+    public void borrarUnitatAmiguesClick(int x,int y) {
+        int[] PosFC = mirarCoordenadesClick(x, y);
+        eliminaUnitatAmiga(PosFC[0], PosFC[1]);
     }
 }
