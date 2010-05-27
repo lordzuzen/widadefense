@@ -1,8 +1,11 @@
 package projecte.td.componentIngame;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.AbstractComponent;
@@ -48,6 +51,9 @@ public class MenuIngame extends AbstractComponent {
     private int posYVariable;
     // md:
     private ManagerDiners md;
+    private Sound soClick;
+    private Sound soOver;
+    private Font font;
 
     /**
      * Contenidor pel menu ingame del joc on es podran escollir els elements que es posicionaran en
@@ -69,6 +75,9 @@ public class MenuIngame extends AbstractComponent {
         area = new Rectangle(posX, posY, image.getWidth(), image.getHeight());
         this.unitats = unitats;
         this.md = md;
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
+        font = ManagerRecursos.getFont("dejavuNormalFont");
         init();
         crearBotonsUnitats();
         crearBotoMenu();
@@ -89,16 +98,17 @@ public class MenuIngame extends AbstractComponent {
      * @param g : objecte grafics que s'utilitza per renderitzar imatges i animacions
      */
     public void render(GUIContext gc, Graphics g) {
-        int xp = (int) (area.getX() + ((getWidth() - image.getWidth()) / 2));
-        int yp = (int) (area.getY() + ((getHeight() - image.getHeight()) / 2));
+        int xp = 0;
+        int yp = 600;
         g.drawImage(image, xp, yp);
         for (BotoIngame b : botonsUnitat) {
             b.render(gui, g);
         }
         botoOpcions.render(container, g);
-        g.drawString("Diners: " + md.getTotal() + "", 600, 600);
+        g.setFont(font);
+        g.drawString("Diners: " + md.getTotal() + "", 830, 650);
         if (md.isAuraEnEspera()) {
-            g.drawString("Aura: " + md.getTipusAuraEspera() + "", 600, 630);
+            g.drawString("Aura: " + md.getTipusAuraEspera() + "", 830, 670);
         }
     }
 
@@ -124,13 +134,14 @@ public class MenuIngame extends AbstractComponent {
         BotoIngame.setImatgeSeleccionat(ManagerRecursos.getImage("marcSeleccionatIngameImage"));
         BotoIngame.setImatgeNoSeleccionat(ManagerRecursos.getImage("marcIngameImage"));
         BotoIngame.setImatgeTapada(ManagerRecursos.getImage("noSeleccionableIngameImage"));
-
+        int comptador = 0;
         for (String s : st) {
-            BotoIngame boto = new BotoIngame(gui, ManagerRecursos.getImage("botoIngame" + s + "Image"),
-                    posXVariable, posYVariable, 200);
-            posXVariable += 80;
+            int posX = (comptador * 90) + 40;
+            BotoIngame boto = new BotoIngame(gui, ManagerRecursos.getImage("carta" + s + "Image"),
+                    posX, 640, 200);
             boto.addListener(s);
             botonsUnitat.add(boto);
+            comptador++;
         }
     }
 
@@ -138,9 +149,13 @@ public class MenuIngame extends AbstractComponent {
      * Crea el boto per accedir al menu ingame
      */
     private void crearBotoMenu() {
-        botoOpcions = new BotoMenu(container, ManagerRecursos.getImage("marcIngameImage"), 420, 300);
-        botoOpcions.setLocation(900, 500);
-        botoOpcions.setMouseOverImage(ManagerRecursos.getImage("marcSeleccionatIngameImage"));
+        botoOpcions = new BotoMenu(container, ManagerRecursos.getImage("botoPetitImage"), 420, 300);
+        botoOpcions.setLocation(800, 700);
+        botoOpcions.setMouseOverImage(ManagerRecursos.getImage("botoPetitOverImage"));
+        botoOpcions.setImageText(ManagerRecursos.getImage("textMenuPetitImage"));
+        botoOpcions.setMouseDownSound(soClick);
+        botoOpcions.setMouseOverSound(soOver);
+        botoOpcions.setActiu(true);
     }
 
     private void afegirListener() {

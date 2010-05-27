@@ -62,7 +62,7 @@ public class EstatLoading extends BasicGameState {
             throws SlickException {
         this.game = container;
         imatgeFons = ManagerRecursos.getImage("fonsLoadingImage");
-
+        font = ManagerRecursos.getFont("dejavuNormalFont");
     }
 
     /**
@@ -118,18 +118,18 @@ public class EstatLoading extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0, container.getWidth(), container.getHeight());
-        //g.setFont(font);
         g.setColor(colorBarra);
-        g.fillRect(270, 640, (carregat / total) * 490, 30);
+        g.fillRect(270, 650, (carregat / total) * 490, 30);
         g.setColor(Color.white);
-        g.drawRect(270, 640, 490, 30);
+        g.drawRect(270, 650, 490, 30);
         g.setColor(Color.white);
+        g.setFont(font);
         if (carregat == total) {
             if (mostra) {
-                g.drawString("Fes click per jugar o prem Escape per sortir", 320, 610);
+                g.drawString("Fes click per jugar o prem Escape per sortir", 260, 610);
             }
         } else {
-            g.drawString("Carregant. Espera siusplau ...", 400, 610);
+            g.drawString("Carregant. Espera siusplau ...", 360, 610);
         }
     }
 

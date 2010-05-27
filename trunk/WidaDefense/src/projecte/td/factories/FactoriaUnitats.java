@@ -11,7 +11,6 @@ import projecte.td.utilitats.*;
 public class FactoriaUnitats {
 
     private static ArxiuConfiguracio unitats;
-    private static ArxiuConfiguracio enemics;
 
     public static UnitatAbstract getUnitatBona(String tipus) {
         if (unitats == null) {
@@ -58,52 +57,53 @@ public class FactoriaUnitats {
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscut")),ManagerRecursos.getImageArray("sangAnimation"));
         } // Unitat Bomba
         else if (tipus.equals("Bomba")) {
-            bo = new Bomba(10000, ManagerRecursos.getImage("bombaImage"),
-                    ManagerRecursos.getImageArray("bombaAnimation"),
+            bo = new Bomba(unitats.getPropietatInt("vidaBomba"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageBomba")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBomba")),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("bombaProjectilAnimation")));
         } // Unitat Caixa
         else if (tipus.equals("Caixa")) {
-            bo = new UnitatDispara(300, 10000, ManagerRecursos.getImage("caixaImage"),
-                    ManagerRecursos.getImageArray("caixaAnimation"),ManagerRecursos.getImageArray("sangAnimation"),
+            bo = new UnitatDispara(unitats.getPropietatInt("vidaCaixa"), unitats.getPropietatInt("cadenciaCaixa"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageCaixa")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationCaixa")),
+                    ManagerRecursos.getImageArray("sangAnimation"),
                     new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), 10, 4);
         } // Unitat Foc
         else if (tipus.equals("Foc")) {
-            bo = new UnitatDispara(100, 4000, ManagerRecursos.getImage("focImage"),
-                    ManagerRecursos.getImageArray("focAnimation"),ManagerRecursos.getImageArray("sangAnimation"),
+            bo = new UnitatDispara(unitats.getPropietatInt("vidaFoc"), unitats.getPropietatInt("cadenciaFoc"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageFoc")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationFoc")),
+                    ManagerRecursos.getImageArray("sangAnimation"),
                     new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("focProjectilAnimation")), -2, -5);
         } // Unitat Mina
         else if (tipus.equals("Mina")) {
-            bo = new Mina(200, ManagerRecursos.getImage("minaImage"),
-                    ManagerRecursos.getImageArray("minaAnimation"),
+            bo = new Mina(unitats.getPropietatInt("vidaMina"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageMina")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMina")),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));
         } // Unitat Motorista
         else if (tipus.equals("Motorista")) {
-            bo = new Motorista(100, ManagerRecursos.getImage("motoristaImage"),
-                    ManagerRecursos.getImageArray("motoristaAnimation"),
+            bo = new Motorista(unitats.getPropietatInt("vidaMotorista"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageMotorista")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMotorista")),
                     new ProjectilAnimat(200, ManagerRecursos.getImage("motoristaImage"),
                     ManagerRecursos.getImageArray("motoristaAnimation")));
         } // Unitat BombaAerea
         else if (tipus.equals("BombaAerea")) {
-            bo = new BombaAerea(100, ManagerRecursos.getImage("bombaAereaImage"),
-                    ManagerRecursos.getImageArray("bombaAereaAnimation"),
+            bo = new BombaAerea(unitats.getPropietatInt("vidaBombaAerea"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("imageBombaAerea")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBombaAerea")),
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation")));
         }
         return bo;
     }
 
     public static UnitatAbstract getUnitatDolenta(String tipus) {
-        if (enemics == null) {
-            enemics = Configuracio.getEnemics();
-        }
         UnitatAbstract dolent = null;
         if (tipus.equals("Momia")) {
-            dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaMomia"), enemics.getPropietatInt("cadenciaMomia"),
-                    ManagerRecursos.getImage("pistolerImage"),
+            dolent = new UnitatEnemigaAtkDistancia(100, 2000, ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("momiaCaminaAnimation"),ManagerRecursos.getImageArray("sangDretaAnimation"),
-                    new ProjectilEstatic(enemics.getPropietatFloat("atacMomia"), ManagerRecursos.getImageArray("momiaProjectilAnimation")), 
-                    ManagerRecursos.getImageArray("momiaAtacaAnimation"), enemics.getDoublePropietat("velocitatMomia"),
-                    enemics.getPropietatFloat("projXMomia"),
-                    enemics.getPropietatFloat("projXMomia"));
+                    new ProjectilEstatic(0.10, ManagerRecursos.getImageArray("momiaProjectilAnimation")), ManagerRecursos.getImageArray("momiaAtacaAnimation"), 0.030, -2, 4);
         } else if (tipus.equals("Natiu")) {
             dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("natiuCaminaAnimation"),ManagerRecursos.getImageArray("sangDretaAnimation"),

@@ -1,11 +1,16 @@
 package projecte.td.componentGUI;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ArxiuConfiguracio;
+import projecte.td.utilitats.Configuracio;
 
 /**
  * Aquesta classe s'utlitza com a suport de l'estat SeguentWave
@@ -32,6 +37,8 @@ public class MenuSeleccio {
     private int nColumnesMenu2 = 8;
     // Indica si hi ha hagut algun canvi
     private boolean canvi;
+    private boolean mostrarInformacio;
+    private boolean actiu;
     // Posicio X del menu
     int posX;
     // Posicio Y del menu
@@ -44,6 +51,12 @@ public class MenuSeleccio {
     private ArrayList<BotoSeleccio> botonsTriats;
     // ArrayList que s'utilitza per borrar les unitats necessaries de l'arraylist anterior
     private ArrayList<BotoSeleccio> botonsTriats2;
+    private ArrayList<LabelSeleccio> cartesEnemics;
+    private ArxiuConfiguracio unitats;
+    private ArxiuConfiguracio enemics;
+    private Sound soClick;
+    private Sound soOver;
+    private Font font;
 
     public MenuSeleccio(GameContainer container, int x, int y) {
         this.container = container;
@@ -55,9 +68,16 @@ public class MenuSeleccio {
         botonsSeleccio2 = new ArrayList<BotoSeleccio>();
         botonsTriats = new ArrayList<BotoSeleccio>();
         botonsTriats2 = new ArrayList<BotoSeleccio>();
+        cartesEnemics = new ArrayList<LabelSeleccio>();
         unitatsAMostrar = ManagerPerfil.getUnitatsDisponibles();
+        unitats = Configuracio.getUnitats();
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
+        font = ManagerRecursos.getFont("dejavuNormalFont");
+        actiu = true;
         crearBotons();
         posicionarBotons();
+        crearCartes();
     }
 
     /**
@@ -78,12 +98,14 @@ public class MenuSeleccio {
         for (BotoSeleccio b : botonsSeleccio) {
             if (b.isOver()) {
                 informacio = b.getUnitat();
+                mostrarInformacio = true;
             } else {
                 comptador++;
             }
         }
         if (comptador == botonsSeleccio.size()) {
             informacio = "";
+            mostrarInformacio = false;
         }
     }
 
@@ -101,8 +123,30 @@ public class MenuSeleccio {
         for (BotoSeleccio b : botonsTriats) {
             b.render(container, g);
         }
-        g.drawString(informacio, 730, 300);
-        g.drawString("Wave: " + ManagerPerfil.getWave(), 730, 220);
+        if (actiu) {
+            g.setFont(font);
+            g.drawString("Wave: " + ManagerPerfil.getWave(), 730, 220);
+        }
+        for (LabelSeleccio ls : cartesEnemics) {
+            ls.render(g);
+        }
+        if (mostrarInformacio && actiu) {
+            g.drawString(informacio, 555, 500);
+            int posicio = 540;
+            String[] infoUnitat = retornaInformacioUnitat();
+            for (String z : infoUnitat) {
+                g.drawString(z, 555, posicio);
+                posicio += 30;
+            }
+        }
+    }
+
+    private String[] retornaInformacioUnitat() {
+        String[] infoUnitat = new String[unitats.getPropietatInt("totalInfo" + informacio)];
+        for (int z = 0; z < infoUnitat.length; z++) {
+            infoUnitat[z] = unitats.getPropietatString("informacio" + informacio + z);
+        }
+        return infoUnitat;
     }
 
     /**
@@ -173,6 +217,22 @@ public class MenuSeleccio {
         }
     }
 
+    private void posicionaCartes() {
+        int columnes = 0;
+        int files = 0;
+        for (LabelSeleccio ls : cartesEnemics) {
+            int posicioBotoX = (columnes * 90) + 550;
+            int posicioBotoY = (files * 110) + 270;
+            ls.setLocation(posicioBotoX, posicioBotoY);
+            if (columnes == 4) {
+                columnes = 0;
+                files++;
+            } else {
+                columnes++;
+            }
+        }
+    }
+
     /**
      * Crea els botons necessaris
      */
@@ -184,8 +244,21 @@ public class MenuSeleccio {
             BotoSeleccio bs = new BotoSeleccio(container, ManagerRecursos.getImage("carta" + text + "Image"),
                     0, 0, text);
             bs.addListener();
+            bs.setMouseDownSound(soClick);
+            bs.setMouseOverSound(soOver);
+            bs.setActiu(true);
             botonsSeleccio.add(bs);
         }
+    }
+
+    private void crearCartes() {
+        String[] enemicsImage = ManagerPerfil.getEnemicsWave().split("-");
+        for (String z : enemicsImage) {
+            LabelSeleccio ls = new LabelSeleccio(ManagerRecursos.getImage("botoCartaImage"),
+                    ManagerRecursos.getImage("carta" + z + "Image"));
+            cartesEnemics.add(ls);
+        }
+        posicionaCartes();
     }
 
     /**
@@ -212,5 +285,27 @@ public class MenuSeleccio {
             return true;
         }
         return false;
+    }
+
+    public void moureBotons(int incrementY) {
+        for (BotoSeleccio bs : botonsSeleccio) {
+            bs.setLocation(bs.getX(), bs.getY() + incrementY);
+        }
+        for (BotoSeleccio bs : botonsTriats) {
+            bs.setLocation(bs.getX(), bs.getY() + incrementY);
+        }
+        for (LabelSeleccio ls : cartesEnemics) {
+            ls.setLocation(ls.getPosX(), ls.getPosY() + incrementY);
+        }
+    }
+
+    public void silenciarBotons() {
+        for (BotoSeleccio bs : botonsSeleccio) {
+            bs.setActiu(false);
+        }
+        for (BotoSeleccio bs : botonsTriats) {
+            bs.setActiu(false);
+        }
+        actiu = false;
     }
 }

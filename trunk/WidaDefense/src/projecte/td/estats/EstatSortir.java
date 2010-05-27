@@ -6,6 +6,8 @@ package projecte.td.estats;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
@@ -27,6 +29,18 @@ public class EstatSortir extends BasicGameState {
     // Botons
     private BotoMenu botoSi;
     private BotoMenu botoNo;
+    private Image imatgeFons;
+    // Imatge del boto normal (Sense mouse over)
+    private Image imatgeBotoXNormal;
+    // Image del boto amb mouse over
+    private Image imatgeBotoXOver;
+    // Imatge del boto normal (Sense mouse over)
+    private Image imatgeBotoVNormal;
+    // Image del boto amb mouse over
+    private Image imatgeBotoVOver;
+    private Image textSortida;
+    private Sound soClick;
+    private Sound soOver;
 
     public int getID() {
         return ID;
@@ -35,6 +49,14 @@ public class EstatSortir extends BasicGameState {
     public void init(GameContainer container, StateBasedGame state) {
         this.container = container;
         this.state = state;
+        imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
+        imatgeBotoXNormal = ManagerRecursos.getImage("botoXImage");
+        imatgeBotoXOver = ManagerRecursos.getImage("botoXOverImage");
+        imatgeBotoVNormal = ManagerRecursos.getImage("botoVImage");
+        imatgeBotoVOver = ManagerRecursos.getImage("botoVOverImage");
+        textSortida = ManagerRecursos.getImage("textSortidaImage");
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
         crearBotons();
         afegirListeners();
     }
@@ -42,11 +64,17 @@ public class EstatSortir extends BasicGameState {
     private void crearBotons() {
         // Crear els botons
         // BotoMenu Si, per quan es vol sortir del joc
-        botoSi = new BotoMenu(container, ManagerRecursos.getImage("botoPerfilImage"), 420, 300);
-        botoSi.setMouseOverImage(ManagerRecursos.getImage("botoPerfilOverImage"));
+        botoSi = new BotoMenu(container, imatgeBotoVNormal, 425, 400);
+        botoSi.setMouseOverImage(imatgeBotoVOver);
+        botoSi.setMouseDownSound(soClick);
+        botoSi.setMouseOverSound(soOver);
+        botoSi.setActiu(true);
         // BotoMenu No, per continuar jugant
-        botoNo = new BotoMenu(container, ManagerRecursos.getImage("botoPerfilImage"), 420, 450);
-        botoNo.setMouseOverImage(ManagerRecursos.getImage("botoPerfilOverImage"));
+        botoNo = new BotoMenu(container, imatgeBotoXNormal, 525, 400);
+        botoNo.setMouseOverImage(imatgeBotoXOver);
+        botoNo.setMouseDownSound(soClick);
+        botoNo.setMouseOverSound(soOver);
+        botoNo.setActiu(true);
     }
 
     private void afegirListeners() {
@@ -74,6 +102,8 @@ public class EstatSortir extends BasicGameState {
     }
 
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
+        imatgeFons.draw(0, 0);
+        textSortida.draw(250, 280);
         botoSi.render(container, g);
         botoNo.render(container, g);
     }

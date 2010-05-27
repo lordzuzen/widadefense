@@ -19,6 +19,8 @@ public class ManagerPerfil {
     private static int enemicsTotals;
     // Unitats disponibles per triar en la wave actual
     private static String unitatsDisponibles;
+    // Enemics que sortiran en la wave
+    private static String enemicsWave;
     // Unitats que ha triat el jugador per jugar la wave
     private static String unitatsTriades;
     private static String enemicsSeguentWave;
@@ -64,6 +66,16 @@ public class ManagerPerfil {
         unitatsDisponibles = dadesWave.getPropietatString("unitatsDisponibles" + wave);
         tempsTotal = dadesWave.getPropietatInt("temps"+wave);
         enemicsTotals = dadesWave.getPropietatInt("nombreEnemics"+wave);
+        enemicsWave = retornaEnemics();
+    }
+
+    private static String retornaEnemics() {
+        String enemics = "";
+        String[] unitatsEnemigues = dadesWave.getPropietatString("enemicsWave"+wave).split("-");
+        for (String z : unitatsEnemigues) {
+            enemics += z.split(":")[0] + "-";
+        }
+        return enemics.substring(0, enemics.length()-1);
     }
 
     /**
@@ -76,6 +88,14 @@ public class ManagerPerfil {
             canviWave = false;
         }
         return unitatsDisponibles;
+    }
+
+    public static String getEnemicsWave() {
+        if (canviWave) {
+            assignarPropietats();
+            canviWave = false;
+        }
+        return enemicsWave;
     }
 
     // Getters i setters

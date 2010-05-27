@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import java.util.Set;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
@@ -55,6 +56,9 @@ public class ManagerRecursos {
             imatges.put(clau, new Image(valor));
         } else if (clau.endsWith("Animation")) {
             animacions.put(clau, convertirImatgeArray(valor));
+        } else if (clau.endsWith("Font")) {
+            fonts.put(clau, new AngelCodeFont(valor + ".fnt", valor + ".png",
+					true));
         }
     }
 
@@ -73,5 +77,17 @@ public class ManagerRecursos {
 
     public static Image[] getImageArray(String name) {
         return animacions.get(name);
+    }
+
+    public static Font getFont(String name) {
+        return fonts.get(name);
+    }
+
+    public static Sound getSound(String name) {
+        return sons.get(name);
+    }
+
+    public static Music getMusic(String name) {
+        return musica.get(name);
     }
 }

@@ -79,14 +79,14 @@ public class BotoIngame extends AbstractComponent {
     public void render(GUIContext gc, Graphics g) {
         if (disponible && seleccionat) {
             g.drawImage(imatgeSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
         } else if (disponible) {
             g.drawImage(imatgeNoSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
         } else {
             g.drawImage(imatgeNoSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX(), area.getY());
-            g.drawImage(imatgeTapada, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
+            g.drawImage(imatgeTapada, area.getX() + 36, area.getY() + 53);
         }
     }
 
