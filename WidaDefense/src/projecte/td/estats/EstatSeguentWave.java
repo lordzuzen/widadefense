@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
@@ -30,6 +31,8 @@ public class EstatSeguentWave extends BasicGameState {
     private StateBasedGame state;
     // Fons de pantalla
     private Image imatgeFons;
+    private int posXFons;
+    private int posYFons;
     // Image del boto X que s'utilitza per començar a jugar
     private Image imatgeBotoX;
     // Image del boto V que s'utilitza per començar a jugar.
@@ -42,6 +45,9 @@ public class EstatSeguentWave extends BasicGameState {
     private BotoMenu botoTornar;
     // Indica si s'ha apretat algun boto
     private boolean botoApretat;
+    private int comptador;
+    private Sound soClick;
+    private Sound soOver;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode
@@ -63,6 +69,8 @@ public class EstatSeguentWave extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSeguentWaveImage");
         imatgeBotoX = ManagerRecursos.getImage("botoXImage");
         imatgeBotoV = ManagerRecursos.getImage("botoVImage");
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
     }
 
     /**
@@ -84,8 +92,12 @@ public class EstatSeguentWave extends BasicGameState {
     @Override
     public void leave(GameContainer gc, StateBasedGame state) {
         ms = null;
-        botoContinuar = null;
         botoApretat = false;
+        comptador = 0;
+        posXFons = 0;
+        posYFons = 0;
+        botoContinuar.setLocation(660, 630);
+        botoTornar.setLocation(800, 630);
     }
 
     /**
@@ -102,6 +114,9 @@ public class EstatSeguentWave extends BasicGameState {
                 }
             }
         });
+        botoContinuar.setMouseDownSound(soClick);
+        botoContinuar.setMouseOverSound(soOver);
+        botoContinuar.setActiu(true);
         botoTornar = new BotoMenu(container, imatgeBotoX, 800, 630);
         botoTornar.addListener(new ComponentListener() {
 
@@ -109,6 +124,9 @@ public class EstatSeguentWave extends BasicGameState {
                 state.enterState(EstatMenuPrincipal.ID, new FadeOutTransition(), new FadeInTransition());
             }
         });
+        botoTornar.setMouseDownSound(soClick);
+        botoTornar.setMouseOverSound(soOver);
+        botoTornar.setActiu(true);
     }
 
     /**
@@ -122,8 +140,20 @@ public class EstatSeguentWave extends BasicGameState {
     public void update(GameContainer game, StateBasedGame state, int delta) {
         ms.update(game, state, delta);
         if (botoApretat) {
-            ManagerPerfil.setUnitatsTriades(ms.agafarUnitats());
-            state.enterState(5);
+            if (botoContinuar.isActiu() || botoTornar.isActiu()) {
+                botoContinuar.setActiu(false);
+                botoTornar.setActiu(false);
+                ms.silenciarBotons();
+            }
+            comptador += 1;
+            posYFons += 4;
+            botoContinuar.setLocation(660, botoContinuar.getY() + 4);
+            botoTornar.setLocation(800, botoTornar.getY() + 4);
+            ms.moureBotons(4);
+            if (comptador > 150) {
+                ManagerPerfil.setUnitatsTriades(ms.agafarUnitats());
+                state.enterState(5);
+            }
         }
     }
 
@@ -135,7 +165,7 @@ public class EstatSeguentWave extends BasicGameState {
      * @throws SlickException
      */
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
-        imatgeFons.draw(0, 0);
+        imatgeFons.draw(0, posYFons);
         botoContinuar.render(container, g);
         botoTornar.render(container, g);
         ms.render(game, state, g);

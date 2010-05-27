@@ -16,7 +16,7 @@ public class ManagerDiners {
     private String tipusAuraEspera;
 
     public ManagerDiners() {
-        total = 10000;
+        total = 600;
     }
 
     public void afegirDiners(int quantitat) {

@@ -115,6 +115,7 @@ public class EstatGuanya extends BasicGameState {
         afegirListeners();
         informacioNovesUnitats = waves.getPropietatString("unitatNova" + ManagerPerfil.getWave());
         imatgePersonatge = ManagerRecursos.getImage("carta" + informacioNovesUnitats + "Image");
+        unitatNova = false;
         if (!informacioNovesUnitats.equals("null")) {
             unitatNova = true;
         }

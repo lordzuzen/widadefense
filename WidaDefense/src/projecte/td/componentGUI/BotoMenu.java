@@ -13,31 +13,28 @@ import org.newdawn.slick.gui.GUIContext;
 
 public class BotoMenu extends AbstractComponent {
 
-    protected  static final int NORMAL = 1;
+    protected static final int NORMAL = 1;
     protected static final int MOUSE_CLICK = 2;
     protected static final int MOUSE_OVER = 3;
-
     protected Image imatgeNormal;
     protected Image imatgeMouseOver;
     protected Image mouseDownImage;
-
+    protected Image imageText;
     protected Color colorNormal = Color.white;
     protected Color colorMouserOver = Color.white;
     protected Color colorMouseClick = Color.white;
-
     protected Sound soOver;
     protected Sound soClick;
     protected Shape area;
-
     protected Image imatgeActual;
     protected Color colorActual;
-
     protected boolean over;
     protected boolean click;
     protected boolean noClick;
-
+    protected boolean reproduit;
+    protected boolean actiu;
     protected int state = NORMAL;
-    
+
     public BotoMenu(GUIContext container, Image image, int x, int y,
             ComponentListener listener) {
         this(container, image, x, y, image.getWidth(), image.getHeight());
@@ -148,6 +145,16 @@ public class BotoMenu extends AbstractComponent {
     }
 
     /**
+     * Set the image to be used when the mouse is over the area
+     *
+     * @param image
+     *            The image to be used when the mouse is over the area
+     */
+    public void setImageText(Image image) {
+        imageText = image;
+    }
+
+    /**
      * Set the image to be used when the mouse is down the area
      *
      * @param image
@@ -172,6 +179,12 @@ public class BotoMenu extends AbstractComponent {
             g.setColor(colorActual);
             g.fill(area);
         }
+        if (imageText != null) {
+            int xp = (int) (area.getX() + ((getWidth() - imageText.getWidth()) / 2));
+            int yp = (int) (area.getY() + ((getHeight() - imageText.getHeight()) / 2));
+
+            imageText.draw(xp, yp, colorActual);
+        }
         updateImage();
     }
 
@@ -184,10 +197,11 @@ public class BotoMenu extends AbstractComponent {
             colorActual = colorNormal;
             state = NORMAL;
             noClick = false;
+            reproduit = false;
         } else {
             if (click) {
                 if ((state != MOUSE_CLICK) && (noClick)) {
-                    if (soClick != null) {
+                    if (soClick != null && actiu) {
                         soClick.play();
                     }
                     imatgeActual = mouseDownImage;
@@ -200,11 +214,16 @@ public class BotoMenu extends AbstractComponent {
                 noClick = true;
                 if (state != MOUSE_OVER) {
                     if (soOver != null) {
-                        soOver.play();
+                        if (!reproduit && actiu) {
+                            soOver.play();
+                            reproduit = true;
+                        }
                     }
-                    imatgeActual = imatgeMouseOver;
-                    colorActual = colorMouserOver;
-                    state = MOUSE_OVER;
+                    if (actiu) {
+                        imatgeActual = imatgeMouseOver;
+                        colorActual = colorMouserOver;
+                        state = MOUSE_OVER;
+                    }
                 }
             }
         }
@@ -280,5 +299,13 @@ public class BotoMenu extends AbstractComponent {
 
     public Image getImatgeActual() {
         return imatgeActual;
+    }
+
+    public void setActiu(boolean actiu) {
+        this.actiu = actiu;
+    }
+
+    public boolean isActiu() {
+        return this.actiu;
     }
 }

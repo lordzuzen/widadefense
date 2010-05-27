@@ -18,10 +18,8 @@ import org.newdawn.slick.gui.GUIContext;
 public class BotoSeleccio extends BotoMenu {
 
     private String unitat;
-
     private static Image imatgeCarta;
     private static Image imatgeCartaOver;
-
     private boolean botoTriat;
     private boolean notaCanvi;
     private boolean mouseOver;
@@ -49,7 +47,7 @@ public class BotoSeleccio extends BotoMenu {
     @Override
     public void render(GUIContext container, Graphics g) {
         if (imatgeActual != null) {
-            if (!over) {
+            if (!over || !actiu) {
                 g.drawImage(imatgeCarta, area.getX(), area.getY());
             } else {
                 g.drawImage(imatgeCartaOver, area.getX(), area.getY());
@@ -71,10 +69,11 @@ public class BotoSeleccio extends BotoMenu {
             colorActual = colorNormal;
             state = NORMAL;
             noClick = false;
+            reproduit = false;
         } else {
             if (click) {
                 if ((state != MOUSE_CLICK) && (noClick)) {
-                    if (soClick != null) {
+                    if (soClick != null && actiu) {
                         soClick.play();
                     }
                     imatgeActual = mouseDownImage;
@@ -87,9 +86,14 @@ public class BotoSeleccio extends BotoMenu {
                 noClick = true;
                 if (state != MOUSE_OVER) {
                     if (soOver != null) {
-                        soOver.play();
+                        if (!reproduit && actiu) {
+                            soOver.play();
+                            reproduit = true;
+                        }
                     }
-                    imatgeActual = imatgeMouseOver;
+                    if (actiu) {
+                        imatgeActual = imatgeMouseOver;
+                    }
                     colorActual = colorMouserOver;
                     state = MOUSE_OVER;
                 }
@@ -100,7 +104,7 @@ public class BotoSeleccio extends BotoMenu {
         state = NORMAL;
     }
 
-     /**
+    /**
      * @see org.newdawn.slick.util.InputAdapter#mouseMoved(int, int, int, int)
      */
     @Override
@@ -155,5 +159,4 @@ public class BotoSeleccio extends BotoMenu {
     public static void setImatgeCartaOver(Image imatgeCartaOver) {
         BotoSeleccio.imatgeCartaOver = imatgeCartaOver;
     }
-
 }

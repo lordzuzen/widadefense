@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
@@ -50,6 +52,12 @@ public class EstatMenuPrincipal extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    private Image imatgeTextJugar;
+    private Image imatgeTextPerfil;
+    private Image imatgeTextSortir;
+    private Sound soClick;
+    private Sound soOver;
+    private Music music;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode
@@ -68,16 +76,21 @@ public class EstatMenuPrincipal extends BasicGameState {
     public void init(GameContainer container, StateBasedGame state) {
         this.container = container;
         this.state = state;
-
+        imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeTextJugar = ManagerRecursos.getImage("textJugarImage");
+        imatgeTextPerfil = ManagerRecursos.getImage("textPerfilImage");
+        imatgeTextSortir = ManagerRecursos.getImage("textSortirImage");
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
+        music = ManagerRecursos.getMusic("menuMusic");
     }
 
     /**
      * Es reinicia el valor de les variables usades en aquest estat
      */
     private void reiniciarVariables() {
-        imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
         botons = new ArrayList<BotoMenu>();
         canviAEstat = 0;
     }
@@ -90,6 +103,9 @@ public class EstatMenuPrincipal extends BasicGameState {
         // BotoMenu nova partida
         botoNovaPartida = new BotoMenu(container, imatgeBotoNormal, 150, 430);
         botoNovaPartida.setMouseOverImage(imatgeBotoOver);
+        botoNovaPartida.setImageText(imatgeTextJugar);
+        botoNovaPartida.setMouseDownSound(soClick);
+        botoNovaPartida.setMouseOverSound(soOver);
         botons.add(botoNovaPartida);
         // BotoMenu menu opcions
         botoOpcions = new BotoMenu(container, imatgeBotoNormal, 600, 430);
@@ -98,10 +114,16 @@ public class EstatMenuPrincipal extends BasicGameState {
         // BotoMenu canvi de perfil
         botoCanviarPerfil = new BotoMenu(container, imatgeBotoNormal, 150, 550);
         botoCanviarPerfil.setMouseOverImage(imatgeBotoOver);
+        botoCanviarPerfil.setImageText(imatgeTextPerfil);
+        botoCanviarPerfil.setMouseDownSound(soClick);
+        botoCanviarPerfil.setMouseOverSound(soOver);
         botons.add(botoCanviarPerfil);
         // BotoMenu Sortir del joc
         botoSortir = new BotoMenu(container, imatgeBotoNormal, 600, 550);
         botoSortir.setMouseOverImage(imatgeBotoOver);
+        botoSortir.setImageText(imatgeTextSortir);
+        botoSortir.setMouseDownSound(soClick);
+        botoSortir.setMouseOverSound(soOver);
         botons.add(botoSortir);
     }
 
@@ -112,8 +134,10 @@ public class EstatMenuPrincipal extends BasicGameState {
         botoNovaPartida.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                alphaBotonsOut = true;
-                canviAEstat = EstatSeguentWave.ID;
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    alphaBotonsOut = true;
+                    canviAEstat = EstatSeguentWave.ID;
+                }
             }
         });
         botoOpcions.addListener(new ComponentListener() {
@@ -125,14 +149,18 @@ public class EstatMenuPrincipal extends BasicGameState {
         botoCanviarPerfil.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                alphaBotonsOut = true;
-                canviAEstat = EstatPerfil.ID;
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    alphaBotonsOut = true;
+                    canviAEstat = EstatPerfil.ID;
+                }
             }
         });
         botoSortir.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatSortir.ID);
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    state.enterState(EstatSortir.ID);
+                }
             }
         });
     }
@@ -152,10 +180,17 @@ public class EstatMenuPrincipal extends BasicGameState {
                 transparencia += 0.05;
             }
             if (transparencia >= 1) {
+                music.play();
+                botoNovaPartida.setActiu(true);
+                botoCanviarPerfil.setActiu(true);
+                botoSortir.setActiu(true);
                 alphaBotonsIn = false;
                 comptador = 0;
             }
         } else if (alphaBotonsOut) {
+            botoNovaPartida.setActiu(false);
+            botoCanviarPerfil.setActiu(false);
+            botoSortir.setActiu(false);
             comptador += 50;
             if (comptador % 100 == 0) {
                 transparencia -= 0.05;
@@ -176,6 +211,9 @@ public class EstatMenuPrincipal extends BasicGameState {
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
         imatgeBotoNormal.setAlpha(transparencia);
         imatgeBotoOver.setAlpha(transparencia);
+        imatgeTextJugar.setAlpha(transparencia);
+        imatgeTextPerfil.setAlpha(transparencia);
+        imatgeTextSortir.setAlpha(transparencia);
         imatgeFons.draw(0, 0);
         botoNovaPartida.render(container, g);
         botoOpcions.render(container, g);
@@ -194,6 +232,7 @@ public class EstatMenuPrincipal extends BasicGameState {
         crearBotonsMenuNormal();
         afegirListeners();
         alphaBotonsIn = true;
+
     }
 
     /**
@@ -206,6 +245,9 @@ public class EstatMenuPrincipal extends BasicGameState {
         alphaBotonsOut = false;
         imatgeBotoNormal.setAlpha(1f);
         imatgeBotoOver.setAlpha(1f);
+        imatgeTextJugar.setAlpha(1f);
+        imatgeTextPerfil.setAlpha(1f);
+        imatgeTextSortir.setAlpha(1f);
         comptador = 0;
     }
 }

@@ -21,6 +21,7 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.managers.ManagerDiners;
 import projecte.td.domini.UnitatAbstract;
 import projecte.td.managers.ManagerContext;
+import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 
 /**
@@ -135,6 +136,14 @@ public class EstatInGame extends BasicGameState {
         } else {
             p.setDibuixarQuadrat(false);
         }
+        if (ManagerEnemics.isEnEspera()) {
+            UnitatAbstract ua = ManagerEnemics.getUnitat();
+            int random = ManagerEnemics.triarCarril();
+            p.posicionaUnitatEnemiga(1000, random, ua);
+        }
+        /**if (ManagerEnemics.fidelaWave()) {
+            state.enterState(EstatGuanya.ID);
+        }**/
     }
 
     /**
@@ -162,5 +171,6 @@ public class EstatInGame extends BasicGameState {
         md = new ManagerDiners();
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
         ManagerContext.setDiners(md);
+        ManagerEnemics.crearTimer(10000);
     }
 }

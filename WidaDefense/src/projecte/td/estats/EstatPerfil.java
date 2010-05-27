@@ -1,9 +1,11 @@
 package projecte.td.estats;
 
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
@@ -57,7 +59,22 @@ public class EstatPerfil extends BasicGameState {
     private Image imatgeBotoOver;
     // Image del boto per esborra perfils
     private Image imatgeBotoBorrar;
+    private Image imatgeBotoBorrarOver;
+    // Image del text perfil 1
+    private Image imatgeTextPerfil1;
+    // Image del text perfil 2
+    private Image imatgeTextPerfil2;
+    // Image del text perfil 3
+    private Image imatgeTextPerfil3;
+    // ArxiuConfiguracio per agafar informació sobre els perfils
     private ArxiuConfiguracio perfils;
+    // Font que s'usa per renderitzar el text
+    private Font font;
+    // String que s'utilitza per veure si s'ha reiniciat un perfil
+    private String reiniciarPerfil;
+    private int comptadorReiniciarPerfil;
+    private Sound soClick;
+    private Sound soOver;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode
@@ -77,9 +94,16 @@ public class EstatPerfil extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
         imatgeBotoBorrar = ManagerRecursos.getImage("botoXImage");
+        imatgeBotoBorrarOver = ManagerRecursos.getImage("botoXOverImage");
+        imatgeTextPerfil1 = ManagerRecursos.getImage("textPerfil1Image");
+        imatgeTextPerfil2 = ManagerRecursos.getImage("textPerfil2Image");
+        imatgeTextPerfil3 = ManagerRecursos.getImage("textPerfil3Image");
+        font = ManagerRecursos.getFont("dejavuNormalFont");
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
     }
 
     /**
@@ -97,16 +121,35 @@ public class EstatPerfil extends BasicGameState {
                 transparencia += 0.05;
             }
             if (transparencia >= 1) {
+                botoPerfil1.setActiu(true);
+                botoPerfil2.setActiu(true);
+                botoPerfil3.setActiu(true);
+                botoBorrar1.setActiu(true);
+                botoBorrar2.setActiu(true);
+                botoBorrar3.setActiu(true);
                 alphaBotonsIn = false;
                 comptador = 0;
             }
         } else if (alphaBotonsOut) {
+            botoPerfil1.setActiu(false);
+            botoPerfil2.setActiu(false);
+            botoPerfil3.setActiu(false);
+            botoBorrar1.setActiu(false);
+            botoBorrar2.setActiu(false);
+            botoBorrar3.setActiu(false);
             comptador += 50;
             if (comptador % 100 == 0) {
                 transparencia -= 0.05;
             }
             if (transparencia <= 0) {
                 state.enterState(EstatMenuPrincipal.ID);
+            }
+        }
+        if (!reiniciarPerfil.equals("null")) {
+            comptadorReiniciarPerfil++;
+            if (comptadorReiniciarPerfil == 50) {
+                reiniciarPerfil = "null";
+                comptadorReiniciarPerfil = 0;
             }
         }
     }
@@ -120,17 +163,23 @@ public class EstatPerfil extends BasicGameState {
      */
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
         imatgeFons.draw(0, 0);
-        g.drawString("PERFILS", container.getWidth() / 2 - 50, container.getHeight() / 3 - 100);
         if (carregat) {
             imatgeBotoBorrar.setAlpha(transparencia);
             imatgeBotoNormal.setAlpha(transparencia);
             imatgeBotoOver.setAlpha(transparencia);
+            imatgeTextPerfil1.setAlpha(transparencia);
+            imatgeTextPerfil2.setAlpha(transparencia);
+            imatgeTextPerfil3.setAlpha(transparencia);
             botoPerfil1.render(game, g);
             botoPerfil2.render(game, g);
             botoPerfil3.render(game, g);
             botoBorrar1.render(game, g);
             botoBorrar2.render(game, g);
             botoBorrar3.render(game, g);
+            if (!reiniciarPerfil.equals("null")) {
+                g.setFont(font);
+                g.drawString("S'ha reiniciat el " + reiniciarPerfil, 370, 690);
+            }
         }
     }
 
@@ -144,20 +193,38 @@ public class EstatPerfil extends BasicGameState {
         botoPerfil1 = new BotoMenu(container, imatgeBotoNormal, 420, 300);
         botoPerfil1.setLocation(container.getWidth() / 2 - botoPerfil1.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 380);
         botoPerfil1.setMouseOverImage(imatgeBotoOver);
+        botoPerfil1.setImageText(imatgeTextPerfil1);
+        botoPerfil1.setMouseDownSound(soClick);
+        botoPerfil1.setMouseOverSound(soOver);
         botoBorrar1 = new BotoMenu(container, imatgeBotoBorrar, 420, 300);
         botoBorrar1.setLocation(container.getWidth() / 2 - botoBorrar1.getWidth() / 2 + 145, 379);
+        botoBorrar1.setMouseOverImage(imatgeBotoBorrarOver);
+        botoBorrar1.setMouseDownSound(soClick);
+        botoBorrar1.setMouseOverSound(soOver);
         // Perfil 2
         botoPerfil2 = new BotoMenu(container, imatgeBotoNormal, 420, 450);
         botoPerfil2.setLocation(container.getWidth() / 2 - botoPerfil2.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 480);
         botoPerfil2.setMouseOverImage(imatgeBotoOver);
+        botoPerfil2.setImageText(imatgeTextPerfil2);
+        botoPerfil2.setMouseDownSound(soClick);
+        botoPerfil2.setMouseOverSound(soOver);
         botoBorrar2 = new BotoMenu(container, imatgeBotoBorrar, 420, 300);
         botoBorrar2.setLocation(container.getWidth() / 2 - botoBorrar2.getWidth() / 2 + 145, 479);
+        botoBorrar2.setMouseOverImage(imatgeBotoBorrarOver);
+        botoBorrar2.setMouseDownSound(soClick);
+        botoBorrar2.setMouseOverSound(soOver);
         // Perfil 3
         botoPerfil3 = new BotoMenu(container, imatgeBotoNormal, 420, 600);
         botoPerfil3.setLocation(container.getWidth() / 2 - botoPerfil3.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 580);
         botoPerfil3.setMouseOverImage(imatgeBotoOver);
+        botoPerfil3.setImageText(imatgeTextPerfil3);
+        botoPerfil3.setMouseDownSound(soClick);
+        botoPerfil3.setMouseOverSound(soOver);
         botoBorrar3 = new BotoMenu(container, imatgeBotoBorrar, 420, 300);
         botoBorrar3.setLocation(container.getWidth() / 2 - botoBorrar3.getWidth() / 2 + 145, 579);
+        botoBorrar3.setMouseOverImage(imatgeBotoBorrarOver);
+        botoBorrar3.setMouseDownSound(soClick);
+        botoBorrar3.setMouseOverSound(soOver);
     }
 
     /**
@@ -169,17 +236,22 @@ public class EstatPerfil extends BasicGameState {
         botoPerfil1.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                ManagerPerfil.init(1);
-                alphaBotonsOut = true;
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    ManagerPerfil.init(1);
+                    alphaBotonsOut = true;
+                }
             }
         });
         // Listener BotoMenu Borrar 1
         botoBorrar1.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                perfils = Configuracio.getPerfil1();
-                perfils.setPropietatInt("seguentWave", 1);
-                perfils.guardar();
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    perfils = Configuracio.getPerfil1();
+                    perfils.setPropietatInt("seguentWave", 1);
+                    perfils.guardar();
+                    reiniciarPerfil = "Perfil 1";
+                }
             }
         });
 
@@ -187,17 +259,22 @@ public class EstatPerfil extends BasicGameState {
         botoPerfil2.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                ManagerPerfil.init(2);
-                alphaBotonsOut = true;
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    ManagerPerfil.init(2);
+                    alphaBotonsOut = true;
+                }
             }
         });
-        // Listener BotoMenu Borrar 1
+        // Listener BotoMenu Borrar 2
         botoBorrar2.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                perfils = Configuracio.getPerfil2();
-                perfils.setPropietatInt("seguentWave", 1);
-                perfils.guardar();
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    perfils = Configuracio.getPerfil2();
+                    perfils.setPropietatInt("seguentWave", 1);
+                    perfils.guardar();
+                    reiniciarPerfil = "Perfil 2";
+                }
             }
         });
 
@@ -205,17 +282,22 @@ public class EstatPerfil extends BasicGameState {
         botoPerfil3.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                ManagerPerfil.init(3);
-                alphaBotonsOut = true;
+                {
+                    ManagerPerfil.init(3);
+                    alphaBotonsOut = true;
+                }
             }
         });
-        // Listener BotoMenu Borrar 1
+        // Listener BotoMenu Borrar 3
         botoBorrar3.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                perfils = Configuracio.getPerfil3();
-                perfils.setPropietatInt("seguentWave", 1);
-                perfils.guardar();
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    perfils = Configuracio.getPerfil3();
+                    perfils.setPropietatInt("seguentWave", 1);
+                    perfils.guardar();
+                    reiniciarPerfil = "Perfil 3";
+                }
             }
         });
     }
@@ -231,6 +313,8 @@ public class EstatPerfil extends BasicGameState {
         carregat = true;
         afegirListeners();
         alphaBotonsIn = true;
+        reiniciarPerfil = "null";
+        comptadorReiniciarPerfil = 0;
     }
 
     /**
@@ -246,5 +330,8 @@ public class EstatPerfil extends BasicGameState {
         imatgeBotoBorrar.setAlpha(1f);
         imatgeBotoNormal.setAlpha(1f);
         imatgeBotoOver.setAlpha(1f);
+        imatgeTextPerfil1.setAlpha(1f);
+        imatgeTextPerfil2.setAlpha(1f);
+        imatgeTextPerfil3.setAlpha(1f);
     }
 }
