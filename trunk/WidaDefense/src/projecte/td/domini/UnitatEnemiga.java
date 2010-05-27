@@ -23,6 +23,10 @@ public class UnitatEnemiga extends UnitatAbstract{
         atck=new Animation(frames2, 100);
         this.velocitat=velocitat;
     }
+    public UnitatEnemiga(int vida, Image image, Image[] frames,Image[] framesMort,double velocitat) {
+        super(vida, image, frames,framesMort);
+        this.velocitat=velocitat;
+    }
     @Override
     public void setLocation(float posX, float posY){
         super.setLocation(posX, posY);
