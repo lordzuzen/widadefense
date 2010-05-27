@@ -22,8 +22,8 @@ public class Mina extends UnitatAbstract {
     private Timer timer;
     private boolean activa;
 
-    public Mina(int vida, Image image, Image[] frames, Projectil projectil) {
-        super(vida, image, frames);
+    public Mina(int vida, Image[] frames,int milisegons, Projectil projectil) {
+        super(vida, frames,milisegons);
         this.projectil = projectil;
         timer = new Timer(5000, new ActionListener() {
 

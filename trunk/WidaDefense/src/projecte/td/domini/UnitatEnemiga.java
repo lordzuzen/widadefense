@@ -18,13 +18,13 @@ public class UnitatEnemiga extends UnitatAbstract{
     protected double velocitat;
 
 
-    public UnitatEnemiga(int vida, Image image, Image[] frames,Image[] framesMort, Image[] frames2,double velocitat) {
-        super(vida, image, frames,framesMort);
-        atck=new Animation(frames2, 100);
+    public UnitatEnemiga(int vida, Image[] frames,Image[] framesMort,int milisegons, Image[] frames2,double velocitat,int milisegonsAtck) {
+        super(vida, frames,framesMort,milisegons);
+        atck=new Animation(frames2, milisegonsAtck);
         this.velocitat=velocitat;
     }
-    public UnitatEnemiga(int vida, Image image, Image[] frames,Image[] framesMort,double velocitat) {
-        super(vida, image, frames,framesMort);
+    public UnitatEnemiga(int vida, Image[] frames,Image[] framesMort,int milisegons,double velocitat) {
+        super(vida, frames,framesMort,milisegons);
         this.velocitat=velocitat;
     }
     @Override

@@ -15,8 +15,8 @@ public class Bomba extends UnitatAbstract {
     private Projectil projectil;
     private boolean dispara;
 
-    public Bomba(int vida, Image image, Image[] frames, Projectil projectil) {
-        super(vida, image, frames);
+    public Bomba(int vida, Image[] frames,int milisegons, Projectil projectil) {
+        super(vida, frames,milisegons);
         animation.setLooping(false);
         this.projectil = projectil;
     }

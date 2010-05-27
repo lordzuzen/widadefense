@@ -39,18 +39,18 @@ public class UnitatAbstract extends Entitat implements IAuraVida {
      * @param image
      * @param frames
      */
-    public UnitatAbstract(int vida, Image image, Image[] frames, Image[] framesMort) {
+    public UnitatAbstract(int vida, Image[] frames, Image[] framesMort,int milisegons) {
         this.vida = vida;
         this.vidaTotal = vida;
-        this.animation = new Animation(frames, 60);
-        this.animation_mort = new Animation(framesMort, 90);
+        this.animation = new Animation(frames, milisegons);
+        this.animation_mort = new Animation(framesMort, 30);
 
     }
 
-    public UnitatAbstract(int vida, Image image, Image[] frames) {
+    public UnitatAbstract(int vida, Image[] frames,int milisegons) {
         this.vida = vida;
         this.vidaTotal = vida;
-        this.animation = new Animation(frames, 60);
+        this.animation = new Animation(frames, milisegons);
 
     }
 

@@ -26,8 +26,8 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     private static ManagerDiners diners;
     private String tipus;
 
-    public Miner(int vida, int cadencia, int capacitat, Image image, Image[] frames,Image[] framesMort, String tipus) {
-        super(vida, image, frames,framesMort);
+    public Miner(int vida, int cadencia, int capacitat, Image[] frames,Image[] framesMort,int milisegons, String tipus) {
+        super(vida, frames,framesMort,milisegons);
         this.cadencia = cadencia;
         this.capacitat = capacitat;
         this.tipus = tipus;

@@ -18,8 +18,8 @@ public class BombaAerea extends UnitatAbstract {
     private Projectil projectil;
     private boolean dispara;
 
-    public BombaAerea(int vida, Image image, Image[] frames, Projectil projectil) {
-        super(vida, image, frames);
+    public BombaAerea(int vida, Image[] frames,int milisegons, Projectil projectil) {
+        super(vida, frames,milisegons);
         this.projectil = projectil;
     }
 

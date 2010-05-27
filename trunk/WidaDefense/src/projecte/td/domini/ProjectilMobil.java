@@ -20,7 +20,9 @@ public class ProjectilMobil extends Projectil {
     public ProjectilMobil(double dany, Image image) {
         super(dany);
         this.image = image;
-        //this.shape = 
+    }
+    public ProjectilMobil(double dany) {
+        super(dany);
     }
     @Override
     public void setLocation(float posX,float posY){

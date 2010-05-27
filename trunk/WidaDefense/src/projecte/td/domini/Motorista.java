@@ -17,8 +17,8 @@ public class Motorista extends UnitatAbstract {
     private Projectil projectil;
     private boolean dispara;
 
-    public Motorista(int vida, Image image, Image[] frames, Projectil projectil) {
-        super(vida, image, frames);
+    public Motorista(int vida, Image[] frames,int milisegons, Projectil projectil) {
+        super(vida, frames,milisegons);
         this.projectil = projectil;
     }
 

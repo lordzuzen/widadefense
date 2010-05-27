@@ -19,16 +19,19 @@ import projecte.td.managers.ManagerRecursos;
 public class ProjectilAnimat extends ProjectilMobil {
 
     private Animation animation;
+    private int milisegons;
     
-    public ProjectilAnimat(double dany, Image image, Image[] frames) {
-        super(dany, image);
-        this.animation = new Animation(frames, 20);
+    public ProjectilAnimat(double dany, Image[] frames,int milisegons) {
+        super(dany);
+        this.milisegons=milisegons;
+        this.animation = new Animation(frames, milisegons);
     }
 
     @Override
     public void setLocation(float posX,float posY){
-        super.setLocation(posX, posY);
-        super.shape=new Rectangle(posX, posY, image.getWidth(), image.getHeight());
+        super.posX=posX;
+        super.posY=posY;
+        super.shape=new Rectangle(posX, posY, animation.getWidth(), animation.getHeight());
     }
 
     @Override
@@ -48,7 +51,7 @@ public class ProjectilAnimat extends ProjectilMobil {
 
     @Override
     public Object clone() {
-        return new ProjectilAnimat(dany, image, ManagerRecursos.getImageArray("motoristaAnimation"));
+        return new ProjectilAnimat(dany, ManagerRecursos.getImageArray("motoristaAnimation"),milisegons);
     }
 
     @Override
