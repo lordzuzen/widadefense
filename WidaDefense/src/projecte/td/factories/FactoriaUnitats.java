@@ -1,6 +1,5 @@
 package projecte.td.factories;
 
-import java.util.HashMap;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.domini.*;
 import projecte.td.utilitats.*;
@@ -130,6 +129,9 @@ public class FactoriaUnitats {
             dolent = new UnitatEnemigaAtkNormal(100, ManagerRecursos.getImage("pistolerImage"),
                     ManagerRecursos.getImageArray("cucCaminaAnimation"),ManagerRecursos.getImageArray("sangDretaAnimation"),
                     ManagerRecursos.getImageArray("cucAtacaAnimation"), 0.020, 1);
+        }
+        else if (tipus.equals("Insecte")) {
+            dolent = new UnitatEnemigaVola(100, ManagerRecursos.getImage("pistolerImage"), ManagerRecursos.getImageArray("insecteAnimation"),ManagerRecursos.getImageArray("sangDretaAnimation"), 0.050,0.010);
         }
         return dolent;
     }
