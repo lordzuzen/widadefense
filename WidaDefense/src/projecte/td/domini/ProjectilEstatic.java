@@ -5,7 +5,6 @@
 
 package projecte.td.domini;
 
-import javax.swing.Timer;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,12 +19,14 @@ public class ProjectilEstatic extends Projectil {
 
     Animation animation;
     Image[] frames;
+    int milisegons;
 
-    public ProjectilEstatic(double dany, Image[] frames) {
+    public ProjectilEstatic(double dany, Image[] frames, int milisegons) {
         super(dany);
         this.frames = frames;
-        this.animation = new Animation(frames, 100);
+        this.animation = new Animation(frames, milisegons);
         this.animation.setLooping(false);
+        this.milisegons=milisegons;
         //this.shape = new Rectangle(posX, posY, frames[0].getWidth(), frames[0].getHeight());
     }
     @Override
@@ -41,7 +42,7 @@ public class ProjectilEstatic extends Projectil {
     }
 
     public Object clone() {
-        return new ProjectilEstatic(dany, frames);
+        return new ProjectilEstatic(dany, frames,milisegons);
     }
 
     public Projectil cloneProjectil(){

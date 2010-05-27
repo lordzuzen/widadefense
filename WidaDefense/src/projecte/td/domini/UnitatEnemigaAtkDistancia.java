@@ -21,8 +21,8 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
     protected float posXProj;
     protected float posYProj;
 
-    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image image, Image[] frames,Image[] framesMort, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj) {
-        super(vida, image, frames,framesMort, frames2, velocitat);
+    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image[] frames,Image[] framesMort,int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat,int milisegonsAtck, float posXProj, float posYProj) {
+        super(vida, frames,framesMort,milisegons, frames2, velocitat, milisegonsAtck);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj = posXProj;

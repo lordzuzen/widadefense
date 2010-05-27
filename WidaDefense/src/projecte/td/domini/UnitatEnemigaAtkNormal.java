@@ -17,13 +17,13 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga{
 
     double dany;
 
-    public UnitatEnemigaAtkNormal(int vida, Image image, Image[] frames,Image[] framesMort, Image[] frames2, double velocitat,double dany) {
-        super(vida, image, frames,framesMort, frames2,velocitat);
+    public UnitatEnemigaAtkNormal(int vida, Image[] frames,Image[] framesMort,int milisegons, Image[] frames2, double velocitat,int milisegonsAtck,double dany) {
+        super(vida, frames,framesMort,milisegons, frames2,velocitat,milisegonsAtck);
         this.dany=dany;
     }
 
-    public UnitatEnemigaAtkNormal(int vida, Image image, Image[] frames, Image[] framesMort, double velocitat,double dany) {
-        super(vida, image, frames, framesMort, velocitat);
+    public UnitatEnemigaAtkNormal(int vida, Image[] frames, Image[] framesMort,int milisegons, double velocitat,double dany) {
+        super(vida, frames, framesMort,milisegons, velocitat);
         this.dany=dany;
     }
     

@@ -7,10 +7,7 @@ package projecte.td.domini;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import projecte.td.managers.ManagerRecursos;
 
 /**
  *
@@ -30,9 +27,8 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
     private float posXProj;
     private float posYProj;
 
-    public UnitatDispara(int vida, int cadencia, Image image
-            , Image[] frames,Image[] framesMort, Projectil projectil,float posXProj,float posYProj) {
-        super(vida, image, frames,framesMort);
+    public UnitatDispara(int vida, int cadencia, Image[] frames,Image[] framesMort,int milisegons, Projectil projectil,float posXProj,float posYProj) {
+        super(vida, frames,framesMort,milisegons);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj=posXProj;

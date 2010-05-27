@@ -5,7 +5,6 @@
 
 package projecte.td.domini;
 
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  *

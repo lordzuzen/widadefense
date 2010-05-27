@@ -18,8 +18,8 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
     private boolean inici;
     private float posXVol;
 
-    public UnitatEnemigaVola(int vida, Image image, Image[] frames, Image[] framesMort, double velocitat,double dany) {
-        super(vida, image, frames, framesMort, velocitat,dany);
+    public UnitatEnemigaVola(int vida, Image[] frames, Image[] framesMort,int milisegons, double velocitat,double dany) {
+        super(vida, frames, framesMort,milisegons, velocitat,dany);
         calcularVol();
 
     }
