@@ -23,6 +23,7 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
     private boolean haRebutImpacte;
     private int ySalt;
     private Animation salt;
+    private boolean primeraMort;
 
     public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image image, Image[] frames,Image[] framesMort, ProjectilEstatic projectil, Image[] frames2, double velocitat, float posXProj, float posYProj, Image[] frames3) {
         super(vida, cadencia, image, frames,framesMort, projectil, frames2, velocitat, posXProj, posYProj);
@@ -71,5 +72,26 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
 
     public boolean haFinalitzatAnimacio() {
         return salt.isStopped();
+    }
+
+    @Override
+    public boolean isMort() {
+        if(!primeraMort && mort){
+            primeraMort=true;
+            return true;
+        }
+        else{
+        if (animation_mort != null) {
+            if (mort && animation_mort.isStopped()) {
+                return true;
+            }
+        }
+        else{
+            if(mort){
+                return true;
+            }
+        }
+        return false;
+        }
     }
 }
