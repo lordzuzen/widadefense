@@ -104,9 +104,9 @@ public class EstatInGame extends BasicGameState {
         } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
             if (cont == 0) {
-                u = FactoriaUnitats.getUnitatDolenta("Robot");
+                u = FactoriaUnitats.getUnitatDolenta("Insecte");
             } else if (cont == 1) {
-                u = FactoriaUnitats.getUnitatDolenta("Momia");
+                u = FactoriaUnitats.getUnitatDolenta("Robot");
             } else if (cont == 2) {
                 u = FactoriaUnitats.getUnitatDolenta("Ufo");
             } else if (cont == 3) {
