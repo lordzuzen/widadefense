@@ -21,6 +21,7 @@ public class ManagerDiners {
 
     public void afegirDiners(int quantitat) {
         total += quantitat;
+        ManagerPerfil.sumaDiners(quantitat);
     }
 
     public void restarDiners(int quantitat) {
