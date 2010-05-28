@@ -1,7 +1,6 @@
 package projecte.td.componentIngame;
 
 import java.util.ArrayList;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -17,6 +16,7 @@ import projecte.td.estats.EstatGuanya;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerDiners;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  *
@@ -29,6 +29,9 @@ public class MenuIngame extends AbstractComponent {
     private StateBasedGame state;
     // image: imatge que representara el menu
     private Image image;
+    private Image imatgeMoneda;
+    private Image imatgeAura;
+    private Image contenidor;
     // area: area que conte el MenuIngame
     private Shape area;
     // botonsUnitat: arraylist on es guardaran els botonsUnitat de que disposa el menu
@@ -41,6 +44,7 @@ public class MenuIngame extends AbstractComponent {
     private String unitats;
     // elementEsperant: indica quin element esta esperant per ser posicionat
     private String elementEsperant;
+    private String auraDisponible;
     // enEspera: flag per comprovar si hi ha algun element en espera
     private boolean enEspera;
     // cost: variable auxiliar on es guarda el cost del element per posicionar
@@ -54,6 +58,7 @@ public class MenuIngame extends AbstractComponent {
     private Sound soClick;
     private Sound soOver;
     private Font font;
+    private boolean haSonat;
 
     /**
      * Contenidor pel menu ingame del joc on es podran escollir els elements que es posicionaran en
@@ -78,6 +83,7 @@ public class MenuIngame extends AbstractComponent {
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
         font = ManagerRecursos.getFont("dejavuNormalFont");
+        imatgeMoneda = ManagerRecursos.getImage("monedaImage");
         init();
         crearBotonsUnitats();
         crearBotoMenu();
@@ -106,9 +112,12 @@ public class MenuIngame extends AbstractComponent {
         }
         botoOpcions.render(container, g);
         g.setFont(font);
-        g.drawString("Diners: " + md.getTotal() + "", 830, 650);
-        if (md.isAuraEnEspera()) {
-            g.drawString("Aura: " + md.getTipusAuraEspera() + "", 830, 670);
+        g.drawImage(imatgeMoneda, 820, 625);
+        g.drawString(md.getTotal() + "", 880, 625);
+        if (auraDisponible.equals("MagVida")) {
+            g.drawImage(imatgeAura, 830, 670);
+        } else if (auraDisponible.equals("MagRapidesa")) {
+            g.drawImage(imatgeAura, 830, 670);
         }
     }
 
@@ -123,6 +132,16 @@ public class MenuIngame extends AbstractComponent {
                 enEspera = true;
                 botoAux = b;
             }
+        }
+        if (md.isAuraEnEspera()) {
+            auraDisponible = md.getTipusAuraEspera();
+            if (auraDisponible.equals("MagVida")) {
+                imatgeAura = ManagerRecursos.getImage("monedaVidaImage");
+            } else if (auraDisponible.equals("MagRapidesa")) {
+                imatgeAura = ManagerRecursos.getImage("monedaRapidesaImage");
+            }
+        } else {
+            auraDisponible = "null";
         }
     }
 
@@ -150,7 +169,7 @@ public class MenuIngame extends AbstractComponent {
      */
     private void crearBotoMenu() {
         botoOpcions = new BotoMenu(container, ManagerRecursos.getImage("botoPetitImage"), 420, 300);
-        botoOpcions.setLocation(800, 700);
+        botoOpcions.setLocation(820, 705);
         botoOpcions.setMouseOverImage(ManagerRecursos.getImage("botoPetitOverImage"));
         botoOpcions.setImageText(ManagerRecursos.getImage("textMenuPetitImage"));
         botoOpcions.setMouseDownSound(soClick);
@@ -163,6 +182,8 @@ public class MenuIngame extends AbstractComponent {
 
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatGuanya.ID);
+                ManagerPerfil.sumaPerdudes();
+                ManagerPerfil.guardarEstadistiques();
             }
         });
     }
@@ -217,6 +238,8 @@ public class MenuIngame extends AbstractComponent {
         reiniciarBotons();
         botoAux.activarTimer();
         botoAux = null;
+        soClick.play();
+        ManagerPerfil.sumaUnitat();
     }
 
     public ArrayList<BotoIngame> getBotons() {

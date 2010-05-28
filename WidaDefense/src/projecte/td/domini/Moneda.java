@@ -28,9 +28,33 @@ public class Moneda extends AbstractComponent {
 
     public Moneda(GUIContext gui, int posX, int posY, String tipus) {
         super(gui);
-        imatgeMoneda = ManagerRecursos.getImage("botoIngameTapatImage");
-        area = new Rectangle(posX, posY, imatgeMoneda.getWidth(), imatgeMoneda.getHeight());
+        imatgeMoneda = getImageCorrecta(tipus);
+        area = getArea(tipus, posX, posY);
         addListener();
+    }
+
+    private Shape getArea(String tipus, int posX, int posY) {
+        Shape area2 = null;
+        if (tipus.equals("Miner")) {
+            area2 = new Rectangle(posX + 32, posY + 45, imatgeMoneda.getWidth(), imatgeMoneda.getHeight());
+        } else if (tipus.equals("MagVida")) {
+            area2 = new Rectangle(posX + 15, posY + 25, imatgeMoneda.getWidth(), imatgeMoneda.getHeight());
+        } else if (tipus.equals("MagRapidesa")) {
+            area2 = new Rectangle(posX + 20, posY + 20, imatgeMoneda.getWidth(), imatgeMoneda.getHeight());
+        }
+        return area2;
+    }
+
+    private Image getImageCorrecta(String tipus) {
+        Image image = null;
+        if (tipus.equals("Miner")) {
+            image = ManagerRecursos.getImage("monedaImage");
+        } else if (tipus.equals("MagVida")) {
+            image = ManagerRecursos.getImage("monedaVidaImage");
+        } else if (tipus.equals("MagRapidesa")) {
+            image = ManagerRecursos.getImage("monedaRapidesaImage");
+        }
+        return image;
     }
 
     public void update() {

@@ -13,47 +13,38 @@ import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
-import projecte.td.utilitats.ArxiuConfiguracio;
-import projecte.td.utilitats.Configuracio;
 
 /**
  *
  * @author media
  */
-public class EstatGuanya extends BasicGameState {
+public class EstatEstadistiques extends BasicGameState {
 
     // Identificador del estat
-    public static final int ID = 7;
+    public static final int ID = 9;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
     // Boto per reinicar la wave
-    private BotoMenu botoReiniciarWave;
-    // Boto per tornar al menu principal
-    private BotoMenu botoMenuPrincipal;
-    // Boto per tornar al menu principal
-    private BotoMenu botoSeguentWave;
-    // Arxiu per veure si es poden triar noves unitats en la seguent wave
-    private ArxiuConfiguracio waves;
-    // Informacio referent a les noves unitats que es podran utilitzar
-    private String informacioNovesUnitats;
+    private BotoMenu botoTornar;
     // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
-    // Imatge del boto normal (Sense mouse over)
-    private Image imatgeCarta;
-    // Image del boto amb mouse over
-    private Image imatgePersonatge;
-    // Boolean per comprovar si s'ha de mostrar una unitat nova
-    private boolean unitatNova;
     private Sound soClick;
     private Sound soOver;
     // Font que s'usa per renderitzar el text
     private Font font;
+    private static int totalMorts;
+    private static int totalUnitatsColocades;
+    private static int totalBales;
+    private static int totalGuanyades;
+    private static int totalPerdudes;
+    private static int totalDinersGuanyats;
+    private static int totalAuresColocades;
 
     public int getID() {
         return ID;
@@ -69,11 +60,9 @@ public class EstatGuanya extends BasicGameState {
             throws SlickException {
         this.state = game;
         this.container = container;
-        waves = Configuracio.getWaves();
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
-        imatgeCarta = ManagerRecursos.getImage("botoCartaImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoXImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoXOverImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
         font = ManagerRecursos.getFont("dejavuNormalFont");
@@ -102,16 +91,15 @@ public class EstatGuanya extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        botoMenuPrincipal.render(container, g);
-        botoReiniciarWave.render(container, g);
-        botoSeguentWave.render(container, g);
+        botoTornar.render(container, g);
         g.setFont(font);
-        if (unitatNova) {
-            g.drawString("Has Guanyat!!!", 420, 120);
-            imatgeCarta.draw(450, 220);
-            imatgePersonatge.draw(470, 240);
-            g.drawString(informacioNovesUnitats, 450, 190);
-        }
+        g.drawString("Total Morts:" + totalMorts, 410, 240);
+        g.drawString("Total Bales:" + totalBales, 410, 280);
+        g.drawString("Total Guanyades:" + totalGuanyades, 410, 320);
+        g.drawString("Total Perdudes:" + totalPerdudes, 410, 360);
+        g.drawString("Total Diners:" + totalDinersGuanyats, 410, 400);
+        g.drawString("Total Aures:" + totalAuresColocades, 410, 440);
+        g.drawString("Total Unitats:" + totalUnitatsColocades, 410, 480);
     }
 
     /**
@@ -123,12 +111,13 @@ public class EstatGuanya extends BasicGameState {
     public void enter(GameContainer gc, StateBasedGame state) {
         crearBotonsMenuNormal();
         afegirListeners();
-        informacioNovesUnitats = waves.getPropietatString("unitatNova" + ManagerPerfil.getWave());
-        imatgePersonatge = ManagerRecursos.getImage("carta" + informacioNovesUnitats + "Image");
-        unitatNova = false;
-        if (!informacioNovesUnitats.equals("null")) {
-            unitatNova = true;
-        }
+        totalMorts = ManagerPerfil.getTotalMorts();
+        totalBales = ManagerPerfil.getBales();
+        totalGuanyades = ManagerPerfil.getGuanyades();
+        totalPerdudes = ManagerPerfil.getPerdudes();
+        totalDinersGuanyats = ManagerPerfil.getDiners();
+        totalAuresColocades = ManagerPerfil.getAures();
+        totalUnitatsColocades = ManagerPerfil.getUnitats();
     }
 
     /**
@@ -136,48 +125,24 @@ public class EstatGuanya extends BasicGameState {
      * A través del manager de recursos assignem una imatge i una posicio als botons
      */
     private void crearBotonsMenuNormal() {
-        // BotoMenu tornar a jugar wave
-        botoSeguentWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
-        botoSeguentWave.setMouseOverImage(imatgeBotoOver);
-        botoSeguentWave.setMouseDownSound(soClick);
-        botoSeguentWave.setMouseOverSound(soOver);
-        botoSeguentWave.setActiu(true);
         // BotoMenu tornar al menu principal
-        botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 380, 450);
-        botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
-        botoReiniciarWave.setMouseDownSound(soClick);
-        botoReiniciarWave.setMouseOverSound(soOver);
-        botoReiniciarWave.setActiu(true);
-        // BotoMenu per seguir jugant en la següent Wave
-        botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 380, 550);
-        botoMenuPrincipal.setMouseOverImage(imatgeBotoOver);
-        botoMenuPrincipal.setMouseDownSound(soClick);
-        botoMenuPrincipal.setMouseOverSound(soOver);
-        botoMenuPrincipal.setActiu(true);
+        botoTornar = new BotoMenu(container, imatgeBotoNormal, 750, 100);
+        botoTornar.setMouseOverImage(imatgeBotoOver);
+        botoTornar.setMouseDownSound(soClick);
+        botoTornar.setMouseOverSound(soOver);
+        botoTornar.setActiu(true);
     }
 
     /**
      * S'afegeixen els listeners que faran accionar els botons
      */
     private void afegirListeners() {
-        botoReiniciarWave.addListener(new ComponentListener() {
+        botoTornar.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatSeguentWave.ID);
-            }
-        });
-        botoMenuPrincipal.addListener(new ComponentListener() {
-
-            public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatMenuPrincipal.ID);
-            }
-        });
-        botoSeguentWave.addListener(new ComponentListener() {
-
-            public void componentActivated(AbstractComponent comp) {
-                ManagerPerfil.passaASeguentWave();
-                state.enterState(EstatSeguentWave.ID);
+                state.enterState(EstatDades.ID);
             }
         });
     }
 }
+

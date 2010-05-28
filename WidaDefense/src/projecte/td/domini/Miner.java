@@ -33,15 +33,16 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         this.tipus = tipus;
         diners = ManagerContext.getDiners();
         activar();
+        
     }
 
     @Override
     public void render(GameContainer gc, Graphics g) {
         super.render(gc, g);
+        g.drawAnimation(animation, posX, posY);
         if (moneda != null) {
             moneda.render(gc, g);
         }
-        g.drawAnimation(animation, posX, posY);
     }
 
     @Override
@@ -62,10 +63,10 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     }
 
     public void activar() {
-        timer = new Timer(15000, new ActionListener() {
+        timer = new Timer(cadencia, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                moneda = new Moneda(ManagerContext.getGui(), (int) posX + 10, (int) posY + 20, "Color");
+                moneda = new Moneda(ManagerContext.getGui(), (int) posX, (int) posY, tipus);
             }
         });
         timer.start();

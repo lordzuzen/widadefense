@@ -24,6 +24,13 @@ public class ManagerPerfil {
     // Unitats que ha triat el jugador per jugar la wave
     private static String unitatsTriades;
     private static String enemicsSeguentWave;
+    private static int totalMorts;
+    private static int totalUnitatsColocades;
+    private static int totalBales;
+    private static int totalGuanyades;
+    private static int totalPerdudes;
+    private static int totalDinersGuanyats;
+    private static int totalAuresColocades;
     // Dades del perfil triat
     private static ArxiuConfiguracio dadesPerfil;
     // Dades de la wave actual
@@ -47,6 +54,12 @@ public class ManagerPerfil {
         dadesWave = Configuracio.getWaves();
         wave = dadesPerfil.getPropietatInt("seguentWave");
         assignarPropietats();
+        totalMorts = 0;
+        totalBales = 0;
+        totalGuanyades = 0;
+        totalPerdudes = 0;
+        totalDinersGuanyats = 0;
+        totalAuresColocades = 0;
     }
 
     /**
@@ -64,18 +77,18 @@ public class ManagerPerfil {
      */
     private static void assignarPropietats() {
         unitatsDisponibles = dadesWave.getPropietatString("unitatsDisponibles" + wave);
-        tempsTotal = dadesWave.getPropietatInt("temps"+wave);
-        enemicsTotals = dadesWave.getPropietatInt("nombreEnemics"+wave);
+        tempsTotal = dadesWave.getPropietatInt("temps" + wave);
+        enemicsTotals = dadesWave.getPropietatInt("nombreEnemics" + wave);
         enemicsWave = retornaEnemics();
     }
 
     private static String retornaEnemics() {
         String enemics = "";
-        String[] unitatsEnemigues = dadesWave.getPropietatString("enemicsWave"+wave).split("-");
+        String[] unitatsEnemigues = dadesWave.getPropietatString("enemicsWave" + wave).split("-");
         for (String z : unitatsEnemigues) {
             enemics += z.split(":")[0] + "-";
         }
-        return enemics.substring(0, enemics.length()-1);
+        return enemics.substring(0, enemics.length() - 1);
     }
 
     /**
@@ -98,8 +111,88 @@ public class ManagerPerfil {
         return enemicsWave;
     }
 
+    public static void sumaMort() {
+        totalMorts++;
+    }
+
+    public static void sumaBala() {
+        totalBales++;
+    }
+
+    public static void sumaUnitat() {
+        totalUnitatsColocades++;
+    }
+
+    public static void sumaGuanyada() {
+        totalGuanyades++;
+    }
+
+    public static void sumaPerdudes() {
+        totalPerdudes++;
+    }
+
+    public static void sumaDiners(int diners) {
+        totalDinersGuanyats += diners;
+    }
+
+    public static void sumaAuraColocada() {
+        totalAuresColocades++;
+    }
+
+    public static void guardarEstadistiques() {
+        int total = dadesPerfil.getPropietatInt("totalMorts");
+        total += totalMorts;
+        dadesPerfil.setPropietatInt("totalMorts", total);
+        total = dadesPerfil.getPropietatInt("totalBales");
+        total += totalBales;
+        dadesPerfil.setPropietatInt("totalBales", total);
+        total = dadesPerfil.getPropietatInt("totalGuanyades");
+        total += totalGuanyades;
+        dadesPerfil.setPropietatInt("totalGuanyades", total);
+        total = dadesPerfil.getPropietatInt("totalPerdudes");
+        total += totalPerdudes;
+        dadesPerfil.setPropietatInt("totalPerdudes", total);
+        total = dadesPerfil.getPropietatInt("totalDiners");
+        total += totalDinersGuanyats;
+        dadesPerfil.setPropietatInt("totalDiners", total);
+        total = dadesPerfil.getPropietatInt("totalAures");
+        total += totalAuresColocades;
+        dadesPerfil.setPropietatInt("totalAures", total);
+        total = dadesPerfil.getPropietatInt("totalUnitats");
+        total += totalUnitatsColocades;
+        dadesPerfil.setPropietatInt("totalUnitats", total);
+        dadesPerfil.guardar();
+    }
+
+    public static int getUnitats() {
+        return dadesPerfil.getPropietatInt("totalUnitats");
+    }
+
+    public static int getAures() {
+        return dadesPerfil.getPropietatInt("totalAures");
+    }
+
+    public static int getTotalMorts() {
+        return dadesPerfil.getPropietatInt("totalMorts");
+    }
+
+    public static int getGuanyades() {
+        return dadesPerfil.getPropietatInt("totalGuanyades");
+    }
+
+    public static int getPerdudes() {
+        return dadesPerfil.getPropietatInt("totalPerdudes");
+    }
+
+    public static int getBales() {
+        return dadesPerfil.getPropietatInt("totalBales");
+    }
+
+    public static int getDiners() {
+        return dadesPerfil.getPropietatInt("totalDiners");
+    }
+
     // Getters i setters
-    
     public static void setUnitatsTriades(String triades) {
         unitatsTriades = triades;
     }
@@ -130,5 +223,9 @@ public class ManagerPerfil {
 
     public static void setTempsTotal(int tempsTotal) {
         ManagerPerfil.tempsTotal = tempsTotal;
+    }
+
+    public int getTotalAuresColocades() {
+        return totalAuresColocades;
     }
 }
