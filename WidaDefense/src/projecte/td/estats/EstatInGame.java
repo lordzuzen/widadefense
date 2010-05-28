@@ -127,7 +127,7 @@ public class EstatInGame extends BasicGameState {
             }
 
         }
-        p.acciona(delta);
+        p.update(delta);
         mi.update();
         if (mi.isEnEspera()) {
             unitat = mi.getElementEsperant();
