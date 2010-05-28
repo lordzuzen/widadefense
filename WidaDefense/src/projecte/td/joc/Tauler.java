@@ -163,8 +163,7 @@ public class Tauler {
         if (unitatsAmigues[fil][col] instanceof UnitatDispara) {
             UnitatDispara ud = (UnitatDispara) unitatsAmigues[fil][col];
             ud.desactivarDispars();
-        }
-        else if(unitatsAmigues[fil][col] instanceof Miner) {
+        } else if (unitatsAmigues[fil][col] instanceof Miner) {
             Miner miner = (Miner) unitatsAmigues[fil][col];
             miner.desactivarTimer();
         }
@@ -408,12 +407,14 @@ public class Tauler {
         }
     }
 
-    private void comprovarMorts() {
+    private void comprovarMorts(boolean cond) {
         for (int i = 0; i < nFiles; i++) {
             for (Object en : arrays_enemics[i]) {
                 UnitatAbstract enemic = (UnitatAbstract) en;
                 if (enemic.isMort()) {
-                    ManagerPerfil.sumaMort();
+                    if (cond) {
+                        ManagerPerfil.sumaMort();
+                    }
                     if (enemic instanceof UnitatEnemigaAtkDistancia) {
                         UnitatEnemigaAtkDistancia ud = (UnitatEnemigaAtkDistancia) enemic;
                         ud.desactivarDispars();
@@ -478,7 +479,7 @@ public class Tauler {
 
     public void update(int delta) {
         accionarUnitats(delta);
-        comprovarMorts();
+        comprovarMorts(true);
         dispararUnitatsAmigues();
         stopUnitatsAmigues();
         finalitzarProjectils_Enemics();
@@ -525,7 +526,7 @@ public class Tauler {
 
             }
         }
-        comprovarMorts();
+        comprovarMorts(false);
         finalitzarProjectils_Enemics();
     }
 }
