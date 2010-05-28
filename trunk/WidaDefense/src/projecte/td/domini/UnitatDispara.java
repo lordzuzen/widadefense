@@ -16,35 +16,35 @@ import org.newdawn.slick.Image;
 public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
 
     private int cadencia;
-   
     private Projectil projectil;
-    
     // Timer per controlar cada quants segons dispara la unitat
     private Timer timer;
-
-    private boolean dispara=true;
+    private boolean dispara = true;
     private boolean activat;
     private float posXProj;
     private float posYProj;
 
-    public UnitatDispara(int vida, int cadencia, Image[] frames,Image[] framesMort,int milisegons, Projectil projectil,float posXProj,float posYProj) {
-        super(vida, frames,framesMort,milisegons);
+    public UnitatDispara(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, Projectil projectil, float posXProj, float posYProj) {
+        super(vida, frames, framesMort, milisegons);
         this.cadencia = cadencia;
         this.projectil = projectil;
-        this.posXProj=posXProj;
-        this.posYProj=posYProj;
+        this.posXProj = posXProj;
+        this.posYProj = posYProj;
 
         timer = new Timer(cadencia, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                dispara = true;
+                if (!mort) {
+                    dispara = true;
+                }
             }
         });
     }
+
     @Override
-    public void setLocation(float posX, float posY){
+    public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
-        projectil.setLocation(posX+animation.getWidth()+posXProj, posY+posYProj);
+        projectil.setLocation(posX + animation.getWidth() + posXProj, posY + posYProj);
 
     }
 

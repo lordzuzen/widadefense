@@ -21,8 +21,8 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
     protected float posXProj;
     protected float posYProj;
 
-    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image[] frames,Image[] framesMort,int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat,int milisegonsAtck, float posXProj, float posYProj) {
-        super(vida, frames,framesMort,milisegons, frames2, velocitat, milisegonsAtck);
+    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat, int milisegonsAtck, float posXProj, float posYProj) {
+        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj = posXProj;
@@ -30,7 +30,9 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
         timer = new Timer(cadencia, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                dispara = true;
+                if (!mort) {
+                    dispara = true;
+                }
 
             }
         });
