@@ -22,6 +22,7 @@ import projecte.td.domini.UnitatDispara;
 import projecte.td.domini.UnitatEnemigaAtkDistancia;
 import projecte.td.domini.UnitatEnemigaAtkDistanciaSalta;
 import projecte.td.domini.UnitatEnemigaAtkNormal;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  *
@@ -210,6 +211,7 @@ public class Tauler {
             if (ud2.estaDisparant()) {
                 arrays_projectils_amics[numFila].add(p);
                 ud2.haDisparat();
+                ManagerPerfil.sumaBala();
             }
             if (!ud2.estaActivat()) {
                 ud2.activarDispars();
@@ -219,24 +221,28 @@ public class Tauler {
             if (b.isDispara()) {
                 arrays_projectils_amics[numFila].add(p);
                 b.haDisparat();
+                ManagerPerfil.sumaBala();
             }
         } else if (ud instanceof Mina) {
             Mina m = (Mina) ud;
             if (m.isDispara()) {
                 arrays_projectils_amics[numFila].add(p);
                 m.haDisparat();
+                ManagerPerfil.sumaBala();
             }
         } else if (ud instanceof Motorista) {
             Motorista moto = (Motorista) ud;
             if (moto.isDispara()) {
                 arrays_projectils_amics[numFila].add(p);
                 moto.haDisparat();
+                ManagerPerfil.sumaBala();
             }
         } else if (ud instanceof BombaAerea) {
             BombaAerea ba = (BombaAerea) ud;
             if (ba.isDispara()) {
                 arrays_projectils_amics[numFila].add(p);
                 ba.haDisparat();
+                ManagerPerfil.sumaBala();
             }
         }
     }
@@ -415,6 +421,7 @@ public class Tauler {
                 }
                 enemic.update(delta);
                 if (enemic.isMort()) {
+                    ManagerPerfil.sumaMort();
                     enemics_morts.add(enemic);
                 }
 

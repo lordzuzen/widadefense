@@ -73,6 +73,7 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         Input input = gc.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && input.getMouseY() <= 600) {
+            System.out.println("x:" + input.getMouseX() + " y:" + input.getMouseY());
             if (!unitat.equals("null") && p.comprovaClickCorrecte(input.getMouseX(), input.getMouseY())) {
                 int[] posFC = p.mirarCoordenadesClick(input.getMouseX(), input.getMouseY());
                 if (p.comprovarClick(posFC[0], posFC[1])) {
@@ -92,6 +93,7 @@ public class EstatInGame extends BasicGameState {
                     if (ua.potEquiparAura(aura) && !ua.isAuraActiva()) {
                         ua.activarAura(aura);
                         md.clearAures();
+                        ManagerPerfil.sumaAuraColocada();
                     }
                 } else if (ua instanceof IAuraVida && md.getTipusAuraEspera().equals("MagVida")) {
                     Aura aura = new Aura(md.getTipusAuraEspera(),
@@ -99,6 +101,7 @@ public class EstatInGame extends BasicGameState {
                     if (ua.potEquiparAura(aura) && !ua.isAuraActiva()) {
                         ua.activarAura(aura);
                         md.clearAures();
+                        ManagerPerfil.sumaAuraColocada();
                     }
                 }
             }
@@ -157,7 +160,6 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         p.dibuixar(g, gc);
         mi.render(gc, g);
-        g.drawString(ocupat, 800, 600);
     }
 
     /**
@@ -172,5 +174,10 @@ public class EstatInGame extends BasicGameState {
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
         ManagerContext.setDiners(md);
         ManagerEnemics.crearTimer(10000);
+    }
+
+    @Override
+    public void leave(GameContainer gc, StateBasedGame state) {
+        mi = null;
     }
 }

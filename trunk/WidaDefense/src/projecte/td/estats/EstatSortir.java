@@ -22,7 +22,7 @@ import projecte.td.managers.ManagerRecursos;
 public class EstatSortir extends BasicGameState {
 
     // Identificador de l'estat
-    public static final int ID = 9;
+    public static final int ID = 12;
     // Contenidors del joc
     private GameContainer container;
     private StateBasedGame state;

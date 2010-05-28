@@ -4,12 +4,16 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.StateBasedGame;
+import projecte.td.estats.EstatDades;
+import projecte.td.estats.EstatEstadistiques;
 import projecte.td.estats.EstatGuanya;
 import projecte.td.estats.EstatInGame;
+import projecte.td.estats.EstatInfoUnitats;
 import projecte.td.estats.EstatIntro;
 import projecte.td.estats.EstatLoading;
 import projecte.td.estats.EstatMenuIngame;
 import projecte.td.estats.EstatMenuPrincipal;
+import projecte.td.estats.EstatMostraInformacio;
 import projecte.td.estats.EstatPerd;
 import projecte.td.estats.EstatPerfil;
 import projecte.td.estats.EstatSeguentWave;
@@ -60,11 +64,15 @@ public class TDGame extends StateBasedGame {
         // Estat on es juga la partida
         addState(new EstatInGame());
         // Estat on es mostra el menu ingame
-        addState(new EstatMenuIngame());
+        //addState(new EstatMenuIngame());
         // Estat que apareix si l'usuari no supera una wave
         addState(new EstatPerd());
         // Estat que apareix si l'usuari supera una wave
         addState(new EstatGuanya());
+        addState(new EstatDades());
+        addState(new EstatEstadistiques());
+        addState(new EstatInfoUnitats());
+        addState(new EstatMostraInformacio());
         // Estat on es confirma la sortida a l'escriptori
         addState(new EstatSortir());
     }

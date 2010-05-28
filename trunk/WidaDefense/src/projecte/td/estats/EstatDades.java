@@ -1,6 +1,5 @@
 package projecte.td.estats;
 
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,47 +12,33 @@ import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
-import projecte.td.utilitats.ArxiuConfiguracio;
-import projecte.td.utilitats.Configuracio;
 
 /**
  *
  * @author media
  */
-public class EstatGuanya extends BasicGameState {
+public class EstatDades extends BasicGameState {
 
     // Identificador del estat
-    public static final int ID = 7;
+    public static final int ID = 8;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
     // Boto per reinicar la wave
-    private BotoMenu botoReiniciarWave;
+    private BotoMenu botoDades;
     // Boto per tornar al menu principal
-    private BotoMenu botoMenuPrincipal;
+    private BotoMenu botoUnitats;
     // Boto per tornar al menu principal
-    private BotoMenu botoSeguentWave;
-    // Arxiu per veure si es poden triar noves unitats en la seguent wave
-    private ArxiuConfiguracio waves;
-    // Informacio referent a les noves unitats que es podran utilitzar
-    private String informacioNovesUnitats;
+    private BotoMenu botoEnemics;
     // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
-    // Imatge del boto normal (Sense mouse over)
-    private Image imatgeCarta;
-    // Image del boto amb mouse over
-    private Image imatgePersonatge;
-    // Boolean per comprovar si s'ha de mostrar una unitat nova
-    private boolean unitatNova;
     private Sound soClick;
     private Sound soOver;
-    // Font que s'usa per renderitzar el text
-    private Font font;
 
     public int getID() {
         return ID;
@@ -69,14 +54,11 @@ public class EstatGuanya extends BasicGameState {
             throws SlickException {
         this.state = game;
         this.container = container;
-        waves = Configuracio.getWaves();
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
-        imatgeCarta = ManagerRecursos.getImage("botoCartaImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
-        font = ManagerRecursos.getFont("dejavuNormalFont");
 
     }
 
@@ -102,16 +84,9 @@ public class EstatGuanya extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        botoMenuPrincipal.render(container, g);
-        botoReiniciarWave.render(container, g);
-        botoSeguentWave.render(container, g);
-        g.setFont(font);
-        if (unitatNova) {
-            g.drawString("Has Guanyat!!!", 420, 120);
-            imatgeCarta.draw(450, 220);
-            imatgePersonatge.draw(470, 240);
-            g.drawString(informacioNovesUnitats, 450, 190);
-        }
+        botoUnitats.render(container, g);
+        botoDades.render(container, g);
+        botoEnemics.render(container, g);
     }
 
     /**
@@ -123,12 +98,6 @@ public class EstatGuanya extends BasicGameState {
     public void enter(GameContainer gc, StateBasedGame state) {
         crearBotonsMenuNormal();
         afegirListeners();
-        informacioNovesUnitats = waves.getPropietatString("unitatNova" + ManagerPerfil.getWave());
-        imatgePersonatge = ManagerRecursos.getImage("carta" + informacioNovesUnitats + "Image");
-        unitatNova = false;
-        if (!informacioNovesUnitats.equals("null")) {
-            unitatNova = true;
-        }
     }
 
     /**
@@ -137,46 +106,45 @@ public class EstatGuanya extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar a jugar wave
-        botoSeguentWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
-        botoSeguentWave.setMouseOverImage(imatgeBotoOver);
-        botoSeguentWave.setMouseDownSound(soClick);
-        botoSeguentWave.setMouseOverSound(soOver);
-        botoSeguentWave.setActiu(true);
+        botoEnemics = new BotoMenu(container, imatgeBotoNormal, 380, 350);
+        botoEnemics.setMouseOverImage(imatgeBotoOver);
+        botoEnemics.setMouseDownSound(soClick);
+        botoEnemics.setMouseOverSound(soOver);
+        botoEnemics.setActiu(true);
         // BotoMenu tornar al menu principal
-        botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 380, 450);
-        botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
-        botoReiniciarWave.setMouseDownSound(soClick);
-        botoReiniciarWave.setMouseOverSound(soOver);
-        botoReiniciarWave.setActiu(true);
+        botoDades = new BotoMenu(container, imatgeBotoNormal, 380, 450);
+        botoDades.setMouseOverImage(imatgeBotoOver);
+        botoDades.setMouseDownSound(soClick);
+        botoDades.setMouseOverSound(soOver);
+        botoDades.setActiu(true);
         // BotoMenu per seguir jugant en la següent Wave
-        botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 380, 550);
-        botoMenuPrincipal.setMouseOverImage(imatgeBotoOver);
-        botoMenuPrincipal.setMouseDownSound(soClick);
-        botoMenuPrincipal.setMouseOverSound(soOver);
-        botoMenuPrincipal.setActiu(true);
+        botoUnitats = new BotoMenu(container, imatgeBotoNormal, 380, 550);
+        botoUnitats.setMouseOverImage(imatgeBotoOver);
+        botoUnitats.setMouseDownSound(soClick);
+        botoUnitats.setMouseOverSound(soOver);
+        botoUnitats.setActiu(true);
     }
 
     /**
      * S'afegeixen els listeners que faran accionar els botons
      */
     private void afegirListeners() {
-        botoReiniciarWave.addListener(new ComponentListener() {
+        botoUnitats.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatSeguentWave.ID);
+                state.enterState(EstatInfoUnitats.ID);
             }
         });
-        botoMenuPrincipal.addListener(new ComponentListener() {
+        botoDades.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                state.enterState(EstatEstadistiques.ID);
+            }
+        });
+        botoEnemics.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatMenuPrincipal.ID);
-            }
-        });
-        botoSeguentWave.addListener(new ComponentListener() {
-
-            public void componentActivated(AbstractComponent comp) {
-                ManagerPerfil.passaASeguentWave();
-                state.enterState(EstatSeguentWave.ID);
             }
         });
     }

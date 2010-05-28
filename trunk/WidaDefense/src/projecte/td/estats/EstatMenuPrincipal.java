@@ -110,6 +110,9 @@ public class EstatMenuPrincipal extends BasicGameState {
         // BotoMenu menu opcions
         botoOpcions = new BotoMenu(container, imatgeBotoNormal, 600, 430);
         botoOpcions.setMouseOverImage(imatgeBotoOver);
+        botoOpcions.setImageText(imatgeTextPerfil);
+        botoOpcions.setMouseDownSound(soClick);
+        botoOpcions.setMouseOverSound(soOver);
         botons.add(botoOpcions);
         // BotoMenu canvi de perfil
         botoCanviarPerfil = new BotoMenu(container, imatgeBotoNormal, 150, 550);
@@ -143,7 +146,10 @@ public class EstatMenuPrincipal extends BasicGameState {
         botoOpcions.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                alphaBotonsOut = true;
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    alphaBotonsOut = true;
+                    canviAEstat = EstatDades.ID;
+                }
             }
         });
         botoCanviarPerfil.addListener(new ComponentListener() {
@@ -182,6 +188,7 @@ public class EstatMenuPrincipal extends BasicGameState {
             if (transparencia >= 1) {
                 music.play();
                 botoNovaPartida.setActiu(true);
+                botoOpcions.setActiu(true);
                 botoCanviarPerfil.setActiu(true);
                 botoSortir.setActiu(true);
                 alphaBotonsIn = false;
@@ -189,6 +196,7 @@ public class EstatMenuPrincipal extends BasicGameState {
             }
         } else if (alphaBotonsOut) {
             botoNovaPartida.setActiu(false);
+            botoOpcions.setActiu(false);
             botoCanviarPerfil.setActiu(false);
             botoSortir.setActiu(false);
             comptador += 50;
