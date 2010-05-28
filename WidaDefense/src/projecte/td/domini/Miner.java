@@ -104,4 +104,8 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     public void setCadencia(int cadencia) {
         this.cadencia = cadencia;
     }
+
+    public void desactivarTimer(){
+        timer.stop();
+    }
 }
