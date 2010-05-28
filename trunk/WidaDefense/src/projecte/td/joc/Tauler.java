@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
 import projecte.td.domini.Bomba;
 import projecte.td.domini.BombaAerea;
 import projecte.td.domini.Mina;
+import projecte.td.domini.Miner;
 import projecte.td.domini.Motorista;
 import projecte.td.managers.ManagerColisions;
 import projecte.td.domini.Projectil;
@@ -49,8 +50,6 @@ public class Tauler {
     ArrayList[] arrays_projectils_enemics;
     ArrayList<Projectil> projectils_finalitzats;
     private boolean[] controlaFiles;
-    ArrayList<Explosio> explosions;
-    ArrayList<Explosio> explosions_finalitzades;
     ManagerColisions mc;
     ArrayList<UnitatEnemigaAtkDistanciaSalta> unitatsSaltant;
 
@@ -98,8 +97,6 @@ public class Tauler {
             arrays_projectils_enemics[i] = projectils_enemics;
         }
         projectils_finalitzats = new ArrayList<Projectil>();
-        explosions = new ArrayList<Explosio>();
-        explosions_finalitzades = new ArrayList<Explosio>();
         enemics_morts = new ArrayList<UnitatAbstract>();
         unitatsAmigues_mortes = new ArrayList<UnitatAbstract>();
         mc = new ManagerColisions(arrays_enemics, arrays_projectils_amics, arrays_projectils_enemics, controlaFiles, unitatsAmigues);
@@ -163,6 +160,14 @@ public class Tauler {
     }
 
     public void eliminaUnitatAmiga(int fil, int col) {
+        if (unitatsAmigues[fil][col] instanceof UnitatDispara) {
+            UnitatDispara ud = (UnitatDispara) unitatsAmigues[fil][col];
+            ud.desactivarDispars();
+        }
+        else if(unitatsAmigues[fil][col] instanceof Miner) {
+            Miner miner = (Miner) unitatsAmigues[fil][col];
+            miner.desactivarTimer();
+        }
         unitatsAmigues[fil][col] = null;
         clicades[fil][col] = false;
         stopAtacUnitatsEnemigues(fil);
@@ -345,9 +350,7 @@ public class Tauler {
 
             }
         }
-        for (Explosio ex : explosions) {
-            ex.dibuixar();
-        }
+
         dibuixarQuadrat(g, gc);
     }
 
@@ -405,8 +408,44 @@ public class Tauler {
         }
     }
 
-    public void acciona(int delta) {
+    private void comprovarMorts() {
+        for (int i = 0; i < nFiles; i++) {
+            for (Object en : arrays_enemics[i]) {
+                UnitatAbstract enemic = (UnitatAbstract) en;
+                if (enemic.isMort()) {
+                    ManagerPerfil.sumaMort();
+                    if (enemic instanceof UnitatEnemigaAtkDistancia) {
+                        UnitatEnemigaAtkDistancia ud = (UnitatEnemigaAtkDistancia) enemic;
+                        ud.desactivarDispars();
+                    }
+                    enemics_morts.add(enemic);
+                }
 
+            }
+            for (Object ob : arrays_projectils_amics[i]) {
+                Projectil p = (Projectil) ob;
+                if (p.isMort()) {
+                    projectils_finalitzats.add(p);
+                }
+            }
+            for (Object ob : arrays_projectils_enemics[i]) {
+                Projectil p = (Projectil) ob;
+                if (p.isMort()) {
+                    projectils_finalitzats.add(p);
+                }
+            }
+            for (int col = 0; col < nColumnes; col++) {
+                if (unitatsAmigues[i][col] != null) {
+                    if (unitatsAmigues[i][col].isMort()) {
+                        eliminaUnitatAmiga(i, col);
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void accionarUnitats(int delta) {
         for (int i = 0; i < nFiles; i++) {
             for (Object en : arrays_enemics[i]) {
                 UnitatAbstract enemic = (UnitatAbstract) en;
@@ -420,36 +459,26 @@ public class Tauler {
                     }
                 }
                 enemic.update(delta);
-                if (enemic.isMort()) {
-                    ManagerPerfil.sumaMort();
-                    enemics_morts.add(enemic);
-                }
-
             }
             for (Object ob : arrays_projectils_amics[i]) {
                 Projectil p = (Projectil) ob;
-                if (p.isMort()) {
-                    projectils_finalitzats.add(p);
-                }
                 p.update(delta);
             }
             for (Object ob : arrays_projectils_enemics[i]) {
                 Projectil p = (Projectil) ob;
-                if (p.isMort()) {
-                    projectils_finalitzats.add(p);
-                }
                 p.update(delta);
             }
             for (int col = 0; col < nColumnes; col++) {
                 if (unitatsAmigues[i][col] != null) {
                     unitatsAmigues[i][col].update(delta);
-                    if (unitatsAmigues[i][col].isMort()) {
-                        eliminaUnitatAmiga(i, col);
-                    }
                 }
             }
-
         }
+    }
+
+    public void update(int delta) {
+        accionarUnitats(delta);
+        comprovarMorts();
         dispararUnitatsAmigues();
         stopUnitatsAmigues();
         finalitzarProjectils_Enemics();
@@ -468,8 +497,35 @@ public class Tauler {
         posicioQuadrat[1] = y;
     }
 
-    public void borrarUnitatAmiguesClick(int x,int y) {
+    public void borrarUnitatAmiguesClick(int x, int y) {
         int[] PosFC = mirarCoordenadesClick(x, y);
         eliminaUnitatAmiga(PosFC[0], PosFC[1]);
+    }
+
+    public void borrarTot() {
+        for (int i = 0; i < nFiles; i++) {
+            for (UnitatAbstract amic : unitatsAmigues[i]) {
+                if (amic != null) {
+                    amic.setMort(true);
+                }
+            }
+            for (Object ob : arrays_enemics[i]) {
+                UnitatAbstract enemic = (UnitatAbstract) ob;
+                enemic.setMort(true);
+
+            }
+            for (Object ob : arrays_projectils_amics[i]) {
+                Projectil p = (Projectil) ob;
+                p.setMort(true);
+            }
+
+            for (Object ob : arrays_projectils_enemics[i]) {
+                Projectil p = (Projectil) ob;
+                p.setMort(true);
+
+            }
+        }
+        comprovarMorts();
+        finalitzarProjectils_Enemics();
     }
 }
