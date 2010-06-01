@@ -34,8 +34,10 @@ public class BotoSeleccio extends BotoMenu {
         addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                botoTriat = !botoTriat;
-                notaCanvi = true;
+                if (actiu) {
+                    botoTriat = !botoTriat;
+                    notaCanvi = true;
+                }
             }
         });
     }

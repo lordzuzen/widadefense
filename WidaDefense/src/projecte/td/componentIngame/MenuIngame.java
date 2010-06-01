@@ -177,8 +177,8 @@ public class MenuIngame extends AbstractComponent {
 
     private void crearBotoPala() {
         BotoIngame.setImatgeSeleccionat2(ManagerRecursos.getImage("botoPalaSeleccionatImage"));
-        BotoIngame.setImatgeNoSeleccionat2(ManagerRecursos.getImage("botoPalaImage"));
-        botoPala = new BotoIngame(gui, ManagerRecursos.getImage("cartaPalaImage"), 822, 661, 0, false);
+        BotoIngame.setImatgeNoSeleccionat2(ManagerRecursos.getImage("cartaPalaImage"));
+        botoPala = new BotoIngame(gui, ManagerRecursos.getImage("botoPalaImage"), 822, 661, 0, false);
         botoPala.addListener("pala");
     }
 

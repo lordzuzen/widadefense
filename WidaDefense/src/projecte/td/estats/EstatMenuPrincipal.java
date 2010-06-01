@@ -13,6 +13,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -34,6 +35,7 @@ public class EstatMenuPrincipal extends BasicGameState {
     private BotoMenu botoCanviarPerfil;
     // Boto per sortir del joc
     private BotoMenu botoSortir;
+    private BotoMenu botoMusica;
     // Boolean que s'utilitza per comprovar si s'ha de realitzar transparencia
     private boolean alphaBotonsIn;
     // Boolean que s'utilitza per comprovar si s'ha de realitzar transparencia
@@ -52,10 +54,15 @@ public class EstatMenuPrincipal extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Imatge del text Jugar del boto
     private Image imatgeTextJugar;
+    // Imatge del text Perfil del boto
     private Image imatgeTextPerfil;
+    // Imatge del text Sortir del boto
     private Image imatgeTextSortir;
+    // So del click que fan els botons al fer un mouse clicked
     private Sound soClick;
+    // So del mouse que fan els botons pel mouse over
     private Sound soOver;
     private Music music;
 
@@ -128,6 +135,13 @@ public class EstatMenuPrincipal extends BasicGameState {
         botoSortir.setMouseDownSound(soClick);
         botoSortir.setMouseOverSound(soOver);
         botons.add(botoSortir);
+        // BotoMenu Sortir del joc
+        botoMusica = new BotoMenu(container, imatgeBotoNormal, 100, 100);
+        botoMusica.setMouseOverImage(imatgeBotoOver);
+        botoMusica.setImageText(imatgeTextSortir);
+        botoMusica.setMouseDownSound(soClick);
+        botoMusica.setMouseOverSound(soOver);
+        botons.add(botoMusica);
     }
 
     /**
@@ -169,6 +183,14 @@ public class EstatMenuPrincipal extends BasicGameState {
                 }
             }
         });
+        botoMusica.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                if (!alphaBotonsIn && !alphaBotonsOut) {
+                    state.enterState(EstatMusica.ID);
+                }
+            }
+        });
     }
 
     /**
@@ -180,17 +202,22 @@ public class EstatMenuPrincipal extends BasicGameState {
      * @throws SlickException
      */
     public void update(GameContainer game, StateBasedGame state, int delta) {
+        // Si s'esta entrant a l'estat o se n'esta sortint es dura a terme
+        // l'efecte de transparencia
         if (alphaBotonsIn) {
             comptador += 50;
             if (comptador % 100 == 0) {
                 transparencia += 0.05;
             }
             if (transparencia >= 1) {
-                music.play();
+                //music.play();
+                ReproductorMusica.setVolumMusic();
+                ReproductorMusica.last();
                 botoNovaPartida.setActiu(true);
                 botoOpcions.setActiu(true);
                 botoCanviarPerfil.setActiu(true);
                 botoSortir.setActiu(true);
+                botoMusica.setActiu(true);
                 alphaBotonsIn = false;
                 comptador = 0;
             }
@@ -199,6 +226,7 @@ public class EstatMenuPrincipal extends BasicGameState {
             botoOpcions.setActiu(false);
             botoCanviarPerfil.setActiu(false);
             botoSortir.setActiu(false);
+            botoMusica.setActiu(false);
             comptador += 50;
             if (comptador % 100 == 0) {
                 transparencia -= 0.05;
@@ -207,6 +235,7 @@ public class EstatMenuPrincipal extends BasicGameState {
                 state.enterState(canviAEstat);
             }
         }
+        ReproductorMusica.update(container);
     }
 
     /**
@@ -227,6 +256,7 @@ public class EstatMenuPrincipal extends BasicGameState {
         botoOpcions.render(container, g);
         botoCanviarPerfil.render(container, g);
         botoSortir.render(container, g);
+        botoMusica.render(container, g);
     }
 
     /**

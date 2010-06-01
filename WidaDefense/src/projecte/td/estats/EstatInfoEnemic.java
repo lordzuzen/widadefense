@@ -1,6 +1,6 @@
 package projecte.td.estats;
 
-import org.newdawn.slick.Font;
+import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,24 +11,38 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
+import projecte.td.componentGUI.BotoSeleccio;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ArxiuConfiguracio;
+import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
  * @author media
  */
-public class EstatEstadistiques extends BasicGameState {
+public class EstatInfoEnemic extends BasicGameState {
 
     // Identificador del estat
-    public static final int ID = 9;
+    public static final int ID = 12;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
     // Boto per reinicar la wave
-    private BotoMenu botoTornar;
+    private BotoMenu botoDades;
+    // Posicio X del menu
+    private int posX;
+    // Posicio Y del menu
+    private int posY;
+    private int wave;
+    // Posicio X on es començara a col·locar el primer boto de tria d'unitat
+    private int posXVariable;
+    // Posicio Y on es començara a col·locar el primer boto de tria d'unitat
+    private int posYVariable;
+    // ArrayList on es guarden els botons de seleccio d'unitats
+    private ArrayList<BotoSeleccio> botonsSeleccio;
     // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
@@ -37,15 +51,8 @@ public class EstatEstadistiques extends BasicGameState {
     private Image imatgeBotoOver;
     private Sound soClick;
     private Sound soOver;
-    // Font que s'usa per renderitzar el text
-    private Font font;
-    private static int totalMorts;
-    private static int totalUnitatsColocades;
-    private static int totalBales;
-    private static int totalGuanyades;
-    private static int totalPerdudes;
-    private static int totalDinersGuanyats;
-    private static int totalAuresColocades;
+    private ArxiuConfiguracio waves;
+    private String unitatsTriades;
 
     public int getID() {
         return ID;
@@ -62,11 +69,10 @@ public class EstatEstadistiques extends BasicGameState {
         this.state = game;
         this.container = container;
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoXImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoXOverImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
-        font = ManagerRecursos.getFont("dejavuNormalFont");
 
     }
 
@@ -81,6 +87,13 @@ public class EstatEstadistiques extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
         ReproductorMusica.update(container);
+        for (BotoSeleccio bs : botonsSeleccio) {
+            if (bs.isNotaCanvi()) {
+                bs.setNotaCanvi(false);
+                ManagerPerfil.setInformacioUnitat(bs.getUnitat());
+                state.enterState(EstatMostraInfoEnemics.ID);
+            }
+        }
     }
 
     /**
@@ -93,15 +106,10 @@ public class EstatEstadistiques extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        botoTornar.render(container, g);
-        g.setFont(font);
-        g.drawString("Total Morts:" + totalMorts, 410, 240);
-        g.drawString("Total Bales:" + totalBales, 410, 280);
-        g.drawString("Total Guanyades:" + totalGuanyades, 410, 320);
-        g.drawString("Total Perdudes:" + totalPerdudes, 410, 360);
-        g.drawString("Total Diners:" + totalDinersGuanyats, 410, 400);
-        g.drawString("Total Aures:" + totalAuresColocades, 410, 440);
-        g.drawString("Total Unitats:" + totalUnitatsColocades, 410, 480);
+        botoDades.render(container, g);
+        for (BotoSeleccio b : botonsSeleccio) {
+            b.render(container, g);
+        }
     }
 
     /**
@@ -111,15 +119,16 @@ public class EstatEstadistiques extends BasicGameState {
      */
     @Override
     public void enter(GameContainer gc, StateBasedGame state) {
+        posXVariable = 290;
+        posYVariable = 160;
+        botonsSeleccio = new ArrayList<BotoSeleccio>();
         crearBotonsMenuNormal();
         afegirListeners();
-        totalMorts = ManagerPerfil.getTotalMorts();
-        totalBales = ManagerPerfil.getBales();
-        totalGuanyades = ManagerPerfil.getGuanyades();
-        totalPerdudes = ManagerPerfil.getPerdudes();
-        totalDinersGuanyats = ManagerPerfil.getDiners();
-        totalAuresColocades = ManagerPerfil.getAures();
-        totalUnitatsColocades = ManagerPerfil.getUnitats();
+        wave = ManagerPerfil.getWaveActual();
+        waves = Configuracio.getWaves();
+        unitatsTriades = waves.getPropietatString("enemicsDisponibles" + wave);
+        crearBotons();
+        posicionarBotons();
     }
 
     /**
@@ -128,18 +137,55 @@ public class EstatEstadistiques extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar al menu principal
-        botoTornar = new BotoMenu(container, imatgeBotoNormal, 750, 100);
-        botoTornar.setMouseOverImage(imatgeBotoOver);
-        botoTornar.setMouseDownSound(soClick);
-        botoTornar.setMouseOverSound(soOver);
-        botoTornar.setActiu(true);
+        botoDades = new BotoMenu(container, imatgeBotoNormal, 380, 570);
+        botoDades.setMouseOverImage(imatgeBotoOver);
+        botoDades.setMouseDownSound(soClick);
+        botoDades.setMouseOverSound(soOver);
+        botoDades.setActiu(true);
+    }
+
+    /**
+     * Crea els botons necessaris
+     */
+    private void crearBotons() {
+        String[] s = unitatsTriades.split("-");
+        BotoSeleccio.setImatgeCarta(ManagerRecursos.getImage("botoCartaImage"));
+        BotoSeleccio.setImatgeCartaOver(ManagerRecursos.getImage("botoCartaOverImage"));
+        for (String text : s) {
+            BotoSeleccio bs = new BotoSeleccio(container, ManagerRecursos.getImage("carta" + text + "Image"),
+                    0, 0, text);
+            bs.addListener();
+            bs.setMouseDownSound(soClick);
+            bs.setMouseOverSound(soOver);
+            bs.setActiu(true);
+            botonsSeleccio.add(bs);
+        }
+    }
+
+    /**
+     * Posiciona els botons a la posicio que els pertoca
+     */
+    private void posicionarBotons() {
+        int columnes = 0;
+        int files = 0;
+        for (BotoSeleccio b : botonsSeleccio) {
+            int posicioBotoX = (columnes * 90) + posXVariable;
+            int posicioBotoY = (files * 110) + posYVariable;
+            b.setLocation(posicioBotoX, posicioBotoY);
+            if (columnes == 4) {
+                columnes = 0;
+                files++;
+            } else {
+                columnes++;
+            }
+        }
     }
 
     /**
      * S'afegeixen els listeners que faran accionar els botons
      */
     private void afegirListeners() {
-        botoTornar.addListener(new ComponentListener() {
+        botoDades.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatDades.ID);
@@ -147,4 +193,3 @@ public class EstatEstadistiques extends BasicGameState {
         });
     }
 }
-

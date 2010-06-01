@@ -90,4 +90,8 @@ public class ManagerRecursos {
     public static Music getMusic(String name) {
         return musica.get(name);
     }
+
+    public static Map<String, Music> getMusics() {
+		return musica;
+	}
 }

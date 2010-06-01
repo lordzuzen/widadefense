@@ -9,6 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -53,6 +54,7 @@ public class EstatPerd extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
+        ReproductorMusica.update(container);
     }
 
     /**

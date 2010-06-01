@@ -1,6 +1,8 @@
 package projecte.td.estats;
 
-import java.util.ArrayList;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,47 +13,44 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.componentGUI.BotoSeleccio;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.utilitats.Configuracio;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
  * @author media
  */
-public class EstatMostraInformacio extends BasicGameState {
+public class EstatMostraInfoEnemics extends BasicGameState {
 
     // Identificador del estat
-    public static final int ID = 11;
+    public static final int ID = 13;
     // Contenidor del joc
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
     // Boto per reinicar la wave
-    private BotoMenu botoDades;
-    // Posicio X del menu
-    private int posX;
-    // Posicio Y del menu
-    private int posY;
-    private int wave;
-    // Posicio X on es començara a col·locar el primer boto de tria d'unitat
-    private int posXVariable;
-    // Posicio Y on es començara a col·locar el primer boto de tria d'unitat
-    private int posYVariable;
-    // ArrayList on es guarden els botons de seleccio d'unitats
-    private ArrayList<BotoSeleccio> botonsSeleccio;
+    private BotoMenu botoTornar;
     // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    private Image labelFonsNegre;
+    private Animation animation;
     private Sound soClick;
     private Sound soOver;
-    private ArxiuConfiguracio waves;
-    private String unitatsTriades;
+    private ArxiuConfiguracio enemics;
+    private String unitatTriada;
+    private String vida;
+    private String atac;
+    private String rapidesa;
+    private String informacio;
+    // Font que s'usa per renderitzar el text
+    private Font font;
 
     public int getID() {
         return ID;
@@ -68,10 +67,12 @@ public class EstatMostraInformacio extends BasicGameState {
         this.state = game;
         this.container = container;
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoXImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoXOverImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
+        labelFonsNegre = ManagerRecursos.getImage("labelFonsNegreImage");
+        font = ManagerRecursos.getFont("dejavuNormalFont");
 
     }
 
@@ -85,6 +86,7 @@ public class EstatMostraInformacio extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
+        ReproductorMusica.update(container);
     }
 
     /**
@@ -97,10 +99,23 @@ public class EstatMostraInformacio extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        botoDades.render(container, g);
-        for (BotoSeleccio b : botonsSeleccio) {
-            b.render(container, g);
+        labelFonsNegre.draw(435, 103);
+        botoTornar.render(container, g);
+        g.setFont(font);
+        g.setColor(Color.black);
+        g.drawString(unitatTriada, 435, 310);
+        g.drawString("Vida: " + vida, 435, 360);
+        g.drawString("Cadencia: " + rapidesa, 435, 400);
+        g.drawString("Capacitat:  " + atac, 435, 440);
+        String[] text = informacio.split("-");
+        int posicio = 530;
+        for (String z : text) {
+            g.drawString(z, 325, posicio);
+            posicio += 40;
         }
+        int posX = 435 + labelFonsNegre.getWidth() / 2 - animation.getImage(0).getWidth() / 2;
+        int posY = 103 + labelFonsNegre.getHeight() / 2 - animation.getImage(0).getHeight() / 2;
+        g.drawAnimation(animation, posX, posY);
     }
 
     /**
@@ -110,16 +125,24 @@ public class EstatMostraInformacio extends BasicGameState {
      */
     @Override
     public void enter(GameContainer gc, StateBasedGame state) {
-        posXVariable = 290;
-        posYVariable = 160;
-        botonsSeleccio = new ArrayList<BotoSeleccio>();
         crearBotonsMenuNormal();
         afegirListeners();
-        wave = ManagerPerfil.getWave();
-        waves = Configuracio.getWaves();
-        unitatsTriades = waves.getPropietatString("unitatsDisponibles" + wave);
-        crearBotons();
-        posicionarBotons();
+        enemics = Configuracio.getEnemics();
+        assignarPropietats();
+    }
+
+    private void assignarPropietats() {
+        unitatTriada = ManagerPerfil.getInformacioUnitat();
+        vida = enemics.getPropietatString("infoVida" + unitatTriada);
+        rapidesa = enemics.getPropietatString("infoRapidesa" + unitatTriada);
+        atac = enemics.getPropietatString("infoAtac" + unitatTriada);
+        animation = new Animation(ManagerRecursos.getImageArray(enemics.getPropietatString("animation" + unitatTriada)), 80);
+        int info = enemics.getPropietatInt("totalInfo" + unitatTriada);
+        informacio = "";
+        for (int z = 0; z < info; z++) {
+            informacio += enemics.getPropietatString("informacio" + unitatTriada + z) + "-";
+        }
+        informacio = informacio.substring(0, informacio.length() - 1);
     }
 
     /**
@@ -128,58 +151,21 @@ public class EstatMostraInformacio extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar al menu principal
-        botoDades = new BotoMenu(container, imatgeBotoNormal, 380, 570);
-        botoDades.setMouseOverImage(imatgeBotoOver);
-        botoDades.setMouseDownSound(soClick);
-        botoDades.setMouseOverSound(soOver);
-        botoDades.setActiu(true);
-    }
-
-    /**
-     * Crea els botons necessaris
-     */
-    private void crearBotons() {
-        String[] s = unitatsTriades.split("-");
-        BotoSeleccio.setImatgeCarta(ManagerRecursos.getImage("botoCartaImage"));
-        BotoSeleccio.setImatgeCartaOver(ManagerRecursos.getImage("botoCartaOverImage"));
-        for (String text : s) {
-            BotoSeleccio bs = new BotoSeleccio(container, ManagerRecursos.getImage("carta" + text + "Image"),
-                    0, 0, text);
-            bs.addListener();
-            bs.setMouseDownSound(soClick);
-            bs.setMouseOverSound(soOver);
-            bs.setActiu(true);
-            botonsSeleccio.add(bs);
-        }
-    }
-
-    /**
-     * Posiciona els botons a la posicio que els pertoca
-     */
-    private void posicionarBotons() {
-        int columnes = 0;
-        int files = 0;
-        for (BotoSeleccio b : botonsSeleccio) {
-            int posicioBotoX = (columnes * 90) + posXVariable;
-            int posicioBotoY = (files * 110) + posYVariable;
-            b.setLocation(posicioBotoX, posicioBotoY);
-            if (columnes == 4) {
-                columnes = 0;
-                files++;
-            } else {
-                columnes++;
-            }
-        }
+        botoTornar = new BotoMenu(container, imatgeBotoNormal, 756, 84);
+        botoTornar.setMouseOverImage(imatgeBotoOver);
+        botoTornar.setMouseDownSound(soClick);
+        botoTornar.setMouseOverSound(soOver);
+        botoTornar.setActiu(true);
     }
 
     /**
      * S'afegeixen els listeners que faran accionar els botons
      */
     private void afegirListeners() {
-        botoDades.addListener(new ComponentListener() {
+        botoTornar.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatDades.ID);
+                state.enterState(EstatInfoEnemic.ID);
             }
         });
     }
