@@ -35,7 +35,16 @@ public class ManagerColisions {
                     UnitatAbstract enemic = (UnitatAbstract) ob1;
                     for (Object ob2 : arrays_projectils_amics[i]) {
                         Projectil p = (Projectil) ob2;
-                        if (enemic.collideWith(p.getShape())) {
+                        if (enemic instanceof UnitatEnemigaInvisible) {
+                            UnitatEnemigaInvisible ui = (UnitatEnemigaInvisible) enemic;
+                            ui.canviShape();
+                            if (!ui.isInvisible()&& ui.collideWith(p.getShape())) {
+                                enemic.impacte(p.getDany());
+                                p.impacte();
+                            }
+                            ui.segonCanviShape();
+                        }
+                        else if (enemic.collideWith(p.getShape())) {
                             enemic.impacte(p.getDany());
                             p.impacte();
                         }
@@ -62,17 +71,16 @@ public class ManagerColisions {
 
         //Colisions Enemics-Amics
         for (int i = 0; i < controlaFiles.length; i++) {
-            if (controlaFiles[i]) {
-
+            if (!arrays_enemics[i].isEmpty()) {
                 for (Object ob1 : arrays_enemics[i]) {
                     UnitatEnemiga enemic = (UnitatEnemiga) ob1;
                     for (UnitatAbstract unitatAmiga : unitatsAmigues[i]) {
                         if (unitatAmiga != null) {
-                            if (unitatAmiga.collideWith(enemic.getShape()) && unitatAmiga.getPosX()<=enemic.getPosX()) {
+                            if (unitatAmiga.collideWith(enemic.getShape()) && unitatAmiga.getPosX() <= enemic.getPosX()) {
                                 if (enemic instanceof UnitatEnemigaAtkDistancia) {
                                     UnitatEnemigaAtkDistancia enemicD = (UnitatEnemigaAtkDistancia) enemic;
                                     enemicD.activarDispars();
-                                } else if(enemic instanceof UnitatEnemigaAtkNormal){
+                                } else if (enemic instanceof UnitatEnemigaAtkNormal) {
                                     UnitatEnemigaAtkNormal enemicN = (UnitatEnemigaAtkNormal) enemic;
                                     enemicN.setActivat(true);
                                     unitatAmiga.impacte(enemicN.getDany());
