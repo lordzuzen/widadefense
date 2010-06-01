@@ -8,12 +8,15 @@ import projecte.td.estats.EstatDades;
 import projecte.td.estats.EstatEstadistiques;
 import projecte.td.estats.EstatGuanya;
 import projecte.td.estats.EstatInGame;
+import projecte.td.estats.EstatInfoEnemic;
 import projecte.td.estats.EstatInfoUnitats;
 import projecte.td.estats.EstatIntro;
 import projecte.td.estats.EstatLoading;
 import projecte.td.estats.EstatMenuIngame;
 import projecte.td.estats.EstatMenuPrincipal;
-import projecte.td.estats.EstatMostraInformacio;
+import projecte.td.estats.EstatMostraInfoEnemics;
+import projecte.td.estats.EstatMostraInfoUnitats;
+import projecte.td.estats.EstatMusica;
 import projecte.td.estats.EstatPerd;
 import projecte.td.estats.EstatPerfil;
 import projecte.td.estats.EstatSeguentWave;
@@ -72,9 +75,12 @@ public class TDGame extends StateBasedGame {
         addState(new EstatDades());
         addState(new EstatEstadistiques());
         addState(new EstatInfoUnitats());
-        addState(new EstatMostraInformacio());
+        addState(new EstatMostraInfoUnitats());
+        addState(new EstatInfoEnemic());
+        addState(new EstatMostraInfoEnemics());
         // Estat on es confirma la sortida a l'escriptori
         addState(new EstatSortir());
+        addState(new EstatMusica());
     }
 
     @Override

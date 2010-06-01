@@ -264,7 +264,7 @@ public class BotoMenu extends AbstractComponent {
      */
     public void mousePressed(int button, int mx, int my) {
         over = area.contains(mx, my);
-        if (button == 0) {
+        if (button == 0 && actiu) {
             click = true;
         }
     }

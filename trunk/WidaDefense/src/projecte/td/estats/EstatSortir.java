@@ -14,6 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -22,7 +23,7 @@ import projecte.td.managers.ManagerRecursos;
 public class EstatSortir extends BasicGameState {
 
     // Identificador de l'estat
-    public static final int ID = 12;
+    public static final int ID = 15;
     // Contenidors del joc
     private GameContainer container;
     private StateBasedGame state;
@@ -99,6 +100,7 @@ public class EstatSortir extends BasicGameState {
     }
 
     public void update(GameContainer game, StateBasedGame state, int delta) {
+        ReproductorMusica.update(container);
     }
 
     public void render(GameContainer game, StateBasedGame state, Graphics g) {

@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 
 /**
@@ -81,6 +82,9 @@ public class EstatLoading extends BasicGameState {
             Input input = container.getInput();
             if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
                 container.setMouseGrabbed(false);
+                ReproductorMusica.init();
+                ReproductorMusica.toggleRepeatAll();
+                ReproductorMusica.toggleShuffle();
                 game.enterState(EstatPerfil.ID);
             }
 

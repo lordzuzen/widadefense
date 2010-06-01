@@ -16,6 +16,7 @@ import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.utilitats.Configuracio;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -52,6 +53,7 @@ public class EstatInfoUnitats extends BasicGameState {
     private Sound soOver;
     private ArxiuConfiguracio waves;
     private String unitatsTriades;
+    private boolean entraSeguentEstat;
 
     public int getID() {
         return ID;
@@ -85,9 +87,12 @@ public class EstatInfoUnitats extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
+        ReproductorMusica.update(container);
         for (BotoSeleccio bs : botonsSeleccio) {
             if (bs.isNotaCanvi()) {
-                state.enterState(EstatMostraInformacio.ID);
+                bs.setNotaCanvi(false);
+                ManagerPerfil.setInformacioUnitat(bs.getUnitat());
+                state.enterState(EstatMostraInfoUnitats.ID);
             }
         }
     }
@@ -120,7 +125,7 @@ public class EstatInfoUnitats extends BasicGameState {
         botonsSeleccio = new ArrayList<BotoSeleccio>();
         crearBotonsMenuNormal();
         afegirListeners();
-        wave = ManagerPerfil.getWave();
+        wave = ManagerPerfil.getWaveActual();
         waves = Configuracio.getWaves();
         unitatsTriades = waves.getPropietatString("unitatsDisponibles" + wave);
         crearBotons();

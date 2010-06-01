@@ -15,6 +15,7 @@ import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  * En aquest estat s'escollira el perfil d'usuari que es vol utilitzar
@@ -59,6 +60,7 @@ public class EstatPerfil extends BasicGameState {
     private Image imatgeBotoOver;
     // Image del boto per esborra perfils
     private Image imatgeBotoBorrar;
+    // Image del boto per esborrar perfils over
     private Image imatgeBotoBorrarOver;
     // Image del text perfil 1
     private Image imatgeTextPerfil1;
@@ -72,8 +74,11 @@ public class EstatPerfil extends BasicGameState {
     private Font font;
     // String que s'utilitza per veure si s'ha reiniciat un perfil
     private String reiniciarPerfil;
+    // S'utilitza per comprovar si un perfil sa reiniciat
     private int comptadorReiniciarPerfil;
+    // So del click que fan els botons al fer un mouse clicked
     private Sound soClick;
+    // So del mouse que fan els botons pel mouse over
     private Sound soOver;
 
     /**
@@ -115,6 +120,8 @@ public class EstatPerfil extends BasicGameState {
      * @throws SlickException
      */
     public void update(GameContainer game, StateBasedGame state, int delta) {
+        // Si s'esta entrant a l'estat o se n'esta sortint es dura a terme
+        // l'efecte de transparencia
         if (alphaBotonsIn) {
             comptador += 50;
             if (comptador % 100 == 0) {
@@ -144,10 +151,12 @@ public class EstatPerfil extends BasicGameState {
             if (transparencia <= 0) {
                 state.enterState(EstatMenuPrincipal.ID);
             }
+            ReproductorMusica.update(container);
         }
+        // Si s'ha esborrat un perfil es mostra un missatge per pantalla
         if (!reiniciarPerfil.equals("null")) {
             comptadorReiniciarPerfil++;
-            if (comptadorReiniciarPerfil == 50) {
+            if (comptadorReiniciarPerfil == 70) {
                 reiniciarPerfil = "null";
                 comptadorReiniciarPerfil = 0;
             }
@@ -248,8 +257,7 @@ public class EstatPerfil extends BasicGameState {
             public void componentActivated(AbstractComponent comp) {
                 if (!alphaBotonsIn && !alphaBotonsOut) {
                     perfils = Configuracio.getPerfil1();
-                    perfils.setPropietatInt("seguentWave", 1);
-                    perfils.guardar();
+                    resetEstadistiques();
                     reiniciarPerfil = "Perfil 1";
                 }
             }
@@ -271,8 +279,7 @@ public class EstatPerfil extends BasicGameState {
             public void componentActivated(AbstractComponent comp) {
                 if (!alphaBotonsIn && !alphaBotonsOut) {
                     perfils = Configuracio.getPerfil2();
-                    perfils.setPropietatInt("seguentWave", 1);
-                    perfils.guardar();
+                    resetEstadistiques();
                     reiniciarPerfil = "Perfil 2";
                 }
             }
@@ -294,7 +301,7 @@ public class EstatPerfil extends BasicGameState {
             public void componentActivated(AbstractComponent comp) {
                 if (!alphaBotonsIn && !alphaBotonsOut) {
                     perfils = Configuracio.getPerfil3();
-                    perfils.setPropietatInt("seguentWave", 1);
+                    resetEstadistiques();
                     perfils.guardar();
                     reiniciarPerfil = "Perfil 3";
                 }
@@ -333,5 +340,21 @@ public class EstatPerfil extends BasicGameState {
         imatgeTextPerfil1.setAlpha(1f);
         imatgeTextPerfil2.setAlpha(1f);
         imatgeTextPerfil3.setAlpha(1f);
+    }
+
+    /**
+     * Reinicia les estadistiques d'un perfil
+     */
+    private void resetEstadistiques() {
+        perfils.setPropietatInt("seguentWave", 1);
+        perfils.setPropietatInt("seguentWave", 1);
+        perfils.setPropietatInt("totalAures", 0);
+        perfils.setPropietatInt("totalUnitats", 0);
+        perfils.setPropietatInt("totalMorts", 0);
+        perfils.setPropietatInt("totalGuanyades", 0);
+        perfils.setPropietatInt("totalPerdudes", 0);
+        perfils.setPropietatInt("totalBales", 0);
+        perfils.setPropietatInt("totalDiners", 0);
+        perfils.guardar();
     }
 }

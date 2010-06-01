@@ -15,6 +15,7 @@ import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.utilitats.Configuracio;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -90,6 +91,7 @@ public class EstatGuanya extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
+        ReproductorMusica.update(container);
     }
 
     /**

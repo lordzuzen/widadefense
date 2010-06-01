@@ -16,6 +16,7 @@ import projecte.td.componentGUI.MenuSeleccio;
 import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -43,6 +44,8 @@ public class EstatSeguentWave extends BasicGameState {
     private BotoMenu botoContinuar;
     // Boto per tornar al menu principal
     private BotoMenu botoTornar;
+    private BotoMenu botoEnrere;
+    private BotoMenu botoEndavant;
     // Indica si s'ha apretat algun boto
     private boolean botoApretat;
     private int comptador;
@@ -117,6 +120,7 @@ public class EstatSeguentWave extends BasicGameState {
         botoContinuar.setMouseDownSound(soClick);
         botoContinuar.setMouseOverSound(soOver);
         botoContinuar.setActiu(true);
+
         botoTornar = new BotoMenu(container, imatgeBotoX, 800, 630);
         botoTornar.addListener(new ComponentListener() {
 
@@ -127,6 +131,38 @@ public class EstatSeguentWave extends BasicGameState {
         botoTornar.setMouseDownSound(soClick);
         botoTornar.setMouseOverSound(soOver);
         botoTornar.setActiu(true);
+
+        botoEnrere = new BotoMenu(container, ManagerRecursos.getImage("botoEnrereImage"), 676, 228);
+        botoEnrere.setMouseOverImage(ManagerRecursos.getImage("botoEnrereOverImage"));
+        botoEnrere.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                if (ManagerPerfil.potRestarWave()) {
+                    ManagerPerfil.restaWaveActual();
+                    ManagerPerfil.assignarPropietats();
+                    state.enterState(ID);
+                }
+            }
+        });
+        botoEnrere.setMouseDownSound(soClick);
+        botoEnrere.setMouseOverSound(soOver);
+        botoEnrere.setActiu(true);
+
+        botoEndavant = new BotoMenu(container, ManagerRecursos.getImage("botoEndavantImage"), 884, 228);
+        botoEndavant.setMouseOverImage(ManagerRecursos.getImage("botoEndavantOverImage"));
+        botoEndavant.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                if (ManagerPerfil.potSumarWave()) {
+                    ManagerPerfil.sumaWaveActual();
+                    ManagerPerfil.assignarPropietats();
+                    state.enterState(ID);
+                }
+            }
+        });
+        botoEndavant.setMouseDownSound(soClick);
+        botoEndavant.setMouseOverSound(soOver);
+        botoEndavant.setActiu(true);
     }
 
     /**
@@ -144,17 +180,24 @@ public class EstatSeguentWave extends BasicGameState {
                 botoContinuar.setActiu(false);
                 botoTornar.setActiu(false);
                 ms.silenciarBotons();
+                botoContinuar.setActiu(false);
+                botoTornar.setActiu(false);
+                botoEndavant.setActiu(false);
+                botoEnrere.setActiu(false);
             }
             comptador += 1;
             posYFons += 4;
             botoContinuar.setLocation(660, botoContinuar.getY() + 4);
             botoTornar.setLocation(800, botoTornar.getY() + 4);
+            botoEndavant.setLocation(botoEndavant.getX(), botoEndavant.getY() + 4);
+            botoEnrere.setLocation(botoEnrere.getX(), botoEnrere.getY() + 4);
             ms.moureBotons(4);
             if (comptador > 150) {
                 ManagerPerfil.setUnitatsTriades(ms.agafarUnitats());
                 state.enterState(5);
             }
         }
+        ReproductorMusica.update(container);
     }
 
     /**
@@ -168,6 +211,8 @@ public class EstatSeguentWave extends BasicGameState {
         imatgeFons.draw(0, posYFons);
         botoContinuar.render(container, g);
         botoTornar.render(container, g);
+        botoEnrere.render(container, g);
+        botoEndavant.render(container, g);
         ms.render(game, state, g);
     }
 }

@@ -10,8 +10,8 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -25,12 +25,14 @@ public class EstatDades extends BasicGameState {
     private GameContainer container;
     // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
-    // Boto per reinicar la wave
-    private BotoMenu botoDades;
-    // Boto per tornar al menu principal
+    // Boto per veure les estadistiques
+    private BotoMenu botoEstadistiques;
+    // Boto per accedir a la informacio de les unitats
     private BotoMenu botoUnitats;
-    // Boto per tornar al menu principal
+    // Boto per accedir a la informacio dels enemics
     private BotoMenu botoEnemics;
+    // Boto per tornar al menu principal
+    private BotoMenu botoTornar;
     // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
@@ -72,6 +74,7 @@ public class EstatDades extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
+        ReproductorMusica.update(container);
     }
 
     /**
@@ -85,8 +88,9 @@ public class EstatDades extends BasicGameState {
             throws SlickException {
         imatgeFons.draw(0, 0);
         botoUnitats.render(container, g);
-        botoDades.render(container, g);
+        botoEstadistiques.render(container, g);
         botoEnemics.render(container, g);
+        botoTornar.render(container, g);
     }
 
     /**
@@ -105,24 +109,30 @@ public class EstatDades extends BasicGameState {
      * A través del manager de recursos assignem una imatge i una posicio als botons
      */
     private void crearBotonsMenuNormal() {
-        // BotoMenu tornar a jugar wave
-        botoEnemics = new BotoMenu(container, imatgeBotoNormal, 380, 350);
-        botoEnemics.setMouseOverImage(imatgeBotoOver);
-        botoEnemics.setMouseDownSound(soClick);
-        botoEnemics.setMouseOverSound(soOver);
-        botoEnemics.setActiu(true);
         // BotoMenu tornar al menu principal
-        botoDades = new BotoMenu(container, imatgeBotoNormal, 380, 450);
-        botoDades.setMouseOverImage(imatgeBotoOver);
-        botoDades.setMouseDownSound(soClick);
-        botoDades.setMouseOverSound(soOver);
-        botoDades.setActiu(true);
+        botoEstadistiques = new BotoMenu(container, imatgeBotoNormal, 380, 160);
+        botoEstadistiques.setMouseOverImage(imatgeBotoOver);
+        botoEstadistiques.setMouseDownSound(soClick);
+        botoEstadistiques.setMouseOverSound(soOver);
+        botoEstadistiques.setActiu(true);
         // BotoMenu per seguir jugant en la següent Wave
-        botoUnitats = new BotoMenu(container, imatgeBotoNormal, 380, 550);
+        botoUnitats = new BotoMenu(container, imatgeBotoNormal, 380, 280);
         botoUnitats.setMouseOverImage(imatgeBotoOver);
         botoUnitats.setMouseDownSound(soClick);
         botoUnitats.setMouseOverSound(soOver);
         botoUnitats.setActiu(true);
+        // BotoMenu tornar a jugar wave
+        botoEnemics = new BotoMenu(container, imatgeBotoNormal, 380, 400);
+        botoEnemics.setMouseOverImage(imatgeBotoOver);
+        botoEnemics.setMouseDownSound(soClick);
+        botoEnemics.setMouseOverSound(soOver);
+        botoEnemics.setActiu(true);
+        // BotoMenu per seguir jugant en la següent Wave
+        botoTornar = new BotoMenu(container, imatgeBotoNormal, 380, 520);
+        botoTornar.setMouseOverImage(imatgeBotoOver);
+        botoTornar.setMouseDownSound(soClick);
+        botoTornar.setMouseOverSound(soOver);
+        botoTornar.setActiu(true);
     }
 
     /**
@@ -135,13 +145,19 @@ public class EstatDades extends BasicGameState {
                 state.enterState(EstatInfoUnitats.ID);
             }
         });
-        botoDades.addListener(new ComponentListener() {
+        botoEstadistiques.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatEstadistiques.ID);
             }
         });
         botoEnemics.addListener(new ComponentListener() {
+
+            public void componentActivated(AbstractComponent comp) {
+                state.enterState(EstatInfoEnemic.ID);
+            }
+        });
+        botoTornar.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatMenuPrincipal.ID);

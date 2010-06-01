@@ -23,6 +23,7 @@ import projecte.td.domini.UnitatAbstract;
 import projecte.td.managers.ManagerContext;
 import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
+import projecte.td.utilitats.ReproductorMusica;
 
 /**
  *
@@ -88,6 +89,7 @@ public class EstatInGame extends BasicGameState {
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
+            p.borrarTot();
             if (md.isAuraEnEspera()) {
                 UnitatAbstract ua = p.getUnitatAmiga(input.getMouseX(), input.getMouseY());
                 if (ua instanceof IAuraRapidesa && md.getTipusAuraEspera().equals("MagRapidesa")) {
@@ -150,6 +152,7 @@ public class EstatInGame extends BasicGameState {
         /**if (ManagerEnemics.fidelaWave()) {
         state.enterState(EstatGuanya.ID);
         }**/
+        ReproductorMusica.update(gc);
     }
 
     /**
