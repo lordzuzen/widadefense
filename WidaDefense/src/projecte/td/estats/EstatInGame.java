@@ -73,8 +73,11 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         Input input = gc.getInput();
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && input.getMouseY() <= 600) {
-            System.out.println("x:" + input.getMouseX() + " y:" + input.getMouseY());
-            if (!unitat.equals("null") && p.comprovaClickCorrecte(input.getMouseX(), input.getMouseY())) {
+            if (unitat.equals("pala")) {
+                p.borrarUnitatAmiguesClick(input.getMouseX(), input.getMouseY());
+                unitat = "null";
+                mi.realitzaTransaccio();
+            } else if (!unitat.equals("null") && p.comprovaClickCorrecte(input.getMouseX(), input.getMouseY())) {
                 int[] posFC = p.mirarCoordenadesClick(input.getMouseX(), input.getMouseY());
                 if (p.comprovarClick(posFC[0], posFC[1])) {
                     UnitatAbstract u = null;
@@ -108,7 +111,7 @@ public class EstatInGame extends BasicGameState {
         } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             UnitatAbstract u = null;
             if (cont == 0) {
-                u = FactoriaUnitats.getUnitatDolenta("Insecte");
+                u = FactoriaUnitats.getUnitatDolenta("Gos");
             } else if (cont == 1) {
                 u = FactoriaUnitats.getUnitatDolenta("Robot");
             } else if (cont == 2) {
@@ -145,7 +148,7 @@ public class EstatInGame extends BasicGameState {
             p.posicionaUnitatEnemiga(1000, random, ua);
         }
         /**if (ManagerEnemics.fidelaWave()) {
-            state.enterState(EstatGuanya.ID);
+        state.enterState(EstatGuanya.ID);
         }**/
     }
 
