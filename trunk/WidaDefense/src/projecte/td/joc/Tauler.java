@@ -23,6 +23,7 @@ import projecte.td.domini.UnitatDispara;
 import projecte.td.domini.UnitatEnemigaAtkDistancia;
 import projecte.td.domini.UnitatEnemigaAtkDistanciaSalta;
 import projecte.td.domini.UnitatEnemigaAtkNormal;
+import projecte.td.domini.UnitatEnemigaInvisible;
 import projecte.td.managers.ManagerPerfil;
 
 /**
@@ -178,7 +179,7 @@ public class Tauler {
                 if (celes[fil][col].contains(x, y)) {
                     enemic.setLocation(ampladaTotal, (float) (celes[fil][col].getY() + llargada - enemic.getAnimation().getHeight()));
                     arrays_enemics[fil].add(enemic);
-                    if (!controlaFiles[fil]) {
+                    if (!controlaFiles[fil] && !(enemic instanceof UnitatEnemigaInvisible)) {
                         controlaFiles[fil] = true;
                     }
 
@@ -457,6 +458,12 @@ public class Tauler {
                         eS.calculaSalt(llargadaTotal);
                         eS.haSaltat();
                         unitatsSaltant.add(eS);
+                    }
+                }
+                if (enemic instanceof UnitatEnemigaInvisible) {
+                    UnitatEnemigaInvisible ui = (UnitatEnemigaInvisible) enemic;
+                    if (!ui.isInvisible()) {
+                        controlaFiles[i] = true;
                     }
                 }
                 enemic.update(delta);
