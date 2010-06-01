@@ -115,13 +115,18 @@ public class FactoriaUnitats {
         } else if (tipus.equals("Robot")) {
             dolent = new UnitatEnemigaAtkDistanciaSalta(100, 2000,
                     ManagerRecursos.getImageArray("robotCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation"), 100), ManagerRecursos.getImageArray("robotAtacaAnimation"), 0.030, 100, -2, 20, ManagerRecursos.getImageArray("robotCanviAnimation"));
+                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation"), 100), ManagerRecursos.getImageArray("robotAtacaAnimation"), 0.030, 100, -2, 10, ManagerRecursos.getImageArray("robotCanviAnimation"));
         } else if (tipus.equals("Cuc")) {
             dolent = new UnitatEnemigaAtkNormal(100,
                     ManagerRecursos.getImageArray("cucCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
                     ManagerRecursos.getImageArray("cucAtacaAnimation"), 0.020, 100, 1);
         } else if (tipus.equals("Insecte")) {
             dolent = new UnitatEnemigaVola(100, ManagerRecursos.getImageArray("insecteAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60, 0.050, 0.010);
+        }
+        else if (tipus.equals("Gos")) {
+            dolent = new UnitatEnemigaInvisible(100,
+                    ManagerRecursos.getImageArray("gosAtacaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
+                    ManagerRecursos.getImageArray("gosAnimation"), 0.050, 30, 0.80,ManagerRecursos.getImageArray("gosCaminaAnimation"));
         }
         return dolent;
     }
