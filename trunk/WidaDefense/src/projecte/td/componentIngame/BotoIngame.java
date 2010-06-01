@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
- 
+
 /**
  *
  * @author media
@@ -23,6 +23,9 @@ public class BotoIngame extends AbstractComponent {
     // imatgeSeleccionat: imatge que mostra si el boto esta seleccionat
     private static Image imatgeSeleccionat;
     private static Image imatgeNoSeleccionat;
+    // imatgeSeleccionat: imatge que mostra si el boto esta seleccionat
+    private static Image imatgeSeleccionat2;
+    private static Image imatgeNoSeleccionat2;
     // imatgeNormal: imatge que identifica cada boto
     private Image imatgeNormal;
     // disponible: flag per determinar si el boto esta disponible
@@ -41,6 +44,7 @@ public class BotoIngame extends AbstractComponent {
     private String accio;
     // timer: s'utilitza per inhabilitar el boto durant un periode de temps
     private Timer timer;
+    private boolean cond;
 
     /**
      * Botons que s'utilitzen en el transcurs del joc (ingame) per seleccionar les unitats o elements
@@ -51,12 +55,18 @@ public class BotoIngame extends AbstractComponent {
      * @param y : posicio en l'eix Y
      * @param cost : cost del que val l'element representat pel boto
      */
-    public BotoIngame(GUIContext gui, Image imatgeNormal, int x, int y, int cost) {
+    public BotoIngame(GUIContext gui, Image imatgeNormal, int x, int y, int cost, boolean cond) {
         super(gui);
         this.imatgeNormal = imatgeNormal;
         this.cost = cost;
-        area = new Rectangle(x, y, imatgeSeleccionat.getWidth(), imatgeSeleccionat.getHeight());
+        if (cond) {
+            area = new Rectangle(x, y, imatgeSeleccionat.getWidth(), imatgeSeleccionat.getHeight());
+        } else {
+            area = new Rectangle(x, y, imatgeSeleccionat2.getWidth(), imatgeSeleccionat2.getHeight());
+        }
+
         accio = "null";
+        this.cond = cond;
     }
 
     /**
@@ -77,16 +87,31 @@ public class BotoIngame extends AbstractComponent {
      * @param g : objecte grafics que s'utilitza per renderitzar imatges i animacions
      */
     public void render(GUIContext gc, Graphics g) {
-        if (disponible && seleccionat) {
-            g.drawImage(imatgeSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
-        } else if (disponible) {
-            g.drawImage(imatgeNoSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
+        Image img = null;
+        Image imgN = null;
+        int a=0;
+        int b=0;
+        int c=0;
+        if (cond) {
+            img = imatgeSeleccionat;
+            imgN = imatgeNoSeleccionat;
+            a=15;
+            b=36;
+            c=53;
         } else {
-            g.drawImage(imatgeNoSeleccionat, area.getX(), area.getY());
-            g.drawImage(imatgeNormal, area.getX() + 15, area.getY() + 15);
-            g.drawImage(imatgeTapada, area.getX() + 36, area.getY() + 53);
+            img = imatgeSeleccionat2;
+            imgN = imatgeNoSeleccionat2;
+        }
+        if (disponible && seleccionat) {
+            g.drawImage(img, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + a, area.getY() + a);
+        } else if (disponible) {
+            g.drawImage(imgN, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + a, area.getY() + a);
+        } else {
+            g.drawImage(imgN, area.getX(), area.getY());
+            g.drawImage(imatgeNormal, area.getX() + a, area.getY() + a);
+            g.drawImage(imatgeTapada, area.getX() + b, area.getY() + c);
         }
     }
 
@@ -131,6 +156,7 @@ public class BotoIngame extends AbstractComponent {
      */
     public void addListener(final String unitat) {
         addListener(new ComponentListener() {
+
             public void componentActivated(AbstractComponent comp) {
                 if (disponible && !botoSeleccionat) {
                     botoSeleccionat = true;
@@ -149,6 +175,7 @@ public class BotoIngame extends AbstractComponent {
         disponible = false;
         timerActiu = true;
         timer = new Timer(3000, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 clear();
                 timerActiu = false;
@@ -253,5 +280,13 @@ public class BotoIngame extends AbstractComponent {
 
     public static void setImatgeNoSeleccionat(Image imatgeNoSeleccionat) {
         BotoIngame.imatgeNoSeleccionat = imatgeNoSeleccionat;
+    }
+
+    public static void setImatgeNoSeleccionat2(Image imatgeNoSeleccionat2) {
+        BotoIngame.imatgeNoSeleccionat2 = imatgeNoSeleccionat2;
+    }
+
+    public static void setImatgeSeleccionat2(Image imatgeSeleccionat2) {
+        BotoIngame.imatgeSeleccionat2 = imatgeSeleccionat2;
     }
 }

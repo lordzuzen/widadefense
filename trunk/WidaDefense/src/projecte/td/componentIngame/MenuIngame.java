@@ -40,6 +40,8 @@ public class MenuIngame extends AbstractComponent {
     private BotoIngame botoAux;
     // botoOpcions: para la partida i accedeix al menu
     private BotoMenu botoOpcions;
+    //botoPala
+    private BotoIngame botoPala;
     // unitats: s'utilitza per inicialitzar correctament els botonsUnitat i les imatges corresponents
     private String unitats;
     // elementEsperant: indica quin element esta esperant per ser posicionat
@@ -88,6 +90,7 @@ public class MenuIngame extends AbstractComponent {
         crearBotonsUnitats();
         crearBotoMenu();
         afegirListener();
+        crearBotoPala();
     }
 
     /**
@@ -110,6 +113,7 @@ public class MenuIngame extends AbstractComponent {
         for (BotoIngame b : botonsUnitat) {
             b.render(gui, g);
         }
+        botoPala.render(gc, g);
         botoOpcions.render(container, g);
         g.setFont(font);
         g.drawImage(imatgeMoneda, 820, 625);
@@ -132,6 +136,13 @@ public class MenuIngame extends AbstractComponent {
                 enEspera = true;
                 botoAux = b;
             }
+        }
+        botoPala.update(md.getTotal());
+        if (botoPala.isClicat()) {
+
+            elementEsperant = botoPala.getAccio();
+            enEspera = true;
+            botoAux = botoPala;
         }
         if (md.isAuraEnEspera()) {
             auraDisponible = md.getTipusAuraEspera();
@@ -157,11 +168,18 @@ public class MenuIngame extends AbstractComponent {
         for (String s : st) {
             int posX = (comptador * 90) + 40;
             BotoIngame boto = new BotoIngame(gui, ManagerRecursos.getImage("carta" + s + "Image"),
-                    posX, 640, 200);
+                    posX, 640, 200, true);
             boto.addListener(s);
             botonsUnitat.add(boto);
             comptador++;
         }
+    }
+
+    private void crearBotoPala() {
+        BotoIngame.setImatgeSeleccionat2(ManagerRecursos.getImage("botoPalaSeleccionatImage"));
+        BotoIngame.setImatgeNoSeleccionat2(ManagerRecursos.getImage("botoPalaImage"));
+        botoPala = new BotoIngame(gui, ManagerRecursos.getImage("cartaPalaImage"), 822, 661, 0, false);
+        botoPala.addListener("pala");
     }
 
     /**
