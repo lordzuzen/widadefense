@@ -26,8 +26,9 @@ public class BombaAerea extends UnitatAbstract {
     @Override
     public void setLocation(float posX, float posY) {
         posicioYExplosio = posY;
+        System.out.println(posY+"see");
         super.setLocation(posX, -20);
-        projectil.setLocation(posX, -20);
+        projectil.setLocation(0, 0);
     }
 
     @Override
@@ -35,8 +36,9 @@ public class BombaAerea extends UnitatAbstract {
         float y = super.getPosY();
         y += 4;
         super.setLocation(posX, y);
-        projectil.setLocation(posX - 40, y -130);
-        if (posY > posicioYExplosio) {
+        
+        if (posY >= posicioYExplosio) {
+            projectil.setLocation(posX - ((projectil.getWidth()-shape.getWidth())/2), posicioYExplosio +shape.getHeight()-projectil.getHeight()+5);
             dispara = true;
         }
     }

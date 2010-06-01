@@ -38,7 +38,7 @@ public class Mina extends UnitatAbstract {
     @Override
     public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
-        projectil.setLocation(posX-40,posY-80);
+        projectil.setLocation(0, 0);
     }
 
     @Override
@@ -49,6 +49,7 @@ public class Mina extends UnitatAbstract {
     public void impacte(double dany) {
         if (activa) {
             dispara = true;
+            projectil.setLocation(posX - ((projectil.getWidth()-shape.getWidth())/2), posY +shape.getHeight()-projectil.getHeight()+5);
         }
     }
 
