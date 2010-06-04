@@ -128,6 +128,11 @@ public class FactoriaUnitats {
                     ManagerRecursos.getImageArray("gosAtacaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
                     ManagerRecursos.getImageArray("gosAnimation"), 0.050, 30, 0.80,ManagerRecursos.getImageArray("gosCaminaAnimation"));
         }
+        else if(tipus.equals("Zombie")) {
+            dolent = new UnitatEnemigaExplosio(100,
+                    ManagerRecursos.getImageArray("zombieCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
+                    ManagerRecursos.getImageArray("zombieAtacaAnimation"), 0.010, 100, 1);
+        }
         return dolent;
     }
 }
