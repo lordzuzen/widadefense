@@ -16,7 +16,7 @@ import projecte.td.managers.ManagerRecursos;
  *
  * @author media
  */
-public class ProjectilAnimat extends ProjectilMobil {
+public class ProjectilAnimat extends Projectil {
 
     private Animation animation;
     private int milisegons;
@@ -39,7 +39,7 @@ public class ProjectilAnimat extends ProjectilMobil {
         if (posX > 1024) {
             mort = true;
         } else {
-            posX += 4;
+            posX += 0.4*delta;
             shape.setLocation(posX, posY);
         }
     }
