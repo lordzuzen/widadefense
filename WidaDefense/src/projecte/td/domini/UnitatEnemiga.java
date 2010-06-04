@@ -57,7 +57,6 @@ public class UnitatEnemiga extends UnitatAbstract {
     @Override
     public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
-
     }
 
     /**
