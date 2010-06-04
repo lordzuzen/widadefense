@@ -51,6 +51,9 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
 
     @Override
     public void update(int delta) {
+        if(posX<=0-getWidth()/2){
+            haArribat=true;
+        }
         if (!activat) {
             posX -= velocitat * delta;
             setLocation(posX, posY);

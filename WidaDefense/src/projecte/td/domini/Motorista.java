@@ -12,7 +12,7 @@ import org.newdawn.slick.Image;
  *
  * @author media
  */
-public class Motorista extends UnitatAbstract {
+public class Motorista extends UnitatAbstract implements InterficieBomba{
 
     private Projectil projectil;
     private boolean dispara;

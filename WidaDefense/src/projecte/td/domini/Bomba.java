@@ -10,7 +10,7 @@ import org.newdawn.slick.Image;
  *
  * @author media
  */
-public class Bomba extends UnitatAbstract {
+public class Bomba extends UnitatAbstract implements InterficieBomba{
 
     private Projectil projectil;
     private boolean dispara;

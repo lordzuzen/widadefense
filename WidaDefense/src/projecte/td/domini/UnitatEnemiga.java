@@ -16,6 +16,7 @@ public class UnitatEnemiga extends UnitatAbstract{
     protected boolean activat;
     protected Animation atck;
     protected double velocitat;
+    protected boolean haArribat;
 
 
     public UnitatEnemiga(int vida, Image[] frames,Image[] framesMort,int milisegons, Image[] frames2,double velocitat,int milisegonsAtck) {
@@ -39,6 +40,9 @@ public class UnitatEnemiga extends UnitatAbstract{
 
     @Override
     public void update(int delta){
+        if(posX<=0-getWidth()/2){
+            haArribat=true;
+        }
         if(!activat){
         posX -= velocitat * delta;
         setLocation(posX, posY);
@@ -62,6 +66,11 @@ public class UnitatEnemiga extends UnitatAbstract{
             animation_mort.setLooping(false);
         }
     }
+
+    public boolean isHaArribat() {
+        return haArribat;
+    }
+    
 
     
 

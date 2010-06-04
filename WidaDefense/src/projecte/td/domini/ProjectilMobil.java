@@ -21,9 +21,6 @@ public class ProjectilMobil extends Projectil {
         super(dany);
         this.image = image;
     }
-    public ProjectilMobil(double dany) {
-        super(dany);
-    }
     @Override
     public void setLocation(float posX,float posY){
         super.setLocation(posX, posY);
@@ -35,7 +32,7 @@ public class ProjectilMobil extends Projectil {
         if (posX > 1024) {
             mort = true;
         } else {
-            posX += 2;
+            posX += 0.2*delta;
             shape.setLocation(posX, posY);
         }
     }

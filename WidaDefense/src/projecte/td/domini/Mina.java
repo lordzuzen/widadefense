@@ -15,7 +15,7 @@ import org.newdawn.slick.Image;
  *
  * @author media
  */
-public class Mina extends UnitatAbstract {
+public class Mina extends UnitatAbstract implements InterficieBomba{
 
     private Projectil projectil;
     private boolean dispara;
