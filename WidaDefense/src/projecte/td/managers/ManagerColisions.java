@@ -38,14 +38,19 @@ public class ManagerColisions {
                         if (enemic instanceof UnitatEnemigaInvisible) {
                             UnitatEnemigaInvisible ui = (UnitatEnemigaInvisible) enemic;
                             ui.canviShape();
-                            if (!ui.isInvisible()&& ui.collideWith(p.getShape())) {
+                            if (!ui.isInvisible() && ui.collideWith(p.getShape())) {
                                 enemic.impacte(p.getDany());
                                 p.impacte();
                             }
                             ui.segonCanviShape();
-                        }
-                        else if (enemic.collideWith(p.getShape())) {
-                            enemic.impacte(p.getDany());
+                        } else if (enemic.collideWith(p.getShape())) {
+                            if (p instanceof ProjectilMobil) {
+                                if (!p.isMort()) {
+                                    enemic.impacte(p.getDany());
+                                }
+                            } else {
+                                enemic.impacte(p.getDany());
+                            }
                             p.impacte();
                         }
                     }
@@ -83,11 +88,19 @@ public class ManagerColisions {
                                 } else if (enemic instanceof UnitatEnemigaAtkNormal) {
                                     UnitatEnemigaAtkNormal enemicN = (UnitatEnemigaAtkNormal) enemic;
                                     enemicN.setActivat(true);
-                                    unitatAmiga.impacte(enemicN.getDany());
+                                    //Bola Neu
+                                    if (enemic instanceof UnitatEnemigaBolaNeu) {
+                                        if (unitatAmiga instanceof UnitatAigua) {
+                                            UnitatEnemigaBolaNeu un = (UnitatEnemigaBolaNeu) enemic;
+                                            un.rebreAigua();
+                                        } else {
+                                            unitatAmiga.impacte(enemicN.getDany());
+                                        }
+                                    } else {
+                                        unitatAmiga.impacte(enemicN.getDany());
+                                    }
                                 }
-
                             }
-
                         }
                     }
                 }
