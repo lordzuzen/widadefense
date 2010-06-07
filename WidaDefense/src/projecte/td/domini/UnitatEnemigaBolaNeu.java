@@ -12,16 +12,16 @@ import org.newdawn.slick.Image;
  *
  * @author wida47909974
  */
-public class UnitatEnemigaBolaNeu extends UnitatEnemiga {
+public class UnitatEnemigaBolaNeu extends UnitatEnemigaAtkNormal {
 
-    public UnitatEnemigaBolaNeu(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat) {
-        super(vida, frames, framesMort, milisegons, velocitat);
+    public UnitatEnemigaBolaNeu(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat, double dany) {
+        super(vida, frames, framesMort, milisegons, velocitat, dany);
     }
 
     @Override
     public void update(int delta) {
-        if(posX<=0-getWidth()/2){
-            haArribat=true;
+        if (posX <= 0 - getWidth() / 2) {
+            haArribat = true;
         }
         posX -= velocitat * delta;
         setLocation(posX, posY);
@@ -32,5 +32,9 @@ public class UnitatEnemigaBolaNeu extends UnitatEnemiga {
         renderVida(gc, g);
         g.drawAnimation(animation, posX, posY);
 
+    }
+
+    public void rebreAigua(){
+        impacte(vida);
     }
 }
