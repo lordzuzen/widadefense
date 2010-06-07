@@ -71,7 +71,7 @@ public class EstatMostraInfoEnemics extends BasicGameState {
         imatgeBotoOver = ManagerRecursos.getImage("botoXOverImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
-        labelFonsNegre = ManagerRecursos.getImage("labelFonsNegreImage");
+        labelFonsNegre = ManagerRecursos.getImage("fonsNegrePetitImage");
         font = ManagerRecursos.getFont("dejavuNormalFont");
 
     }
@@ -99,22 +99,22 @@ public class EstatMostraInfoEnemics extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        labelFonsNegre.draw(435, 103);
+        labelFonsNegre.draw(435, 123);
         botoTornar.render(container, g);
         g.setFont(font);
         g.setColor(Color.black);
-        g.drawString(unitatTriada, 435, 310);
-        g.drawString("Vida: " + vida, 435, 360);
-        g.drawString("Cadencia: " + rapidesa, 435, 400);
-        g.drawString("Capacitat:  " + atac, 435, 440);
-        String[] text = informacio.split("-");
+        g.drawString(unitatTriada, 435, 330);
+        g.drawString("Vida: " + vida, 435, 380);
+        g.drawString("Cadencia: " + rapidesa, 435, 430);
+        g.drawString("Capacitat:  " + atac, 435, 480);
+        /**String[] text = informacio.split("-");
         int posicio = 530;
         for (String z : text) {
             g.drawString(z, 325, posicio);
             posicio += 40;
-        }
+        }**/
         int posX = 435 + labelFonsNegre.getWidth() / 2 - animation.getImage(0).getWidth() / 2;
-        int posY = 103 + labelFonsNegre.getHeight() / 2 - animation.getImage(0).getHeight() / 2;
+        int posY = 123 + labelFonsNegre.getHeight() / 2 - animation.getImage(0).getHeight() / 2;
         g.drawAnimation(animation, posX, posY);
     }
 
@@ -151,7 +151,7 @@ public class EstatMostraInfoEnemics extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar al menu principal
-        botoTornar = new BotoMenu(container, imatgeBotoNormal, 756, 84);
+        botoTornar = new BotoMenu(container, imatgeBotoNormal, 746, 104);
         botoTornar.setMouseOverImage(imatgeBotoOver);
         botoTornar.setMouseDownSound(soClick);
         botoTornar.setMouseOverSound(soOver);

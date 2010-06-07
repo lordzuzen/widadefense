@@ -1,5 +1,6 @@
 package projecte.td.estats;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -32,6 +33,8 @@ public class EstatMusica extends BasicGameState {
     private int volumEfectes;
     private int volumMusica;
     private Image imatgeFons;
+    private Image titolEstat;
+    private Image textTornar;
     private BotoMenu botoEnrere;
     private BotoMenu botoPlay;
     private BotoMenu botoStop;
@@ -63,6 +66,8 @@ public class EstatMusica extends BasicGameState {
         this.game = container;
         this.state = game;
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
+        textTornar = ManagerRecursos.getImage("textTornarImage");
+        titolEstat = ManagerRecursos.getImage("textMusicaImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
     }
@@ -90,6 +95,7 @@ public class EstatMusica extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0, container.getWidth(), container.getHeight());
+        titolEstat.draw(250,130);
         botoEndavant.render(container, g);
         botoEnrere.render(container, g);
         botoStop.render(container, g);
@@ -98,8 +104,10 @@ public class EstatMusica extends BasicGameState {
         botoSumaEfectes.render(container, g);
         botoRestaMusica.render(container, g);
         botoSumaMusica.render(container, g);
-        g.drawString("Volum Musica: " + volumMusica, 430, 400);
-        g.drawString("Volum Efectes: " + volumEfectes, 430, 470);
+        g.setColor(Color.black);
+        g.drawString("Volum Musica", 455, 410);
+        g.drawString("Volum Efectes", 450, 480);
+        g.setColor(Color.white);
     }
 
     /**
@@ -115,8 +123,8 @@ public class EstatMusica extends BasicGameState {
     }
 
     private void crearBotons() {
-        botoEnrere = new BotoMenu(game, ManagerRecursos.getImage("botoLastTrackImage"), 359, 257);
-        botoEnrere.setMouseOverImage(ManagerRecursos.getImage("botoLastTrackImage"));
+        botoEnrere = new BotoMenu(game, ManagerRecursos.getImage("botoLastImage"), 359, 267);
+        botoEnrere.setMouseOverImage(ManagerRecursos.getImage("botoLastOverImage"));
         botoEnrere.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
@@ -127,8 +135,8 @@ public class EstatMusica extends BasicGameState {
         botoEnrere.setMouseOverSound(soOver);
         botoEnrere.setActiu(true);
 
-        botoStop = new BotoMenu(game, ManagerRecursos.getImage("botoLastTrackImage"), 479, 257);
-        botoStop.setMouseOverImage(ManagerRecursos.getImage("botoLastTrackImage"));
+        botoStop = new BotoMenu(game, ManagerRecursos.getImage("botoStopImage"), 479, 267);
+        botoStop.setMouseOverImage(ManagerRecursos.getImage("botoStopOverImage"));
         botoStop.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
@@ -139,8 +147,8 @@ public class EstatMusica extends BasicGameState {
         botoStop.setMouseOverSound(soOver);
         botoStop.setActiu(true);
 
-        botoEndavant = new BotoMenu(game, ManagerRecursos.getImage("botoLastTrackImage"), 599, 257);
-        botoEndavant.setMouseOverImage(ManagerRecursos.getImage("botoLastTrackImage"));
+        botoEndavant = new BotoMenu(game, ManagerRecursos.getImage("botoNextImage"), 599, 267);
+        botoEndavant.setMouseOverImage(ManagerRecursos.getImage("botoNextOverImage"));
         botoEndavant.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
@@ -151,8 +159,9 @@ public class EstatMusica extends BasicGameState {
         botoEndavant.setMouseOverSound(soOver);
         botoEndavant.setActiu(true);
 
-        botoTornar = new BotoMenu(game, ManagerRecursos.getImage("botoPerfilNormalImage"), 380, 560);
-        botoTornar.setMouseOverImage(ManagerRecursos.getImage("botoPerfil2OverImage"));
+        botoTornar = new BotoMenu(game, ManagerRecursos.getImage("botoPerfil2OverImage"), 380, 570);
+        botoTornar.setMouseOverImage(ManagerRecursos.getImage("botoPerfilNormalImage"));
+        botoTornar.setImageText(textTornar);
         botoTornar.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
@@ -163,7 +172,7 @@ public class EstatMusica extends BasicGameState {
         botoTornar.setMouseOverSound(soOver);
         botoTornar.setActiu(true);
 
-        botoRestaEfectes = new BotoMenu(game, ManagerRecursos.getImage("botoEnrereImage"), 390, 470);
+        botoRestaEfectes = new BotoMenu(game, ManagerRecursos.getImage("botoEnrereImage"), 395, 470);
         botoRestaEfectes.setMouseOverImage(ManagerRecursos.getImage("botoEnrereOverImage"));
         botoRestaEfectes.addListener(new ComponentListener() {
 
@@ -179,7 +188,7 @@ public class EstatMusica extends BasicGameState {
         botoRestaEfectes.setMouseOverSound(soOver);
         botoRestaEfectes.setActiu(true);
 
-        botoSumaEfectes = new BotoMenu(game, ManagerRecursos.getImage("botoEndavantImage"), 600, 470);
+        botoSumaEfectes = new BotoMenu(game, ManagerRecursos.getImage("botoEndavantImage"), 605, 470);
         botoSumaEfectes.setMouseOverImage(ManagerRecursos.getImage("botoEndavantOverImage"));
         botoSumaEfectes.addListener(new ComponentListener() {
 
@@ -194,7 +203,7 @@ public class EstatMusica extends BasicGameState {
         botoSumaEfectes.setMouseOverSound(soOver);
         botoSumaEfectes.setActiu(true);
 
-        botoRestaMusica = new BotoMenu(game, ManagerRecursos.getImage("botoEnrereImage"), 390, 400);
+        botoRestaMusica = new BotoMenu(game, ManagerRecursos.getImage("botoEnrereImage"), 395, 400);
         botoRestaMusica.setMouseOverImage(ManagerRecursos.getImage("botoEnrereOverImage"));
         botoRestaMusica.addListener(new ComponentListener() {
 
@@ -213,7 +222,7 @@ public class EstatMusica extends BasicGameState {
         botoRestaMusica.setMouseOverSound(soOver);
         botoRestaMusica.setActiu(true);
 
-        botoSumaMusica = new BotoMenu(game, ManagerRecursos.getImage("botoEndavantImage"), 600, 400);
+        botoSumaMusica = new BotoMenu(game, ManagerRecursos.getImage("botoEndavantImage"), 605, 400);
         botoSumaMusica.setMouseOverImage(ManagerRecursos.getImage("botoEndavantOverImage"));
         botoSumaMusica.addListener(new ComponentListener() {
 

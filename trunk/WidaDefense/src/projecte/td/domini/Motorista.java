@@ -7,6 +7,7 @@ package projecte.td.domini;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  *
@@ -16,10 +17,12 @@ public class Motorista extends UnitatAbstract implements InterficieBomba{
 
     private Projectil projectil;
     private boolean dispara;
+    private Sound sound;
 
-    public Motorista(int vida, Image[] frames,int milisegons, Projectil projectil) {
+    public Motorista(int vida, Image[] frames,int milisegons, Projectil projectil, Sound sound) {
         super(vida, frames,milisegons);
         this.projectil = projectil;
+        this.sound = sound;
     }
 
     @Override
@@ -63,5 +66,9 @@ public class Motorista extends UnitatAbstract implements InterficieBomba{
 
     public void setProjectil(Projectil projectil) {
         this.projectil = projectil.cloneProjectil();
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }

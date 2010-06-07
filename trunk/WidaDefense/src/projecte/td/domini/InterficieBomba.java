@@ -4,6 +4,8 @@
  */
 package projecte.td.domini;
 
+import org.newdawn.slick.Sound;
+
 /**
  *
  * @author wida47909974
@@ -19,4 +21,6 @@ public interface InterficieBomba {
     public Projectil getProjectil();
 
     public void setProjectil(Projectil projectil);
+
+    public Sound getSound();
 }

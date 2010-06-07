@@ -45,6 +45,7 @@ public class EstatInfoEnemic extends BasicGameState {
     private ArrayList<BotoSeleccio> botonsSeleccio;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    private Image textTornar;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
@@ -71,6 +72,7 @@ public class EstatInfoEnemic extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
+        textTornar = ManagerRecursos.getImage("textTornarImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
 
@@ -139,6 +141,7 @@ public class EstatInfoEnemic extends BasicGameState {
         // BotoMenu tornar al menu principal
         botoDades = new BotoMenu(container, imatgeBotoNormal, 380, 570);
         botoDades.setMouseOverImage(imatgeBotoOver);
+        botoDades.setImageText(textTornar);
         botoDades.setMouseDownSound(soClick);
         botoDades.setMouseOverSound(soOver);
         botoDades.setActiu(true);

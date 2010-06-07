@@ -19,7 +19,7 @@ import projecte.td.utilitats.ReproductorMusica;
 
 /**
  * En aquest estat s'escollira el perfil d'usuari que es vol utilitzar
- * @author David Alvarez Palau
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatPerfil extends BasicGameState {
 
@@ -54,6 +54,8 @@ public class EstatPerfil extends BasicGameState {
     private int comptador;
     // Imatge fons de pantalla
     private Image imatgeFons;
+    // Imatge on es mostra el logotip del joc
+    private Image imatgeTitol;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
@@ -99,6 +101,7 @@ public class EstatPerfil extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
+        imatgeTitol = ManagerRecursos.getImage("fonsTitolImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
         imatgeBotoBorrar = ManagerRecursos.getImage("botoXImage");
@@ -125,8 +128,10 @@ public class EstatPerfil extends BasicGameState {
         if (alphaBotonsIn) {
             comptador += 50;
             if (comptador % 100 == 0) {
+                // Els botons es van tornant menys transparents
                 transparencia += 0.05;
             }
+            // Quan els botons ja no son transaprents s'activen
             if (transparencia >= 1) {
                 botoPerfil1.setActiu(true);
                 botoPerfil2.setActiu(true);
@@ -138,6 +143,7 @@ public class EstatPerfil extends BasicGameState {
                 comptador = 0;
             }
         } else if (alphaBotonsOut) {
+            // Quan els botons es tornen transparents es desactiven
             botoPerfil1.setActiu(false);
             botoPerfil2.setActiu(false);
             botoPerfil3.setActiu(false);
@@ -148,6 +154,7 @@ public class EstatPerfil extends BasicGameState {
             if (comptador % 100 == 0) {
                 transparencia -= 0.05;
             }
+            // Quan la transparencia arriba a 0 s'accedeix al seguent estat
             if (transparencia <= 0) {
                 state.enterState(EstatMenuPrincipal.ID);
             }
@@ -172,6 +179,7 @@ public class EstatPerfil extends BasicGameState {
      */
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
         imatgeFons.draw(0, 0);
+        imatgeTitol.draw(290,100);
         if (carregat) {
             imatgeBotoBorrar.setAlpha(transparencia);
             imatgeBotoNormal.setAlpha(transparencia);
@@ -212,25 +220,25 @@ public class EstatPerfil extends BasicGameState {
         botoBorrar1.setMouseOverSound(soOver);
         // Perfil 2
         botoPerfil2 = new BotoMenu(container, imatgeBotoNormal, 420, 450);
-        botoPerfil2.setLocation(container.getWidth() / 2 - botoPerfil2.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 480);
+        botoPerfil2.setLocation(container.getWidth() / 2 - botoPerfil2.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 500);
         botoPerfil2.setMouseOverImage(imatgeBotoOver);
         botoPerfil2.setImageText(imatgeTextPerfil2);
         botoPerfil2.setMouseDownSound(soClick);
         botoPerfil2.setMouseOverSound(soOver);
         botoBorrar2 = new BotoMenu(container, imatgeBotoBorrar, 420, 300);
-        botoBorrar2.setLocation(container.getWidth() / 2 - botoBorrar2.getWidth() / 2 + 145, 479);
+        botoBorrar2.setLocation(container.getWidth() / 2 - botoBorrar2.getWidth() / 2 + 145, 499);
         botoBorrar2.setMouseOverImage(imatgeBotoBorrarOver);
         botoBorrar2.setMouseDownSound(soClick);
         botoBorrar2.setMouseOverSound(soOver);
         // Perfil 3
         botoPerfil3 = new BotoMenu(container, imatgeBotoNormal, 420, 600);
-        botoPerfil3.setLocation(container.getWidth() / 2 - botoPerfil3.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 580);
+        botoPerfil3.setLocation(container.getWidth() / 2 - botoPerfil3.getWidth() / 2 - imatgeBotoBorrar.getWidth() / 2, 620);
         botoPerfil3.setMouseOverImage(imatgeBotoOver);
         botoPerfil3.setImageText(imatgeTextPerfil3);
         botoPerfil3.setMouseDownSound(soClick);
         botoPerfil3.setMouseOverSound(soOver);
         botoBorrar3 = new BotoMenu(container, imatgeBotoBorrar, 420, 300);
-        botoBorrar3.setLocation(container.getWidth() / 2 - botoBorrar3.getWidth() / 2 + 145, 579);
+        botoBorrar3.setLocation(container.getWidth() / 2 - botoBorrar3.getWidth() / 2 + 145, 619);
         botoBorrar3.setMouseOverImage(imatgeBotoBorrarOver);
         botoBorrar3.setMouseDownSound(soClick);
         botoBorrar3.setMouseOverSound(soOver);

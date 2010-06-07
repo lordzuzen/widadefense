@@ -6,10 +6,13 @@ package projecte.td.estats;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import projecte.td.componentIngame.MenuIngame;
 import projecte.td.domini.Aura;
 import projecte.td.domini.IAuraRapidesa;
@@ -35,6 +38,7 @@ public class EstatInGame extends BasicGameState {
     public static final int ID = 5;
     private GameContainer gc;
     private StateBasedGame state;
+    private Image imatgeFons;
     Tauler p;
     MenuIngame mi;
     ManagerDiners md;
@@ -60,6 +64,7 @@ public class EstatInGame extends BasicGameState {
             throws SlickException {
         this.gc = container;
         this.state = game;
+        imatgeFons = ManagerRecursos.getImage("fonsIngameImage");
     }
 
     /**
@@ -89,7 +94,6 @@ public class EstatInGame extends BasicGameState {
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
-            p.borrarTot();
             if (md.isAuraEnEspera()) {
                 UnitatAbstract ua = p.getUnitatAmiga(input.getMouseX(), input.getMouseY());
                 if (ua instanceof IAuraRapidesa && md.getTipusAuraEspera().equals("MagRapidesa")) {
@@ -111,7 +115,11 @@ public class EstatInGame extends BasicGameState {
                 }
             }
         } else if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-            UnitatAbstract u = null;
+            mi.clear();
+            mi.reiniciarBotons();
+            unitat = "null";
+            p.setDibuixarQuadrat(false);
+            /**UnitatAbstract u = null;
             if (cont == 0) {
                 u = FactoriaUnitats.getUnitatDolenta("Gos");
             } else if (cont == 1) {
@@ -129,7 +137,7 @@ public class EstatInGame extends BasicGameState {
             cont++;
             if (cont > 5) {
                 cont = 0;
-            }
+            }**/
 
         }
         p.update(delta);
@@ -149,6 +157,20 @@ public class EstatInGame extends BasicGameState {
             int random = ManagerEnemics.triarCarril();
             p.posicionaUnitatEnemiga(1000, random, ua);
         }
+        if (p.observarPartidaFinalitzada()) {
+            p.borrarTot();
+            ManagerPerfil.sumaPerdudes();
+            ManagerPerfil.guardarEstadistiques();
+            ManagerEnemics.pararTimer();
+            state.enterState(EstatPerd.ID);
+        }
+        if(ManagerEnemics.fidelaWave()) {
+            p.borrarTot();
+            ManagerPerfil.sumaGuanyada();
+            ManagerPerfil.guardarEstadistiques();
+            ManagerEnemics.pararTimer();
+            state.enterState(EstatGuanya.ID, new FadeOutTransition(), new FadeInTransition());
+        }
         /**if (ManagerEnemics.fidelaWave()) {
         state.enterState(EstatGuanya.ID);
         }**/
@@ -164,8 +186,12 @@ public class EstatInGame extends BasicGameState {
      */
     public void render(GameContainer gc, StateBasedGame game, Graphics g)
             throws SlickException {
+        imatgeFons.draw(0,0);
         p.dibuixar(g, gc);
         mi.render(gc, g);
+        if (ManagerEnemics.isMostraCartell()) {
+            ManagerEnemics.renderCartell(gc, g);
+        }
     }
 
     /**
@@ -179,7 +205,8 @@ public class EstatInGame extends BasicGameState {
         md = new ManagerDiners();
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
         ManagerContext.setDiners(md);
-        ManagerEnemics.crearTimer(10000);
+        ManagerEnemics.iniciaWave(ID);
+        ManagerEnemics.iniciarCompteEnrere();
     }
 
     @Override

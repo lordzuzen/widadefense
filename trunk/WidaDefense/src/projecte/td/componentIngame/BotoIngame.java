@@ -163,6 +163,7 @@ public class BotoIngame extends AbstractComponent {
                     clicat = true;
                     seleccionat = true;
                     accio = unitat;
+                    System.out.println("click");
                 }
             }
         });

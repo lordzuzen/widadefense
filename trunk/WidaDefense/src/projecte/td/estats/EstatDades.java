@@ -10,6 +10,7 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
+import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
@@ -39,6 +40,11 @@ public class EstatDades extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    private Image textTitol;
+    private Image textEstadistiques;
+    private Image textUnitats;
+    private Image textEnemics;
+    private Image textTornar;
     private Sound soClick;
     private Sound soOver;
 
@@ -59,6 +65,12 @@ public class EstatDades extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
+        textTitol = ManagerRecursos.getImage("textDadesGranImage");
+        textEnemics = ManagerRecursos.getImage("textEstadistiquesImage");
+        textUnitats = ManagerRecursos.getImage("textUnitatsImage");
+        textEnemics = ManagerRecursos.getImage("textEnemicsImage");
+        textEstadistiques = ManagerRecursos.getImage("textEstadistiquesImage");
+        textTornar = ManagerRecursos.getImage("textTornarImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
 
@@ -87,6 +99,7 @@ public class EstatDades extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
+        textTitol.draw(248,145);
         botoUnitats.render(container, g);
         botoEstadistiques.render(container, g);
         botoEnemics.render(container, g);
@@ -110,26 +123,30 @@ public class EstatDades extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar al menu principal
-        botoEstadistiques = new BotoMenu(container, imatgeBotoNormal, 380, 160);
+        botoEstadistiques = new BotoMenu(container, imatgeBotoNormal, 380, 270);
         botoEstadistiques.setMouseOverImage(imatgeBotoOver);
+        botoEstadistiques.setImageText(textEstadistiques);
         botoEstadistiques.setMouseDownSound(soClick);
         botoEstadistiques.setMouseOverSound(soOver);
         botoEstadistiques.setActiu(true);
         // BotoMenu per seguir jugant en la següent Wave
-        botoUnitats = new BotoMenu(container, imatgeBotoNormal, 380, 280);
+        botoUnitats = new BotoMenu(container, imatgeBotoNormal, 380, 370);
         botoUnitats.setMouseOverImage(imatgeBotoOver);
+        botoUnitats.setImageText(textUnitats);
         botoUnitats.setMouseDownSound(soClick);
         botoUnitats.setMouseOverSound(soOver);
         botoUnitats.setActiu(true);
         // BotoMenu tornar a jugar wave
-        botoEnemics = new BotoMenu(container, imatgeBotoNormal, 380, 400);
+        botoEnemics = new BotoMenu(container, imatgeBotoNormal, 380, 470);
         botoEnemics.setMouseOverImage(imatgeBotoOver);
+        botoEnemics.setImageText(textEnemics);
         botoEnemics.setMouseDownSound(soClick);
         botoEnemics.setMouseOverSound(soOver);
         botoEnemics.setActiu(true);
         // BotoMenu per seguir jugant en la següent Wave
-        botoTornar = new BotoMenu(container, imatgeBotoNormal, 380, 520);
+        botoTornar = new BotoMenu(container, imatgeBotoNormal, 380, 570);
         botoTornar.setMouseOverImage(imatgeBotoOver);
+        botoTornar.setImageText(textTornar);
         botoTornar.setMouseDownSound(soClick);
         botoTornar.setMouseOverSound(soOver);
         botoTornar.setActiu(true);

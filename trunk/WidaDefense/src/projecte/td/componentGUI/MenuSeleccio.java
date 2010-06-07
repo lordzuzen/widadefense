@@ -130,7 +130,8 @@ public class MenuSeleccio {
         for (LabelSeleccio ls : cartesEnemics) {
             ls.render(g);
         }
-        if (mostrarInformacio && actiu) {
+    }
+        /**if (mostrarInformacio && actiu) {
             g.drawString(informacio, 555, 500);
             int posicio = 540;
             String[] infoUnitat = retornaInformacioUnitat();
@@ -147,7 +148,7 @@ public class MenuSeleccio {
             infoUnitat[z] = unitats.getPropietatString("informacio" + informacio + z);
         }
         return infoUnitat;
-    }
+    }**/
 
     /**
      * Comprova si s'ha de canviar alguna unitat d'una zona a una altra

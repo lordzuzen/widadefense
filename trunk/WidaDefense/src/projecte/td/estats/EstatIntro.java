@@ -15,7 +15,7 @@ import projecte.td.managers.ManagerRecursos;
 
 /**
  * En aquest estat es mostra una petita intro
- * @author David Alvarez Palau
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatIntro extends BasicGameState {
 
@@ -47,7 +47,7 @@ public class EstatIntro extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
         ManagerContext.setGui(container);
-        ManagerContext.setState(game); 
+        ManagerContext.setState(game);
         imatgeIntro = ManagerRecursos.getImage("fonsIntroImage");
     }
 

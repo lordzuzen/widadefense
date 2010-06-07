@@ -16,6 +16,7 @@ import projecte.td.estats.EstatGuanya;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.managers.ManagerDiners;
+import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 
 /**
@@ -202,6 +203,7 @@ public class MenuIngame extends AbstractComponent {
                 state.enterState(EstatGuanya.ID);
                 ManagerPerfil.sumaPerdudes();
                 ManagerPerfil.guardarEstadistiques();
+                ManagerEnemics.pararTimer();
             }
         });
     }
@@ -213,6 +215,7 @@ public class MenuIngame extends AbstractComponent {
         for (BotoIngame b : botonsUnitat) {
             b.clear();
         }
+        botoPala.clear();
     }
 
     /**

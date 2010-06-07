@@ -19,8 +19,8 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * L'usuari pot escollir en aquest estat les unitats que usara quan jugui la seguent wave.
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatSeguentWave extends BasicGameState {
 
@@ -32,7 +32,7 @@ public class EstatSeguentWave extends BasicGameState {
     private StateBasedGame state;
     // Fons de pantalla
     private Image imatgeFons;
-    private int posXFons;
+    // Posicio on es situa el fons de l'estat
     private int posYFons;
     // Image del boto X que s'utilitza per començar a jugar
     private Image imatgeBotoX;
@@ -44,12 +44,17 @@ public class EstatSeguentWave extends BasicGameState {
     private BotoMenu botoContinuar;
     // Boto per tornar al menu principal
     private BotoMenu botoTornar;
+    // Boto per canviar a una wave menys
     private BotoMenu botoEnrere;
+    // Boto per canviar a una wave mes
     private BotoMenu botoEndavant;
     // Indica si s'ha apretat algun boto
     private boolean botoApretat;
+    // Comptador que s'usa en el moviment del fons
     private int comptador;
+    // So de quan es fa click en un boto
     private Sound soClick;
+    // So de quan el ratolí es situa en posicio over en un boto
     private Sound soOver;
 
     /**
@@ -97,7 +102,6 @@ public class EstatSeguentWave extends BasicGameState {
         ms = null;
         botoApretat = false;
         comptador = 0;
-        posXFons = 0;
         posYFons = 0;
         botoContinuar.setLocation(660, 630);
         botoTornar.setLocation(800, 630);
@@ -175,6 +179,7 @@ public class EstatSeguentWave extends BasicGameState {
      */
     public void update(GameContainer game, StateBasedGame state, int delta) {
         ms.update(game, state, delta);
+        // Si s'apreta el boto V (jugar wave) els botons es desactiven
         if (botoApretat) {
             if (botoContinuar.isActiu() || botoTornar.isActiu()) {
                 botoContinuar.setActiu(false);
@@ -185,14 +190,17 @@ public class EstatSeguentWave extends BasicGameState {
                 botoEndavant.setActiu(false);
                 botoEnrere.setActiu(false);
             }
+            // S'inicia el moviment del fons de l'estat per adaptar-lo al seguent
             comptador += 1;
             posYFons += 4;
+            // Es posicionen els botons
             botoContinuar.setLocation(660, botoContinuar.getY() + 4);
             botoTornar.setLocation(800, botoTornar.getY() + 4);
             botoEndavant.setLocation(botoEndavant.getX(), botoEndavant.getY() + 4);
             botoEnrere.setLocation(botoEnrere.getX(), botoEnrere.getY() + 4);
             ms.moureBotons(4);
             if (comptador > 150) {
+                // S'agafen les unitats que s'han escollit i s'accedeix al seguent estat
                 ManagerPerfil.setUnitatsTriades(ms.agafarUnitats());
                 state.enterState(5);
             }
