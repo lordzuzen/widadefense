@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  *
@@ -21,10 +22,12 @@ public class Mina extends UnitatAbstract implements InterficieBomba{
     private boolean dispara;
     private Timer timer;
     private boolean activa;
+    private Sound sound;
 
-    public Mina(int vida, Image[] frames,int milisegons, Projectil projectil) {
+    public Mina(int vida, Image[] frames,int milisegons, Projectil projectil, Sound sound) {
         super(vida, frames,milisegons);
         this.projectil = projectil;
+        this.sound = sound;
         timer = new Timer(5000, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -83,5 +86,9 @@ public class Mina extends UnitatAbstract implements InterficieBomba{
 
     public void setProjectil(Projectil projectil) {
         this.projectil = projectil.cloneProjectil();
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }

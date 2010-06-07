@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import projecte.td.managers.ManagerContext;
 import projecte.td.managers.ManagerDiners;
 
@@ -25,12 +26,15 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     private Moneda moneda;
     private static ManagerDiners diners;
     private String tipus;
+    private Sound sound;
 
-    public Miner(int vida, int cadencia, int capacitat, Image[] frames,Image[] framesMort,int milisegons, String tipus) {
+    public Miner(int vida, int cadencia, int capacitat, Image[] frames,Image[] framesMort, 
+            int milisegons, String tipus, Sound sound) {
         super(vida, frames,framesMort,milisegons);
         this.cadencia = cadencia;
         this.capacitat = capacitat;
         this.tipus = tipus;
+        this.sound = sound;
         diners = ManagerContext.getDiners();
         activar();
         
@@ -107,5 +111,9 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
 
     public void desactivarTimer(){
         timer.stop();
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }

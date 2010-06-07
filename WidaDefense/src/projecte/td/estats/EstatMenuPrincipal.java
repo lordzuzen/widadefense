@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
@@ -16,8 +15,9 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es mostra el Menu Principal on l'usuari pot escollir en quina opció del menu
+ * entrar
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatMenuPrincipal extends BasicGameState {
 
@@ -35,6 +35,7 @@ public class EstatMenuPrincipal extends BasicGameState {
     private BotoMenu botoCanviarPerfil;
     // Boto per sortir del joc
     private BotoMenu botoSortir;
+    // Boto per accedir a les opcions de musica
     private BotoMenu botoMusica;
     // Boolean que s'utilitza per comprovar si s'ha de realitzar transparencia
     private boolean alphaBotonsIn;
@@ -50,21 +51,28 @@ public class EstatMenuPrincipal extends BasicGameState {
     private float transparencia;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    // Image amb el logotip del joc
+    private Image imatgeTitol;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Imatge del boto Play
+    private Image imatgeBotoPlay;
+    // Imatge del boto Over Play
+    private Image imatgeBotoOverPlay;
     // Imatge del text Jugar del boto
     private Image imatgeTextJugar;
     // Imatge del text Perfil del boto
     private Image imatgeTextPerfil;
+    // Imatge del text dades
+    private Image imatgeTextDades;
     // Imatge del text Sortir del boto
     private Image imatgeTextSortir;
     // So del click que fan els botons al fer un mouse clicked
     private Sound soClick;
     // So del mouse que fan els botons pel mouse over
     private Sound soOver;
-    private Music music;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode
@@ -84,14 +92,17 @@ public class EstatMenuPrincipal extends BasicGameState {
         this.container = container;
         this.state = state;
         imatgeFons = ManagerRecursos.getImage("fonsMenuImage");
+        imatgeTitol = ManagerRecursos.getImage("fonsTitolImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoPlay = ManagerRecursos.getImage("botoPlayImage");
+        imatgeBotoOverPlay = ManagerRecursos.getImage("botoPlayOverImage");
         imatgeTextJugar = ManagerRecursos.getImage("textJugarImage");
         imatgeTextPerfil = ManagerRecursos.getImage("textPerfilImage");
+        imatgeTextDades = ManagerRecursos.getImage("textDadesImage");
         imatgeTextSortir = ManagerRecursos.getImage("textSortirImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
-        music = ManagerRecursos.getMusic("menuMusic");
     }
 
     /**
@@ -108,37 +119,36 @@ public class EstatMenuPrincipal extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu nova partida
-        botoNovaPartida = new BotoMenu(container, imatgeBotoNormal, 150, 430);
+        botoNovaPartida = new BotoMenu(container, imatgeBotoNormal, 150, 440);
         botoNovaPartida.setMouseOverImage(imatgeBotoOver);
         botoNovaPartida.setImageText(imatgeTextJugar);
         botoNovaPartida.setMouseDownSound(soClick);
         botoNovaPartida.setMouseOverSound(soOver);
         botons.add(botoNovaPartida);
         // BotoMenu menu opcions
-        botoOpcions = new BotoMenu(container, imatgeBotoNormal, 600, 430);
+        botoOpcions = new BotoMenu(container, imatgeBotoNormal, 600, 440);
         botoOpcions.setMouseOverImage(imatgeBotoOver);
-        botoOpcions.setImageText(imatgeTextPerfil);
+        botoOpcions.setImageText(imatgeTextDades);
         botoOpcions.setMouseDownSound(soClick);
         botoOpcions.setMouseOverSound(soOver);
         botons.add(botoOpcions);
         // BotoMenu canvi de perfil
-        botoCanviarPerfil = new BotoMenu(container, imatgeBotoNormal, 150, 550);
+        botoCanviarPerfil = new BotoMenu(container, imatgeBotoNormal, 150, 585);
         botoCanviarPerfil.setMouseOverImage(imatgeBotoOver);
         botoCanviarPerfil.setImageText(imatgeTextPerfil);
         botoCanviarPerfil.setMouseDownSound(soClick);
         botoCanviarPerfil.setMouseOverSound(soOver);
         botons.add(botoCanviarPerfil);
         // BotoMenu Sortir del joc
-        botoSortir = new BotoMenu(container, imatgeBotoNormal, 600, 550);
+        botoSortir = new BotoMenu(container, imatgeBotoNormal, 600, 585);
         botoSortir.setMouseOverImage(imatgeBotoOver);
         botoSortir.setImageText(imatgeTextSortir);
         botoSortir.setMouseDownSound(soClick);
         botoSortir.setMouseOverSound(soOver);
         botons.add(botoSortir);
         // BotoMenu Sortir del joc
-        botoMusica = new BotoMenu(container, imatgeBotoNormal, 100, 100);
-        botoMusica.setMouseOverImage(imatgeBotoOver);
-        botoMusica.setImageText(imatgeTextSortir);
+        botoMusica = new BotoMenu(container, imatgeBotoPlay, 480, 510);
+        botoMusica.setMouseOverImage(imatgeBotoOverPlay);
         botoMusica.setMouseDownSound(soClick);
         botoMusica.setMouseOverSound(soOver);
         botons.add(botoMusica);
@@ -207,10 +217,11 @@ public class EstatMenuPrincipal extends BasicGameState {
         if (alphaBotonsIn) {
             comptador += 50;
             if (comptador % 100 == 0) {
+                // Els botons es van tornant menys transparents
                 transparencia += 0.05;
             }
             if (transparencia >= 1) {
-                //music.play();
+                // Quan els botons ja no son transaprents s'activen
                 ReproductorMusica.setVolumMusic();
                 ReproductorMusica.last();
                 botoNovaPartida.setActiu(true);
@@ -218,19 +229,23 @@ public class EstatMenuPrincipal extends BasicGameState {
                 botoCanviarPerfil.setActiu(true);
                 botoSortir.setActiu(true);
                 botoMusica.setActiu(true);
+                botoMusica.setAcceptingInput(true);
                 alphaBotonsIn = false;
                 comptador = 0;
             }
         } else if (alphaBotonsOut) {
+            // Quan els botons es tornen transparents es desactiven
             botoNovaPartida.setActiu(false);
             botoOpcions.setActiu(false);
             botoCanviarPerfil.setActiu(false);
             botoSortir.setActiu(false);
             botoMusica.setActiu(false);
+            botoMusica.setAcceptingInput(false);
             comptador += 50;
             if (comptador % 100 == 0) {
                 transparencia -= 0.05;
             }
+            // Quan la transparencia arriba a 0 s'accedeix al seguent estat
             if (transparencia <= 0) {
                 state.enterState(canviAEstat);
             }
@@ -246,12 +261,16 @@ public class EstatMenuPrincipal extends BasicGameState {
      * @throws SlickException
      */
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
+        imatgeFons.draw(0, 0);
+        imatgeTitol.draw(290,100);
         imatgeBotoNormal.setAlpha(transparencia);
         imatgeBotoOver.setAlpha(transparencia);
+        imatgeBotoPlay.setAlpha(transparencia);
+        imatgeBotoOverPlay.setAlpha(transparencia);
         imatgeTextJugar.setAlpha(transparencia);
+        imatgeTextDades.setAlpha(transparencia);
         imatgeTextPerfil.setAlpha(transparencia);
         imatgeTextSortir.setAlpha(transparencia);
-        imatgeFons.draw(0, 0);
         botoNovaPartida.render(container, g);
         botoOpcions.render(container, g);
         botoCanviarPerfil.render(container, g);
@@ -284,8 +303,11 @@ public class EstatMenuPrincipal extends BasicGameState {
         imatgeBotoNormal.setAlpha(1f);
         imatgeBotoOver.setAlpha(1f);
         imatgeTextJugar.setAlpha(1f);
+        imatgeTextDades.setAlpha(1f);
         imatgeTextPerfil.setAlpha(1f);
         imatgeTextSortir.setAlpha(1f);
+        imatgeBotoPlay.setAlpha(1f);
+        imatgeBotoOverPlay.setAlpha(1f);
         comptador = 0;
     }
 }

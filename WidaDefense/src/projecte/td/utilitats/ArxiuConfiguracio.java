@@ -22,15 +22,18 @@ public class ArxiuConfiguracio {
      * @param referencia La ruta on es troba l'arxiu de configuració
      */
     public ArxiuConfiguracio(String referencia) {
-        try {
-            propietats = new Properties();
-            URL url = ResourceLoader.getResource(referencia);
-            arxiu = url.toURI().getPath();
-            propietats.load(url.openStream());
+        boolean cond = false;
+        while (!cond) {
+            try {
+                propietats = new Properties();
+                URL url = ResourceLoader.getResource(referencia);
+                arxiu = url.toURI().getPath();
+                propietats.load(url.openStream());
+                cond = true;
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("No s'ha pogut trobar el fitxer de configuracio"+ referencia);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 

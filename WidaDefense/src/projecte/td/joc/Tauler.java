@@ -274,6 +274,7 @@ public class Tauler {
         if (ud.estaDisparant()) {
             arrays_projectils_amics[numFila].add(p);
             ud.haDisparat();
+            ud.getSound().play();
             ManagerPerfil.sumaBala();
         }
         if (!ud.estaActivat()) {
@@ -292,6 +293,7 @@ public class Tauler {
                     if (u.isDispara()) {
                         arrays_projectils_amics[i].add(u.getProjectil());
                         u.haDisparat();
+                        u.getSound().play();
                         ManagerPerfil.sumaBala();
                     }
                 } else {

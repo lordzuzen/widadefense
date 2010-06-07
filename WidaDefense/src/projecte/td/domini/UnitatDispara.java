@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  *
@@ -23,13 +24,16 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
     private boolean activat;
     private float posXProj;
     private float posYProj;
+    private Sound sound;
 
-    public UnitatDispara(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, Projectil projectil, float posXProj, float posYProj) {
+    public UnitatDispara(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, 
+            Projectil projectil, float posXProj, float posYProj, Sound sound) {
         super(vida, frames, framesMort, milisegons);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj = posXProj;
         this.posYProj = posYProj;
+        this.sound = sound;
 
         timer = new Timer(cadencia, new ActionListener() {
 
@@ -101,5 +105,9 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
 
     public void setP2(Projectil p2) {
         this.projectil = p2;
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }

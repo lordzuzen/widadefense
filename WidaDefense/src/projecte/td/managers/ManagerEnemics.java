@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.Timer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import projecte.td.domini.UnitatAbstract;
 import projecte.td.factories.FactoriaUnitats;
 import projecte.td.utilitats.ArxiuConfiguracio;
@@ -35,10 +38,13 @@ public class ManagerEnemics {
     // Llista de tots els enemics que sortiran
     private static List llistaEnemics;
     private static int[] carrils;
+    private static Timer timerInici;
     private static Timer timer;
     private static boolean unitatEsperant;
     private static boolean inici;
     private static String unitatEnEspera;
+    private static boolean mostraCartell;
+    private static Image iniciWaveImatge;
 
     public static void iniciaWave(int wave) {
         waveActual = wave;
@@ -50,6 +56,7 @@ public class ManagerEnemics {
         carrils = new int[6];
         tempsAnterior = 0;
         inici = true;
+        iniciWaveImatge = ManagerRecursos.getImage("iniciWaveImage");
         carregaEnemics();
     }
 
@@ -99,15 +106,15 @@ public class ManagerEnemics {
 
     public static void crearTimer(int temps) {
         timer = new Timer(temps, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 if (inici) {
                     inici = false;
+                    mostraCartell = false;
                 } else {
                     if (llistaEnemics.size() >= 1) {
                         ajustarTimer();
                         unitatEsperant = true;
-                    } else {
-                        timer.stop();
                     }
                 }
             }
@@ -117,7 +124,9 @@ public class ManagerEnemics {
 
     private static void ajustarTimer() {
         InfoEnemicManager iem = (InfoEnemicManager) llistaEnemics.get(0);
-        timer.setDelay(iem.getTempsSortida() - tempsAnterior);
+        if (iem.getTempsSortida() > tempsAnterior) {
+            timer.setDelay(iem.getTempsSortida() - tempsAnterior);
+        }
         unitatEnEspera = iem.getTipusEnemic();
         tempsAnterior = iem.getTempsSortida();
         llistaEnemics.remove(iem);
@@ -128,10 +137,49 @@ public class ManagerEnemics {
         return random;
     }
 
+    public static void pararTimer() {
+        if (timer != null) {
+            if (timer.isRunning()) {
+                timer.stop();
+            }
+        }
+        if (timerInici != null) {
+            if (timerInici.isRunning()) {
+                timerInici.stop();
+            }
+        }
+        timer = null;
+        timerInici = null;
+    }
+
     public static boolean fidelaWave() {
         if (llistaEnemics.size() == 0) {
             return true;
         }
         return false;
+    }
+
+    public static void iniciarCompteEnrere() {
+        timerInici = new Timer(15000, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                mostraCartell = true;
+                crearTimer(4000);
+            }
+        });
+        timerInici.setRepeats(false);
+        timerInici.start();
+    }
+
+    public static void renderCartell(GameContainer gc, Graphics g) {
+        iniciWaveImatge.draw(200, 200);
+    }
+
+    public static boolean isMostraCartell() {
+        return mostraCartell;
+    }
+
+    public static void setMostraCartell(boolean mostra) {
+        mostraCartell = mostra;
     }
 }

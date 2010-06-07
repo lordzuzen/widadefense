@@ -2,7 +2,9 @@ package projecte.td.estats;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
@@ -27,6 +29,14 @@ public class EstatPerd extends BasicGameState {
     private BotoMenu botoReiniciarWave;
     // Boto per tornar al menu principal
     private BotoMenu botoMenuPrincipal;
+    // Imatge del fons de pantalla
+    private Image imatgeFons;
+    // Imatge del boto normal (Sense mouse over)
+    private Image imatgeBotoNormal;
+    // Image del boto amb mouse over
+    private Image imatgeBotoOver;
+    private Sound soClick;
+    private Sound soOver;
 
     public int getID() {
         return ID;
@@ -42,6 +52,11 @@ public class EstatPerd extends BasicGameState {
             throws SlickException {
         this.state = game;
         this.container = container;
+        imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        soClick = ManagerRecursos.getSound("clickSound");
+        soOver = ManagerRecursos.getSound("overSound");
     }
 
     /**
@@ -66,6 +81,7 @@ public class EstatPerd extends BasicGameState {
      */
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
+        imatgeFons.draw(0, 0);
         botoMenuPrincipal.render(container, g);
         botoReiniciarWave.render(container, g);
         g.drawString("Has perdut!!!", 420, 120);
@@ -88,11 +104,17 @@ public class EstatPerd extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar a jugar wave
-        botoReiniciarWave = new BotoMenu(container, ManagerRecursos.getImage("botoPerfilImage"), 420, 250);
-        botoReiniciarWave.setMouseOverImage(ManagerRecursos.getImage("botoPerfilOverImage"));
+        botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 420, 250);
+        botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
+        botoReiniciarWave.setMouseDownSound(soClick);
+        botoReiniciarWave.setMouseOverSound(soOver);
+        botoReiniciarWave.setActiu(true);
         // BotoMenu tornar al menu principal
-        botoMenuPrincipal = new BotoMenu(container, ManagerRecursos.getImage("botoPerfilImage"), 420, 450);
-        botoMenuPrincipal.setMouseOverImage(ManagerRecursos.getImage("botoPerfilOverImage"));
+        botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 420, 450);
+        botoMenuPrincipal.setMouseOverImage(imatgeBotoOver);
+        botoMenuPrincipal.setMouseDownSound(soClick);
+        botoMenuPrincipal.setMouseOverSound(soOver);
+        botoMenuPrincipal.setActiu(true);
     }
 
     /**
@@ -100,11 +122,13 @@ public class EstatPerd extends BasicGameState {
      */
     private void afegirListeners() {
         botoReiniciarWave.addListener(new ComponentListener() {
+
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatSeguentWave.ID);
             }
         });
         botoMenuPrincipal.addListener(new ComponentListener() {
+
             public void componentActivated(AbstractComponent comp) {
                 state.enterState(EstatMenuPrincipal.ID);
             }

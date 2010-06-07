@@ -5,6 +5,7 @@
 package projecte.td.domini;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  *
@@ -14,11 +15,13 @@ public class Bomba extends UnitatAbstract implements InterficieBomba{
 
     private Projectil projectil;
     private boolean dispara;
+    private Sound sound;
 
-    public Bomba(int vida, Image[] frames,int milisegons, Projectil projectil) {
+    public Bomba(int vida, Image[] frames,int milisegons, Projectil projectil, Sound sound) {
         super(vida, frames,milisegons);
         animation.setLooping(false);
         this.projectil = projectil;
+        this.sound = sound;
     }
 
     @Override
@@ -55,5 +58,9 @@ public class Bomba extends UnitatAbstract implements InterficieBomba{
 
     public void setProjectil(Projectil projectil) {
         this.projectil = projectil.cloneProjectil();
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }
