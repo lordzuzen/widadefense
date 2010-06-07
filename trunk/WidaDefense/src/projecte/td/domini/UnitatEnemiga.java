@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import org.newdawn.slick.Animation;
@@ -15,10 +11,10 @@ import org.newdawn.slick.Image;
  */
 public class UnitatEnemiga extends UnitatAbstract {
 
-    protected boolean activat;
-    protected Animation atck;
-    protected double velocitat;
-    protected boolean haArribat;
+    protected boolean activat; //Si colisiona, estarà activat
+    protected Animation atck; //Animacio de l'atac de la unitat
+    protected double velocitat; //Velocitat de la unitat
+    protected boolean haArribat; //Si ha arribat a la meta
 
     /**
      * Constructor Unitat Enemiga
