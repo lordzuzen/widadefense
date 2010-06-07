@@ -86,6 +86,10 @@ public class FactoriaUnitats {
             bo = new BombaAerea(unitats.getPropietatInt("vidaBombaAerea"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationBombaAerea")), 60,
                     new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation"), 100));
+        } //Unitat Aigua
+        else if (tipus.equals("Aigua")) {
+            bo = new UnitatAigua(unitats.getPropietatInt("vidaAigua"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationAigua")), ManagerRecursos.getImageArray("sangAnimation"), 90);
         }
         return bo;
     }
@@ -132,6 +136,10 @@ public class FactoriaUnitats {
             dolent = new UnitatEnemigaExplosio(100,
                     ManagerRecursos.getImageArray("zombieCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
                     ManagerRecursos.getImageArray("zombieAtacaAnimation"), 0.010, 100, 1);
+        }
+        else if(tipus.equals("BolaNeu")) {
+            dolent = new UnitatEnemigaBolaNeu(10000,
+                    ManagerRecursos.getImageArray("bolaNeuAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60, 0.040, 10000);
         }
         return dolent;
     }
