@@ -66,7 +66,6 @@ public class TDGame extends StateBasedGame {
         // Estat on es juga la partida
         addState(new EstatInGame());
         // Estat on es mostra el menu ingame
-        //addState(new EstatMenuIngame());
         // Estat que apareix si l'usuari no supera una wave
         addState(new EstatPerd());
         // Estat que apareix si l'usuari supera una wave
@@ -77,9 +76,10 @@ public class TDGame extends StateBasedGame {
         addState(new EstatMostraInfoUnitats());
         addState(new EstatInfoEnemic());
         addState(new EstatMostraInfoEnemics());
+        addState(new EstatMusica());
         // Estat on es confirma la sortida a l'escriptori
         addState(new EstatSortir());
-        addState(new EstatMusica());
+        
     }
 
     @Override
