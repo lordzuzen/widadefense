@@ -202,7 +202,7 @@ public class EstatInGame extends BasicGameState {
         md = new ManagerDinersAures();
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
         ManagerContext.setDiners(md);
-        ManagerEnemics.iniciaWave(ID);
+        //ManagerEnemics.iniciaWave(ID);
         ManagerEnemics.iniciarCompteEnrere();
     }
 
