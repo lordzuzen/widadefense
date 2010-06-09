@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 /**
- *Classe UnitatEnemigaAtkDistanciaSalta: Unitat enemiga que salta i dispara
+ * Classe UnitatEnemigaAtkDistanciaSalta: Unitat enemiga que salta i dispara
  * @author Ernest Daban i David Alvarez
  */
 public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
@@ -37,54 +37,92 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
         salt = new Animation(frames3, 100);
     }
 
+    /**
+     * Impacte sobre la unitat
+     * @param dany
+     */
     @Override
     public void impacte(double dany) {
         super.impacte(dany);
+        //Observa el primer impacte
         if (!haRebutImpacte) {
             haRebutImpacte = true;
             salta = true;
         }
     }
 
+    /**
+     * Ha saltat
+     */
     public void haSaltat() {
         salta = false;
     }
 
+    /**
+     * Getter salta
+     * @return
+     */
     public boolean isSaltant() {
         return salta;
     }
 
+    /**
+     * Calcula la coordenada y del salt aleatoriament
+     * @param llargadaTotal
+     */
     public void calculaSalt(int llargadaTotal) {
         ySalt = (int) (Math.random() * llargadaTotal);
     }
 
+    /**
+     * Getter coordenadaY salt
+     * @return
+     */
     public int getySalt() {
         return ySalt;
     }
 
+    /**
+     * Dibuixa la unitat
+     * @param gc GameContainer
+     * @param g Graphics
+     */
     @Override
     public void render(GameContainer gc, Graphics g) {
         renderVida(gc, g);
+        //si està activat dibuixa l'animacio del seu atac
         if (activat) {
             g.drawAnimation(atck, posX, posY);
-        } else if (salta) {
+        } //si està saltant, mostra l'animació del salt
+        else if (salta) {
             g.drawAnimation(salt, posX, posY);
             salt.setLooping(false);
-        } else {
+        } //si no està ni activat, ni saltant, mostra l'animació normal
+        else {
             g.drawAnimation(animation, posX, posY);
         }
     }
 
+    /**
+     * Observa si ha finalitzat l'animació del salt
+     * @return
+     */
     public boolean haFinalitzatAnimacio() {
         return salt.isStopped();
     }
 
+    /**
+     * Observa si la unitat esta morta
+     * @return
+     */
     @Override
     public boolean isMort() {
+        //Primera mort, avans d'efectuar el salt
         if (!primeraMort && mort) {
             primeraMort = true;
             return true;
-        } else {
+        } //Segona mort
+        else {
             if (animation_mort != null) {
                 if (mort && animation_mort.isStopped()) {
                     return true;
