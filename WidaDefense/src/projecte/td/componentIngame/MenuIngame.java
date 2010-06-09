@@ -14,8 +14,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.estats.EstatGuanya;
 import projecte.td.managers.ManagerRecursos;
-import projecte.td.factories.FactoriaUnitats;
-import projecte.td.managers.ManagerDiners;
+import projecte.td.factories.FactoriaUnitatsEnemics;
+import projecte.td.managers.ManagerDinersAures;
 import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 
@@ -57,7 +57,7 @@ public class MenuIngame extends AbstractComponent {
     // posXVariable: posicio Y inicial a partir de la qual es posicionen els botonsUnitat
     private int posYVariable;
     // md:
-    private ManagerDiners md;
+    private ManagerDinersAures md;
     private Sound soClick;
     private Sound soOver;
     private Font font;
@@ -73,7 +73,7 @@ public class MenuIngame extends AbstractComponent {
      * @param unitats: unitats que estaran disponibles per seleccionar
      * @param md: manager que controla els diners que te el jugador durant la partida
      */
-    public MenuIngame(GUIContext gui, int posX, int posY, Image image, String unitats, ManagerDiners md, StateBasedGame state) {
+    public MenuIngame(GUIContext gui, int posX, int posY, Image image, String unitats, ManagerDinersAures md, StateBasedGame state) {
         super(gui);
         this.gui = gui;
         this.state = state;
@@ -312,6 +312,6 @@ public class MenuIngame extends AbstractComponent {
     }
 
     public Object getElement() {
-        return FactoriaUnitats.getUnitatBona(elementEsperant);
+        return FactoriaUnitatsEnemics.getUnitatBona(elementEsperant);
     }
 }
