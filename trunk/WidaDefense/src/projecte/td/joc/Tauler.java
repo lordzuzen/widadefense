@@ -601,7 +601,6 @@ public class Tauler {
             for (Object ob : arrays_projectils_enemics[i]) {
                 Projectil p = (Projectil) ob;
                 p.setMort(true);
-
             }
         }
         comprovarMorts(false);
@@ -634,5 +633,17 @@ public class Tauler {
      */
     public Rectangle getCela(int a, int b) {
         return celes[a][b];
+    }
+    /**
+     * Mira si hi han enemics al tauler
+     * @return true si hi han
+     */
+    public boolean enemicsEnTauler() {
+        for (int i = 0; i < nFiles; i++) {
+            if (!arrays_enemics[i].isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
