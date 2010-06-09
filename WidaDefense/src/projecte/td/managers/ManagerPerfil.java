@@ -4,8 +4,9 @@ import projecte.td.utilitats.*;
 import projecte.td.utilitats.Configuracio;
 
 /**
- *
- * @author media
+ * En aquest manager es control·la quin es el perfil que hi ha actiu. També s'hi
+ * guarden les dades referents a opcions de l'usuari o estadistiques.
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class ManagerPerfil {
 
@@ -13,8 +14,11 @@ public class ManagerPerfil {
     private static int perfilTriat;
     // Wave a partir de la qual el jugador començara a jugar
     private static int wave;
+    // Wave que s'esta jugant actualment
     private static int waveActual;
+    // Volum de la música
     private static int volumMusica;
+    // Volum dels efectes de so
     private static int volumEfectes;
     // Total de temps que durara la wave
     private static int tempsTotal;
@@ -26,12 +30,21 @@ public class ManagerPerfil {
     private static String enemicsWave;
     // Unitats que ha triat el jugador per jugar la wave
     private static String unitatsTriades;
+    // S'utilitza per guardar informació referent a la unitat triada quan es canvia d'estat
+    private static String informacioUnitat;
+    // Total d'enemics que han estat mortes per les unitats del jugador
     private static int totalMorts;
+    // Total d'unitats col·locades en el tauler pel jugador
     private static int totalUnitatsColocades;
+    // Total de bales disparades per les unitats
     private static int totalBales;
+    // Total de partides que ha guanyat el jugador
     private static int totalGuanyades;
+    // Total de partides que ha perdut el jugador
     private static int totalPerdudes;
+    // Total de diners acumulats en totes les partides pel jugador
     private static int totalDinersGuanyats;
+    // Total aures col·locades
     private static int totalAuresColocades;
     // Dades del perfil triat
     private static ArxiuConfiguracio dadesPerfil;
@@ -39,13 +52,13 @@ public class ManagerPerfil {
     private static ArxiuConfiguracio dadesWave;
     // Indica si el jugador ha aconseguit superar una wave
     private static boolean canviWave;
-    private static String informacioUnitat;
 
     /**
      * Inicialitza les variables i recursos necessaris per usar la classe
      * @param perfil
      */
     public static void init(int perfil) {
+        // Es carrega l'arxiu pertinent
         perfilTriat = perfil;
         if (perfilTriat == 1) {
             dadesPerfil = Configuracio.getPerfil1();
@@ -54,11 +67,13 @@ public class ManagerPerfil {
         } else if (perfilTriat == 3) {
             dadesPerfil = Configuracio.getPerfil3();
         }
+        // Es carreguen les dades de la wave que s'ha de jugar
         dadesWave = Configuracio.getWaves();
         wave = dadesPerfil.getPropietatInt("seguentWave");
         waveActual = dadesPerfil.getPropietatInt("seguentWave");
         volumMusica = dadesPerfil.getPropietatInt("volumMusica");
         volumEfectes = dadesPerfil.getPropietatInt("volumEfectes");
+        // S'assignen les propietats pertinents
         assignarPropietats();
         totalMorts = 0;
         totalBales = 0;
@@ -89,6 +104,10 @@ public class ManagerPerfil {
         enemicsWave = retornaEnemics();
     }
 
+    /**
+     * Retorna un string amb els enemics que apareixeran en la seguent wave a jugar
+     * @return String amb informació dels enemics
+     */
     private static String retornaEnemics() {
         String enemics = "";
         String[] unitatsEnemigues = dadesWave.getPropietatString("enemicsWave" + wave).split("-");
@@ -99,8 +118,8 @@ public class ManagerPerfil {
     }
 
     /**
-     * Retorna les unitats disponibles
-     * @return
+     * Retorna les unitats disponibles en la seguent wave
+     * @return unitats disponibles
      */
     public static String getUnitatsDisponibles() {
         if (canviWave) {
@@ -110,6 +129,10 @@ public class ManagerPerfil {
         return unitatsDisponibles;
     }
 
+    /**
+     * Indica si es pot canviar la wave a jugar en l'estat seguent wave
+     * @return
+     */
     public static boolean potRestarWave() {
         if (wave > 1) {
             return true;
@@ -117,6 +140,10 @@ public class ManagerPerfil {
         return false;
     }
 
+    /**
+     * Indica si es pot canviar la wave a jugar en l'estat seguent wave
+     * @return
+     */
     public static boolean potSumarWave() {
         if (wave < waveActual) {
             return true;
@@ -124,14 +151,24 @@ public class ManagerPerfil {
         return false;
     }
 
+    /**
+     * Resta una unitat a la wave actual (necessari en l'estat EstatSeguentWave)
+     */
     public static void restaWaveActual() {
         wave--;
     }
 
+    /**
+     * Suma una unitat a la wave actual (necessari en l'estat EstatSeguentWave)
+     */
     public static void sumaWaveActual() {
         wave++;
     }
 
+    /**
+     * Retorna els enemics que apareixeran en la wave a jugar
+     * @return
+     */
     public static String getEnemicsWave() {
         if (canviWave) {
             assignarPropietats();
@@ -140,6 +177,44 @@ public class ManagerPerfil {
         return enemicsWave;
     }
 
+    /**
+     * Es guarden les estadistiques del jugador en l'arxiu de text pertinent
+     */
+    public static void guardarEstadistiques() {
+        int total = dadesPerfil.getPropietatInt("totalMorts");
+        total += totalMorts;
+        dadesPerfil.setPropietatInt("totalMorts", total);
+        total = dadesPerfil.getPropietatInt("totalBales");
+        total += totalBales;
+        dadesPerfil.setPropietatInt("totalBales", total);
+        total = dadesPerfil.getPropietatInt("totalGuanyades");
+        total += totalGuanyades;
+        dadesPerfil.setPropietatInt("totalGuanyades", total);
+        total = dadesPerfil.getPropietatInt("totalPerdudes");
+        total += totalPerdudes;
+        dadesPerfil.setPropietatInt("totalPerdudes", total);
+        total = dadesPerfil.getPropietatInt("totalDiners");
+        total += totalDinersGuanyats;
+        dadesPerfil.setPropietatInt("totalDiners", total);
+        total = dadesPerfil.getPropietatInt("totalAures");
+        total += totalAuresColocades;
+        dadesPerfil.setPropietatInt("totalAures", total);
+        total = dadesPerfil.getPropietatInt("totalUnitats");
+        total += totalUnitatsColocades;
+        dadesPerfil.setPropietatInt("totalUnitats", total);
+        dadesPerfil.guardar();
+    }
+
+    /**
+     * Guarda els valors de volums en l'arxiu de text pertinent
+     */
+    public static void guardarValorsMusica() {
+        dadesPerfil.setPropietatInt("volumMusica", volumMusica);
+        dadesPerfil.setPropietatInt("volumPerfil", volumEfectes);
+        dadesPerfil.guardar();
+    }
+
+    // Metodes per sumar punts a les estadistiques del jugador
     public static void sumaMort() {
         totalMorts++;
     }
@@ -168,31 +243,7 @@ public class ManagerPerfil {
         totalAuresColocades++;
     }
 
-    public static void guardarEstadistiques() {
-        int total = dadesPerfil.getPropietatInt("totalMorts");
-        total += totalMorts;
-        dadesPerfil.setPropietatInt("totalMorts", total);
-        total = dadesPerfil.getPropietatInt("totalBales");
-        total += totalBales;
-        dadesPerfil.setPropietatInt("totalBales", total);
-        total = dadesPerfil.getPropietatInt("totalGuanyades");
-        total += totalGuanyades;
-        dadesPerfil.setPropietatInt("totalGuanyades", total);
-        total = dadesPerfil.getPropietatInt("totalPerdudes");
-        total += totalPerdudes;
-        dadesPerfil.setPropietatInt("totalPerdudes", total);
-        total = dadesPerfil.getPropietatInt("totalDiners");
-        total += totalDinersGuanyats;
-        dadesPerfil.setPropietatInt("totalDiners", total);
-        total = dadesPerfil.getPropietatInt("totalAures");
-        total += totalAuresColocades;
-        dadesPerfil.setPropietatInt("totalAures", total);
-        total = dadesPerfil.getPropietatInt("totalUnitats");
-        total += totalUnitatsColocades;
-        dadesPerfil.setPropietatInt("totalUnitats", total);
-        dadesPerfil.guardar();
-    }
-
+    // Metodes que retornen el valor actual d'una certa estadistica
     public static int getUnitats() {
         return dadesPerfil.getPropietatInt("totalUnitats");
     }
@@ -292,11 +343,5 @@ public class ManagerPerfil {
 
     public static void setVolumMusica(int volumMusica) {
         ManagerPerfil.volumMusica = volumMusica;
-    }
-
-    public static void guardarValorsMusica() {
-        dadesPerfil.setPropietatInt("volumMusica", volumMusica);
-        dadesPerfil.setPropietatInt("volumPerfil", volumEfectes);
-        dadesPerfil.guardar();
     }
 }
