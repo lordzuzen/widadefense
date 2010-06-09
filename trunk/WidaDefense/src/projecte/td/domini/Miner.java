@@ -12,7 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import projecte.td.managers.ManagerContext;
-import projecte.td.managers.ManagerDiners;
+import projecte.td.managers.ManagerDinersAures;
 
 /**
  *
@@ -24,7 +24,7 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     private int capacitat;
     private Timer timer;
     private Moneda moneda;
-    private static ManagerDiners diners;
+    private static ManagerDinersAures diners;
     private String tipus;
     private Sound sound;
 
