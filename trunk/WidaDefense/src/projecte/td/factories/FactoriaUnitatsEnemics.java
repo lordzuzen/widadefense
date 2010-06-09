@@ -30,7 +30,7 @@ public class FactoriaUnitatsEnemics {
                     unitats.getPropietatInt("cadenciaPistoler"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationPistoler")),
                     ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 4,
+                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 20,
                     ManagerRecursos.getSound("pistolerSound"));
         } // Unitat Escopeta
         else if (tipus.equals("Escopeta")) {
@@ -181,7 +181,8 @@ public class FactoriaUnitatsEnemics {
                     ManagerRecursos.getImageArray("gosAtacaAnimation"),
                     ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
                     ManagerRecursos.getImageArray("gosAnimation"), 0.050, 30, 0.80,
-                    ManagerRecursos.getImageArray("gosCaminaAnimation"));
+                    ManagerRecursos.getImageArray("gosCaminaAnimation"),
+                    ManagerRecursos.getImageArray("gosInvisibleAnimation"));
         }
         else if(tipus.equals("Zombie")) {
             dolent = new UnitatEnemigaExplosio(100,
@@ -193,6 +194,11 @@ public class FactoriaUnitatsEnemics {
             dolent = new UnitatEnemigaBolaNeu(10000,
                     ManagerRecursos.getImageArray("bolaNeuAnimation"),
                     ManagerRecursos.getImageArray("sangDretaAnimation"), 60, 0.040, 10000);
+        }
+        else if (tipus.equals("Yeti")) {
+            dolent = new UnitatEnemigaAtkDistancia(100, 2000,
+                    ManagerRecursos.getImageArray("yetiCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
+                    new ProjectilEstatic(0.10, ManagerRecursos.getImageArray("yetiProjectilAnimation"), 100), ManagerRecursos.getImageArray("yetiAtacaAnimation"), 0.030, 100, -2, 4);
         }
         return dolent;
     }
