@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.managers;
 
 import java.awt.event.ActionEvent;
@@ -14,13 +10,15 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import projecte.td.domini.UnitatAbstract;
-import projecte.td.factories.FactoriaUnitats;
+import projecte.td.factories.FactoriaUnitatsEnemics;
 import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.utilitats.Configuracio;
 
 /**
- *
- * @author media
+ * Aquest manager s'encarrega d'extreure els enemics que han d'apareixer en una wave
+ * Ajustar el timing de sortida de cada enemic. S'activa amb un timer al inici de la wave
+ * i es para una vegada s'ha perdut o guanyat
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class ManagerEnemics {
 
@@ -28,6 +26,7 @@ public class ManagerEnemics {
     private static int waveActual;
     // Temps total que ha de durar la wave
     private static int tempsTotal;
+    // Variable auxiliar on s'emmagatzmema el temps a sumar anterior
     private static int tempsAnterior;
     // Arxiu amb les caracteristiques de la wave actual
     private static ArxiuConfiguracio propietatsWave;
@@ -37,29 +36,43 @@ public class ManagerEnemics {
     private static String enemicsWave;
     // Llista de tots els enemics que sortiran
     private static List llistaEnemics;
-    private static int[] carrils;
+    // Timer que s'usa com a compte enrere abans de que comencin a sortir enemics
     private static Timer timerInici;
+    // Timer que s'utilitza per anar disparant la sortida de cada enemic
     private static Timer timer;
+    // Indica si hi ha un enemic esperant per sortir
     private static boolean unitatEsperant;
+    // Indica si la wave es troba en la fase inicial
     private static boolean inici;
-    private static String unitatEnEspera;
+    // Indica si s'ha de mostrar en pantalla la imatge de "Go" quan comenci la wave
     private static boolean mostraCartell;
+    // Indica quin tipus d'enemic hi ha esperant per sortir
+    private static String unitatEnEspera;
+    // Imatge que es mostra quan s'acaba el compte enrere i comença la wave
     private static Image iniciWaveImatge;
 
+    /**
+     * Inicialitza els valors necessaris per organitzar una wave
+     * @param wave enter amb el numero de wave a jugar
+     */
     public static void iniciaWave(int wave) {
         waveActual = wave;
+        // S'agafen els arxius de configuració
         propietatsWave = Configuracio.getWaves();
         enemics = Configuracio.getEnemics();
         enemicsWave = propietatsWave.getPropietatString("enemicsWave" + waveActual);
         tempsTotal = propietatsWave.getPropietatInt("temps" + waveActual);
         llistaEnemics = new ArrayList();
-        carrils = new int[6];
         tempsAnterior = 0;
         inici = true;
         iniciWaveImatge = ManagerRecursos.getImage("iniciWaveImage");
         carregaEnemics();
     }
 
+    /**
+     * S'encarrega de tractar la informació i crear la llista d'enemics que ha d'apareixer
+     * en la wave que es jugara. Un cop creada la llista aquesta s'ordena per temps
+     */
     private static void carregaEnemics() {
         if (timer != null && timer.isRunning()) {
             timer.stop();
@@ -84,6 +97,9 @@ public class ManagerEnemics {
         print();
     }
 
+    /**
+     * Ordena la llista d'enemics per temps de sortida
+     */
     public static void ordenarArray() {
         Collections.sort(llistaEnemics);
     }
@@ -95,15 +111,10 @@ public class ManagerEnemics {
         }
     }
 
-    public static boolean isEnEspera() {
-        return unitatEsperant;
-    }
-
-    public static UnitatAbstract getUnitat() {
-        unitatEsperant = false;
-        return FactoriaUnitats.getUnitatDolenta(unitatEnEspera);
-    }
-
+    /**
+     * Crea el timer encarregat de disparar les unitats cap al tauler
+     * @param temps
+     */
     public static void crearTimer(int temps) {
         timer = new Timer(temps, new ActionListener() {
 
@@ -122,6 +133,9 @@ public class ManagerEnemics {
         timer.start();
     }
 
+    /**
+     * Ajusta el temps del timer per adatar-lo al del seguent enemic que sortira
+     */
     private static void ajustarTimer() {
         InfoEnemicManager iem = (InfoEnemicManager) llistaEnemics.get(0);
         if (iem.getTempsSortida() > tempsAnterior) {
@@ -132,11 +146,18 @@ public class ManagerEnemics {
         llistaEnemics.remove(iem);
     }
 
+    /**
+     * Es tria un carril aleatoriament per on sortira la unitat
+     * @return
+     */
     public static int triarCarril() {
         int random = (int) (Math.random() * 600);
         return random;
     }
 
+    /**
+     * Para els dos timers que s'usen en aquesta classe
+     */
     public static void pararTimer() {
         if (timer != null) {
             if (timer.isRunning()) {
@@ -152,6 +173,10 @@ public class ManagerEnemics {
         timerInici = null;
     }
 
+    /**
+     * Indica si ja han sortit tots els enemics
+     * @return
+     */
     public static boolean fidelaWave() {
         if (llistaEnemics.size() == 0) {
             return true;
@@ -159,6 +184,9 @@ public class ManagerEnemics {
         return false;
     }
 
+    /**
+     * Activa el compte enrere abans de començar a disparar enemics
+     */
     public static void iniciarCompteEnrere() {
         timerInici = new Timer(15000, new ActionListener() {
 
@@ -171,8 +199,23 @@ public class ManagerEnemics {
         timerInici.start();
     }
 
+    /**
+     * Dibuixa el cartell d'inici en pantalla
+     * @param gc
+     * @param g
+     */
     public static void renderCartell(GameContainer gc, Graphics g) {
         iniciWaveImatge.draw(200, 200);
+    }
+
+    // Getters i setters
+    public static boolean isEnEspera() {
+        return unitatEsperant;
+    }
+
+    public static UnitatAbstract getUnitat() {
+        unitatEsperant = false;
+        return FactoriaUnitatsEnemics.getUnitatDolenta(unitatEnEspera);
     }
 
     public static boolean isMostraCartell() {

@@ -1,24 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.managers;
 
 import projecte.td.domini.*;
 import java.util.ArrayList;
 
 /**
- *
- * @author wida47909974
+ * S'encarrega de comprovar si hi han col·lisions entre unitats, projectils i enemics
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class ManagerColisions {
 
-    ArrayList[] arrays_enemics;
-    ArrayList[] arrays_projectils_amics;
-    ArrayList[] arrays_projectils_enemics;
-    private boolean[] controlaFiles;
+    // Arrai bidimensional on s'hi guarden les unitats amigues
     private UnitatAbstract[][] unitatsAmigues;
-
+    // Arrais on es guarden els enemics de cada carril (per separat)
+    ArrayList[] arrays_enemics;
+    // Arrais on es guarden els projectils amics de cada carril (per separat)
+    ArrayList[] arrays_projectils_amics;
+    // Arrais on es guarden els projectils enemics de cada carril (per separat)
+    ArrayList[] arrays_projectils_enemics;
+    // Indica si hi han enemics en els carrils
+    private boolean[] controlaFiles;
+    
+    /**
+     * Constructor amb diversos parametres
+     * @param arrays_enemics: array d'enemics
+     * @param arrays_projectils_amics : array de projectils amics
+     * @param arrays_projectils_enemics: array de projectils enemics
+     * @param controlaFiles
+     * @param unitatsAmigues
+     */
     public ManagerColisions(ArrayList[] arrays_enemics, ArrayList[] arrays_projectils_amics, ArrayList[] arrays_projectils_enemics, boolean[] controlaFiles, UnitatAbstract[][] unitatsAmigues) {
         this.arrays_enemics = arrays_enemics;
         this.arrays_projectils_amics = arrays_projectils_amics;
@@ -27,6 +36,10 @@ public class ManagerColisions {
         this.unitatsAmigues = unitatsAmigues;
     }
 
+    /**
+     * S'encarrega de comprovar si es produeix una col·lisió entre els elements
+     * que poden col·lisionar
+     */
     public void comprovarColisions() {
         //Colisions Projectils Amics-Enemics
         for (int i = 0; i < controlaFiles.length; i++) {
@@ -35,6 +48,7 @@ public class ManagerColisions {
                     UnitatAbstract enemic = (UnitatAbstract) ob1;
                     for (Object ob2 : arrays_projectils_amics[i]) {
                         Projectil p = (Projectil) ob2;
+                        // Es comprova si la unitat es del tipus invisible
                         if (enemic instanceof UnitatEnemigaInvisible) {
                             UnitatEnemigaInvisible ui = (UnitatEnemigaInvisible) enemic;
                             ui.canviShape();
@@ -43,7 +57,8 @@ public class ManagerColisions {
                                 p.impacte();
                             }
                             ui.segonCanviShape();
-                        } else if (enemic.collideWith(p.getShape())) {
+                        } // Es comprova si l'enemic impacta amb un projectil amic
+                        else if (enemic.collideWith(p.getShape())) {
                             if (p instanceof ProjectilMobil) {
                                 if (!p.isMort()) {
                                     enemic.impacte(p.getDany());
@@ -73,7 +88,6 @@ public class ManagerColisions {
                 }
             }
         }
-
         //Colisions Enemics-Amics
         for (int i = 0; i < controlaFiles.length; i++) {
             if (!arrays_enemics[i].isEmpty()) {
