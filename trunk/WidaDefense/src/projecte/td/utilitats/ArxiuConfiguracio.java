@@ -9,6 +9,7 @@ import org.newdawn.slick.util.ResourceLoader;
 /**
  * Aquesta classe s'encarrega de carregar en memoria els fitxers de configuració
  * i extreure'n les dades necessaries.
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class ArxiuConfiguracio {
 
@@ -47,6 +48,8 @@ public class ArxiuConfiguracio {
             throw new RuntimeException("No s'ha pogut guardar el fitxer: " + arxiu);
         }
     }
+
+    // Getters i setters
 
     public String getPropietatString(String clau) {
         return propietats.getProperty(clau);
