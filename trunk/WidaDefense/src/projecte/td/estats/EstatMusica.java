@@ -15,7 +15,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import projecte.td.componentGUI.BotoMenu;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
-import projecte.td.utilitats.ArxiuConfiguracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
@@ -28,23 +27,37 @@ public class EstatMusica extends BasicGameState {
     public static final int ID = 16;
     // Contenidor del joc
     private GameContainer game;
+    // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
-    // Imatge fons de pantalla
+    // Volum dels efectes
     private int volumEfectes;
+    // Volum de la musica
     private int volumMusica;
+    // Imatge fons de pantalla
     private Image imatgeFons;
+    // Titol del estat
     private Image titolEstat;
+    // Text del boto tornar
     private Image textTornar;
+    // Boto last track
     private BotoMenu botoEnrere;
-    private BotoMenu botoPlay;
+    // Boto Stop
     private BotoMenu botoStop;
-    private BotoMenu botoTornar;
+    // Boto Next Track
     private BotoMenu botoEndavant;
+    // Boto per tornar al menu principal
+    private BotoMenu botoTornar;
+    // Boto per sumar volum als efectes
     private BotoMenu botoSumaEfectes;
+    // Boto per restar volum als efectes
     private BotoMenu botoRestaEfectes;
+    // Boto per sumar volum a la musica
     private BotoMenu botoSumaMusica;
+    // Boto per restar volum a la musica
     private BotoMenu botoRestaMusica;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
 
     /**
@@ -95,7 +108,7 @@ public class EstatMusica extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0, container.getWidth(), container.getHeight());
-        titolEstat.draw(250,130);
+        titolEstat.draw(250, 130);
         botoEndavant.render(container, g);
         botoEnrere.render(container, g);
         botoStop.render(container, g);
@@ -210,7 +223,6 @@ public class EstatMusica extends BasicGameState {
             public void componentActivated(AbstractComponent comp) {
                 if (volumMusica > 10) {
                     volumMusica -= 10;
-                    //game.setMusicVolume(volumMusica / 100f);
                     ManagerPerfil.setVolumMusica(volumMusica);
                     ManagerPerfil.guardarValorsMusica();
                     ReproductorMusica.setVolumMusic();
@@ -229,7 +241,6 @@ public class EstatMusica extends BasicGameState {
             public void componentActivated(AbstractComponent comp) {
                 if (volumMusica < 100) {
                     volumMusica += 10;
-                    //game.setMusicVolume(volumMusica / 100f);
                     ManagerPerfil.setVolumMusica(volumMusica);
                     ManagerPerfil.guardarValorsMusica();
                     ReproductorMusica.setVolumMusic();

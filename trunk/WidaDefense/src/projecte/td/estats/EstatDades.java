@@ -10,13 +10,13 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.componentGUI.BotoMenu;
-import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * En aquest estat es mostren els botons a través dels quals s'accedeix a la biblioteca
+ * d'informació del joc
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatDades extends BasicGameState {
 
@@ -40,14 +40,25 @@ public class EstatDades extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Titol de l'estat
     private Image textTitol;
+    // Text del boto Estadistiques
     private Image textEstadistiques;
+    // Text del boto Unitats
     private Image textUnitats;
+    // Text del boto Enemics
     private Image textEnemics;
+    // Text del boto Tornar
     private Image textTornar;
+    // So del click que fan els botons al fer un mouse clicked
     private Sound soClick;
+    // So del mouse que fan els botons pel mouse over
     private Sound soOver;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -99,7 +110,7 @@ public class EstatDades extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
-        textTitol.draw(248,145);
+        textTitol.draw(248, 145);
         botoUnitats.render(container, g);
         botoEstadistiques.render(container, g);
         botoEnemics.render(container, g);

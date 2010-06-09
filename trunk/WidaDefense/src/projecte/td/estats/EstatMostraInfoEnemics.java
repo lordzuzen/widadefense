@@ -20,8 +20,8 @@ import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es mostra informació referent a l'enemic seleccionat en l'estat EstatInfoEnemics
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatMostraInfoEnemics extends BasicGameState {
 
@@ -39,19 +39,31 @@ public class EstatMostraInfoEnemics extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Imatge sobre la qual es col·loquen les animacions de les unitats
     private Image labelFonsNegre;
+    // Animacio de l'enemic seleccionada
     private Animation animation;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
+    // Arxiu de Configuracio amb informació referent als enemics
     private ArxiuConfiguracio enemics;
+    // Unitat de la que es mostra informació
     private String unitatTriada;
+    // Vida de l'enemic escollit
     private String vida;
+    // Atac de l'enemic escollit
     private String atac;
+    // Rapidesa de l'enemic escollit
     private String rapidesa;
-    private String informacio;
     // Font que s'usa per renderitzar el text
     private Font font;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -73,7 +85,6 @@ public class EstatMostraInfoEnemics extends BasicGameState {
         soOver = ManagerRecursos.getSound("overSound");
         labelFonsNegre = ManagerRecursos.getImage("fonsNegrePetitImage");
         font = ManagerRecursos.getFont("dejavuNormalFont");
-
     }
 
     /**
@@ -107,12 +118,6 @@ public class EstatMostraInfoEnemics extends BasicGameState {
         g.drawString("Vida: " + vida, 435, 380);
         g.drawString("Cadencia: " + rapidesa, 435, 430);
         g.drawString("Capacitat:  " + atac, 435, 480);
-        /**String[] text = informacio.split("-");
-        int posicio = 530;
-        for (String z : text) {
-            g.drawString(z, 325, posicio);
-            posicio += 40;
-        }**/
         int posX = 435 + labelFonsNegre.getWidth() / 2 - animation.getImage(0).getWidth() / 2;
         int posY = 123 + labelFonsNegre.getHeight() / 2 - animation.getImage(0).getHeight() / 2;
         g.drawAnimation(animation, posX, posY);
@@ -131,18 +136,15 @@ public class EstatMostraInfoEnemics extends BasicGameState {
         assignarPropietats();
     }
 
+    /**
+     * S'assignen les propietats pertinents als atributs de la classe
+     */
     private void assignarPropietats() {
         unitatTriada = ManagerPerfil.getInformacioUnitat();
         vida = enemics.getPropietatString("infoVida" + unitatTriada);
         rapidesa = enemics.getPropietatString("infoRapidesa" + unitatTriada);
         atac = enemics.getPropietatString("infoAtac" + unitatTriada);
         animation = new Animation(ManagerRecursos.getImageArray(enemics.getPropietatString("animation" + unitatTriada)), 80);
-        int info = enemics.getPropietatInt("totalInfo" + unitatTriada);
-        informacio = "";
-        for (int z = 0; z < info; z++) {
-            informacio += enemics.getPropietatString("informacio" + unitatTriada + z) + "-";
-        }
-        informacio = informacio.substring(0, informacio.length() - 1);
     }
 
     /**
