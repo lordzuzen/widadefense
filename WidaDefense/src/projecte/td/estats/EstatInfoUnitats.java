@@ -19,8 +19,9 @@ import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es mostren les unitats disponibles del jugador en el moment actual. L'usuari pot clicar
+ * i entrar en un altre estat on es mostra informació de la unitat en questio.
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatInfoUnitats extends BasicGameState {
 
@@ -32,10 +33,7 @@ public class EstatInfoUnitats extends BasicGameState {
     private StateBasedGame state;
     // Boto per reinicar la wave
     private BotoMenu botoDades;
-    // Posicio X del menu
-    private int posX;
-    // Posicio Y del menu
-    private int posY;
+    // Wave actual
     private int wave;
     // Posicio X on es començara a col·locar el primer boto de tria d'unitat
     private int posXVariable;
@@ -45,17 +43,25 @@ public class EstatInfoUnitats extends BasicGameState {
     private ArrayList<BotoSeleccio> botonsSeleccio;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    // Imatge del text del boto Tornar
     private Image textTornar;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
+    // Arxiu de Configuracio amb informació de la wave actual
     private ArxiuConfiguracio waves;
+    // Unitats que es mostraran com a disponibles
     private String unitatsTriades;
-    private boolean entraSeguentEstat;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -90,8 +96,11 @@ public class EstatInfoUnitats extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
         ReproductorMusica.update(container);
+        // Es comprova si es clica algun dels botons
         for (BotoSeleccio bs : botonsSeleccio) {
             if (bs.isNotaCanvi()) {
+                // Si s'ha clicat un boto s'informa al manager de perfil i s'accedeix
+                // al seguent estat
                 bs.setNotaCanvi(false);
                 ManagerPerfil.setInformacioUnitat(bs.getUnitat());
                 state.enterState(EstatMostraInfoUnitats.ID);

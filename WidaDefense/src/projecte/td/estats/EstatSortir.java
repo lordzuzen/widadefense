@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.estats;
 
 import org.newdawn.slick.GameContainer;
@@ -17,8 +13,8 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es pregunta a l'usuari si realment vol sortir de l'aplicació
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatSortir extends BasicGameState {
 
@@ -26,10 +22,13 @@ public class EstatSortir extends BasicGameState {
     public static final int ID = 15;
     // Contenidors del joc
     private GameContainer container;
+    // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
-    // Botons
+    // Boto per sortir de l'aplicacio
     private BotoMenu botoSi;
+    // Boto per tornar al menu principal
     private BotoMenu botoNo;
+    // Imatge del fons de pantalla
     private Image imatgeFons;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoXNormal;
@@ -39,14 +38,27 @@ public class EstatSortir extends BasicGameState {
     private Image imatgeBotoVNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoVOver;
+    // Image del text "Vols sortir de l'aplicacio
     private Image textSortida;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
 
+    /**
+     * Aqui s'inicialitzen les variables necessaries per al correcte funcionament del estat
+     * @param container
+     * @param game
+     * @throws SlickException
+     */
     public void init(GameContainer container, StateBasedGame state) {
         this.container = container;
         this.state = state;
@@ -62,6 +74,9 @@ public class EstatSortir extends BasicGameState {
         afegirListeners();
     }
 
+    /**
+     * Es creen els botons del estat
+     */
     private void crearBotons() {
         // Crear els botons
         // BotoMenu Si, per quan es vol sortir del joc
@@ -78,19 +93,18 @@ public class EstatSortir extends BasicGameState {
         botoNo.setActiu(true);
     }
 
+    /**
+     * S'afegeixen els listeners als botons
+     */
     private void afegirListeners() {
-
         // Listener BotoMenu Si
-
         botoSi.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
                 container.exit();
             }
         });
-
         // Listener BotoMenu No
-
         botoNo.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
@@ -99,10 +113,25 @@ public class EstatSortir extends BasicGameState {
         });
     }
 
+    /**
+     * El motor s'encarrega de cridar aquest metode, aqui s'actualitzaran dades de variables o objectes
+     * que s'estiguin usant en aquest estat
+     * @param container
+     * @param game
+     * @param delta
+     * @throws SlickException
+     */
     public void update(GameContainer game, StateBasedGame state, int delta) {
         ReproductorMusica.update(container);
     }
 
+    /**
+     * Aquest metode s'usa per renderitzar o dibuixar en pantalla els elements que es vulguin
+     * @param container
+     * @param game
+     * @param g
+     * @throws SlickException
+     */
     public void render(GameContainer game, StateBasedGame state, Graphics g) {
         imatgeFons.draw(0, 0);
         textSortida.draw(250, 280);

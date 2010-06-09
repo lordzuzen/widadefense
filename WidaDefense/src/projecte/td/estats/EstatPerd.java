@@ -14,8 +14,9 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * En aquest estat s'informa a l'usuari que ha perdut la partida i es dona l'opció de rejugar la wave
+ * o tornar al menu principal
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatPerd extends BasicGameState {
 
@@ -35,9 +36,15 @@ public class EstatPerd extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }

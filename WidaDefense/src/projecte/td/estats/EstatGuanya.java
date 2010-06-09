@@ -18,8 +18,9 @@ import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * En aquest estat s'informa a l'usuari que ha guanyat la partida i es dona l'opció de continuar a la
+ * seguent wave, tornar a jugar l'actual o sortir al menu principal
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatGuanya extends BasicGameState {
 
@@ -51,11 +52,17 @@ public class EstatGuanya extends BasicGameState {
     private Image imatgePersonatge;
     // Boolean per comprovar si s'ha de mostrar una unitat nova
     private boolean unitatNova;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
     // Font que s'usa per renderitzar el text
     private Font font;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -78,7 +85,6 @@ public class EstatGuanya extends BasicGameState {
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
         font = ManagerRecursos.getFont("dejavuNormalFont");
-
     }
 
     /**

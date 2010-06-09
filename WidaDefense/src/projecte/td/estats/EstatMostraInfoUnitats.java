@@ -20,8 +20,8 @@ import projecte.td.utilitats.Configuracio;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es mostra informació referent a l'unitat selecciona en l'estat EstatInfoUnitats
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatMostraInfoUnitats extends BasicGameState {
 
@@ -39,19 +39,31 @@ public class EstatMostraInfoUnitats extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Imatge sobre la qual es col·loquen les animacions de les unitats
     private Image labelFonsNegre;
+    // Animacio de la unitat seleccionada
     private Animation animation;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
+    // Arxiu de Configuracio amb informació referent a les unitats
     private ArxiuConfiguracio unitats;
+    // Unitat de la que es mostra informació
     private String unitatTriada;
+    // Vida de la unitat escollida
     private String vida;
+    // Capacitat de la unitat escollida
     private String capacitat;
+    // Cadencia de la unitat escollida
     private String cadencia;
-    private String informacio;
     // Font que s'usa per renderitzar el text
     private Font font;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -107,12 +119,6 @@ public class EstatMostraInfoUnitats extends BasicGameState {
         g.drawString("Vida: " + vida, 425, 380);
         g.drawString("Cadencia: " + cadencia, 425, 430);
         g.drawString("Capacitat:  " + capacitat, 425, 480);
-        //String[] text = informacio.split("-");
-        //int posicio = 530;
-        /**for (String z : text) {
-            g.drawString(z, 325, posicio);
-            posicio += 40;
-        }**/
         int posX = 435 + labelFonsNegre.getWidth() / 2 - animation.getImage(0).getWidth() / 2;
         int posY = 123 + labelFonsNegre.getHeight() / 2 - animation.getImage(0).getHeight() / 2;
         g.drawAnimation(animation, posX, posY);
@@ -131,18 +137,15 @@ public class EstatMostraInfoUnitats extends BasicGameState {
         assignarPropietats();
     }
 
+    /**
+     * S'assignen les propietats pertinents als atributs de la classe
+     */
     private void assignarPropietats() {
         unitatTriada = ManagerPerfil.getInformacioUnitat();
         vida = unitats.getPropietatString("infoVida" + unitatTriada);
         cadencia = unitats.getPropietatString("infoCadencia" + unitatTriada);
         capacitat = unitats.getPropietatString("infoCapacitat" + unitatTriada);
         animation = new Animation(ManagerRecursos.getImageArray(unitats.getPropietatString("animation" + unitatTriada)), 80);
-        int info = unitats.getPropietatInt("totalInfo" + unitatTriada);
-        informacio = "";
-        for (int z = 0; z < info; z++) {
-            informacio += unitats.getPropietatString("informacio" + unitatTriada + z) + "-";
-        }
-        informacio = informacio.substring(0, informacio.length() - 1);
     }
 
     /**

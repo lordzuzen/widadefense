@@ -16,8 +16,8 @@ import projecte.td.managers.ManagerRecursos;
 import projecte.td.utilitats.ReproductorMusica;
 
 /**
- *
- * @author media
+ * Es mostra informació referent a les puntuacions acumulades per l'usuari del perfil actiu
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class EstatEstadistiques extends BasicGameState {
 
@@ -35,18 +35,31 @@ public class EstatEstadistiques extends BasicGameState {
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // So del boto quan es clicat
     private Sound soClick;
+    // So del boto quan hi ha mouse over
     private Sound soOver;
     // Font que s'usa per renderitzar el text
     private Font font;
+    // Total de morts acumulats pel jugador
     private static int totalMorts;
+    // Total d'unitats col·locades pel jugador
     private static int totalUnitatsColocades;
+    // Total de bales disparades per les unitats
     private static int totalBales;
+    // Total de partides guanyades
     private static int totalGuanyades;
+    // Total de partides perdudes
     private static int totalPerdudes;
+    // Total diners acumulats
     private static int totalDinersGuanyats;
+    // Total aures col·locades
     private static int totalAuresColocades;
 
+    /**
+     * BasicGameState ens obliga a implementar aquest metode
+     * @return int amb l'ID de l'estat del joc
+     */
     public int getID() {
         return ID;
     }
@@ -113,6 +126,7 @@ public class EstatEstadistiques extends BasicGameState {
     public void enter(GameContainer gc, StateBasedGame state) {
         crearBotonsMenuNormal();
         afegirListeners();
+        // Quan s'accedeix a l'estat s'inicialitzen els valors corresponents
         totalMorts = ManagerPerfil.getTotalMorts();
         totalBales = ManagerPerfil.getBales();
         totalGuanyades = ManagerPerfil.getGuanyades();
