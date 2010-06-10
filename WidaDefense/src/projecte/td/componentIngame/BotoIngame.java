@@ -12,38 +12,41 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- *
- * @author media
+ * Son els botons que s'utilitzen en l'estat EstatIngame
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class BotoIngame extends AbstractComponent {
 
     private static boolean botoSeleccionat;
-    // imatgeTapada: imatge que mostra si el boto es pot clicar
+    // imatge que mostra si el boto es pot clicar
     private static Image imatgeTapada;
-    // imatgeSeleccionat: imatge que mostra si el boto esta seleccionat
+    // imatge que mostra si el boto esta seleccionat
     private static Image imatgeSeleccionat;
+    // imatge que es mostra quan el boto no esta seleccionat
     private static Image imatgeNoSeleccionat;
-    // imatgeSeleccionat: imatge que mostra si el boto esta seleccionat
+    // imatge que mostra si el boto esta seleccionat
     private static Image imatgeSeleccionat2;
+    // imatge que es mostra si el boto no esta seleccionat
     private static Image imatgeNoSeleccionat2;
-    // imatgeNormal: imatge que identifica cada boto
+    // imatge que identifica cada boto
     private Image imatgeNormal;
-    // disponible: flag per determinar si el boto esta disponible
+    // flag per determinar si el boto esta disponible
     private boolean disponible;
-    // clicat: flag per determinar si s'ha clicat el boto
+    // flag per determinar si s'ha clicat el boto
     private boolean clicat;
-    // seleccionat: flag per determinar si el boto esta seleccionat
+    // flag per determinar si el boto esta seleccionat
     private boolean seleccionat;
-    // timerActiu: flag per determinar si el timer del boto esta activat
+    // flag per determinar si el timer del boto esta activat
     private boolean timerActiu;
-    // area: shape que s'utilitza per les posicions dels botons i control d'events (clicks)
+    // shape que s'utilitza per les posicions dels botons i control d'events (clicks)
     private Shape area;
-    // cost: el que costa la unitat que representa el boto
+    // el que costa la unitat que representa el boto
     private int cost;
-    // accio: informa de l'accio que s'ha de dur a terme
+    // informa de l'accio que s'ha de dur a terme
     private String accio;
-    // timer: s'utilitza per inhabilitar el boto durant un periode de temps
+    // s'utilitza per inhabilitar el boto durant un periode de temps
     private Timer timer;
+    // comprova el estat per renderitzar el boto
     private boolean cond;
 
     /**

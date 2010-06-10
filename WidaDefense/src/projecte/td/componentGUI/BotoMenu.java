@@ -8,54 +8,84 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 
+/**
+ * Son els botons principals del joc que s'utilitzen per desplasar-se entre menus
+ * @author David Alvarez Palau i Ernest Daban Macià
+ */
 public class BotoMenu extends AbstractComponent {
 
+    // Estats del boto
     protected static final int NORMAL = 1;
     protected static final int MOUSE_CLICK = 2;
     protected static final int MOUSE_OVER = 3;
+    // Imatge del boto sense mouse over
     protected Image imatgeNormal;
+    // Imatge del boto amb mouse over
     protected Image imatgeMouseOver;
+    // Imatge del boto quan es fa click
     protected Image mouseDownImage;
+    // Imatge del text que ha de contenir el boto
     protected Image imageText;
+    // Colors del boto per si no tenen imatge
     protected Color colorNormal = Color.white;
     protected Color colorMouserOver = Color.white;
     protected Color colorMouseClick = Color.white;
+    // So del boto al mouse over
     protected Sound soOver;
+    // So del boto al ser clicat
     protected Sound soClick;
+    // Area que ocupa el boto
     protected Shape area;
+    // Imatge actual del boto (la que es renderitzara)
     protected Image imatgeActual;
+    // Color actual del boto
     protected Color colorActual;
+    // Indica si hi ha mouse over
     protected boolean over;
+    // Indica si s'ha clicat amb el ratoli
     protected boolean click;
+    // Indica si no s'ha clicat
     protected boolean noClick;
+    // Indica si el so s'ha acabat de reproduir
     protected boolean reproduit;
+    // Indica si el boto ha de respondre a events
     protected boolean actiu;
+    // Estat actual del boto
     protected int state = NORMAL;
 
-    public BotoMenu(GUIContext container, Image image, int x, int y,
-            ComponentListener listener) {
-        this(container, image, x, y, image.getWidth(), image.getHeight());
-        addListener(listener);
-    }
-
+    /**
+     * Constructor amb 4 parametres
+     * @param container joc
+     * @param image imatge sense mouse over del boto
+     * @param x posicio x del boto
+     * @param y posicio y del boto
+     */
     public BotoMenu(GUIContext container, Image image, int x, int y) {
         this(container, image, x, y, image.getWidth(), image.getHeight());
     }
-
-    public BotoMenu(GUIContext container, Image image, int x, int y, int width,
-            int height, ComponentListener listener) {
-        this(container, image, x, y, width, height);
-        addListener(listener);
-    }
-
+    
+    /**
+     * Constructor amb 6 parametres
+     * @param container joc
+     * @param image imatge sense mouse over del boto
+     * @param x posicio x del boto
+     * @param y posicio y del boto
+     * @param width amplada del boto
+     * @param height alsada del boto
+     */
     public BotoMenu(GUIContext container, Image image, int x, int y, int width,
             int height) {
         this(container, image, new Rectangle(x, y, width, height));
     }
 
+    /**
+     * Constructor amb 3 parametres
+     * @param container joc
+     * @param image imatge sense mouse over del boto
+     * @param shape area que ocupa el boto
+     */
     public BotoMenu(GUIContext container, Image image, Shape shape) {
         super(container);
 
@@ -68,12 +98,17 @@ public class BotoMenu extends AbstractComponent {
         colorActual = colorNormal;
 
         state = NORMAL;
-        Input input = container.getInput();
-        over = area.contains(input.getMouseX(), input.getMouseY());
-        click = input.isMouseButtonDown(0);
+        Input input2 = container.getInput();
+        over = area.contains(input2.getMouseX(), input2.getMouseY());
+        click = input2.isMouseButtonDown(0);
         updateImage();
     }
 
+    /**
+     * Posiciona el boto a les coordenades indicades
+     * @param x posicio x del boto
+     * @param y posicio y del boto
+     */
     public void setLocation(int x, int y) {
         if (area != null) {
             area.setX(x);
@@ -81,104 +116,22 @@ public class BotoMenu extends AbstractComponent {
         }
     }
 
-    public int getX() {
-        return (int) area.getX();
-    }
-
     /**
-     * Returns the position in the Y coordinate
-     *
-     * @return y
-     */
-    public int getY() {
-        return (int) area.getY();
-    }
-
-    /**
-     * Set the normal color used on the image in the default state
-     *
-     * @param color
-     *            The color to be used
-     */
-    public void setNormalColor(Color color) {
-        colorNormal = color;
-    }
-
-    /**
-     * Set the color to be used when the mouse is over the area
-     *
-     * @param color
-     *            The color to be used when the mouse is over the area
-     */
-    public void setMouseOverColor(Color color) {
-        colorMouserOver = color;
-    }
-
-    /**
-     * Set the color to be used when the mouse is down the area
-     *
-     * @param color
-     *            The color to be used when the mouse is down the area
-     */
-    public void setMouseDownColor(Color color) {
-        colorMouseClick = color;
-    }
-
-    /**
-     * Set the normal image used on the image in the default state
-     *
-     * @param image
-     *            The image to be used
-     */
-    public void setNormalImage(Image image) {
-        imatgeNormal = image;
-    }
-
-    /**
-     * Set the image to be used when the mouse is over the area
-     *
-     * @param image
-     *            The image to be used when the mouse is over the area
-     */
-    public void setMouseOverImage(Image image) {
-        imatgeMouseOver = image;
-    }
-
-    /**
-     * Set the image to be used when the mouse is over the area
-     *
-     * @param image
-     *            The image to be used when the mouse is over the area
-     */
-    public void setImageText(Image image) {
-        imageText = image;
-    }
-
-    /**
-     * Set the image to be used when the mouse is down the area
-     *
-     * @param image
-     *            The image to be used when the mouse is down the area
-     */
-    public void setMouseDownImage(Image image) {
-        mouseDownImage = image;
-    }
-
-    /**
-     * @see org.newdawn.slick.gui.AbstractComponent#render(org.newdawn.slick.gui.GUIContext,
-     *      org.newdawn.slick.Graphics)
+     * Aquest metode s'usa per renderitzar o dibuixar en pantalla els elements que es vulguin
+     * @param container
+     * @param g
      */
     public void render(GUIContext container, Graphics g) {
+        // Si ja te una imatge
         if (imatgeActual != null) {
-
             int xp = (int) (area.getX() + ((getWidth() - imatgeActual.getWidth()) / 2));
             int yp = (int) (area.getY() + ((getHeight() - imatgeActual.getHeight()) / 2));
-
             imatgeActual.draw(xp, yp, colorActual);
         } else {
             g.setColor(colorActual);
             g.fill(area);
         }
+        // Si te imatge de text la dibuixem
         if (imageText != null) {
             int xp = (int) (area.getX() + ((getWidth() - imageText.getWidth()) / 2));
             int yp = (int) (area.getY() + ((getHeight() - imageText.getHeight()) / 2));
@@ -189,9 +142,10 @@ public class BotoMenu extends AbstractComponent {
     }
 
     /**
-     * Update the current normalImage based on the mouse state
+     * Actualitza la imatge que s'ha de mostrar del boto segons l'estat en que es trobi
      */
     protected void updateImage() {
+        // No mouse over
         if (!over) {
             imatgeActual = imatgeNormal;
             colorActual = colorNormal;
@@ -199,7 +153,9 @@ public class BotoMenu extends AbstractComponent {
             noClick = false;
             reproduit = false;
         } else {
+            // Mouse Over
             if (click) {
+                // Clicat
                 if ((state != MOUSE_CLICK) && (noClick)) {
                     if (soClick != null && actiu) {
                         soClick.play();
@@ -211,6 +167,7 @@ public class BotoMenu extends AbstractComponent {
                     noClick = false;
                 }
             } else {
+                // No clicat
                 noClick = true;
                 if (state != MOUSE_OVER) {
                     if (soOver != null) {
@@ -219,6 +176,7 @@ public class BotoMenu extends AbstractComponent {
                             reproduit = true;
                         }
                     }
+                    // Si esta actiu...
                     if (actiu) {
                         imatgeActual = imatgeMouseOver;
                         colorActual = colorMouserOver;
@@ -227,41 +185,29 @@ public class BotoMenu extends AbstractComponent {
                 }
             }
         }
-
         click = false;
         state = NORMAL;
     }
 
     /**
-     * Set the mouse over sound effect
-     *
-     * @param sound
-     *            The mouse over sound effect
+     * Comprova si hi ha mouse over amb el boto
+     * @param oldx
+     * @param oldy
+     * @param newx
+     * @param newy
      */
-    public void setMouseOverSound(Sound sound) {
-        soOver = sound;
-    }
-
-    /**
-     * Set the mouse down sound effect
-     *
-     * @param sound
-     *            The mouse down sound effect
-     */
-    public void setMouseDownSound(Sound sound) {
-        soClick = sound;
-    }
-
-    /**
-     * @see org.newdawn.slick.util.InputAdapter#mouseMoved(int, int, int, int)
-     */
+    @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         over = area.contains(newx, newy);
     }
 
     /**
-     * @see org.newdawn.slick.util.InputAdapter#mousePressed(int, int, int)
+     * Comprova si s'ha clicat en el boto
+     * @param button
+     * @param mx
+     * @param my
      */
+    @Override
     public void mousePressed(int button, int mx, int my) {
         over = area.contains(mx, my);
         if (button == 0 && actiu) {
@@ -270,8 +216,12 @@ public class BotoMenu extends AbstractComponent {
     }
 
     /**
-     * @see org.newdawn.slick.util.InputAdapter#mouseReleased(int, int, int)
+     * Comprova si s'ha produit un mouse released
+     * @param button
+     * @param mx
+     * @param my
      */
+    @Override
     public void mouseReleased(int button, int mx, int my) {
         over = area.contains(mx, my);
         if (button == 0) {
@@ -279,16 +229,47 @@ public class BotoMenu extends AbstractComponent {
         }
     }
 
-    /**
-     * @see org.newdawn.slick.gui.AbstractComponent#getHeight()
-     */
+    // Getters i setters
+    public int getX() {
+        return (int) area.getX();
+    }
+
+    public int getY() {
+        return (int) area.getY();
+    }
+
+    public void setNormalColor(Color color) {
+        colorNormal = color;
+    }
+
+    public void setMouseOverColor(Color color) {
+        colorMouserOver = color;
+    }
+
+    public void setMouseDownColor(Color color) {
+        colorMouseClick = color;
+    }
+
+    public void setNormalImage(Image image) {
+        imatgeNormal = image;
+    }
+
+    public void setMouseOverImage(Image image) {
+        imatgeMouseOver = image;
+    }
+
+    public void setImageText(Image image) {
+        imageText = image;
+    }
+
+    public void setMouseDownImage(Image image) {
+        mouseDownImage = image;
+    }
+
     public int getHeight() {
         return (int) (area.getMaxY() - area.getY());
     }
 
-    /**
-     * @see org.newdawn.slick.gui.AbstractComponent#getWidth()
-     */
     public int getWidth() {
         return (int) (area.getMaxX() - area.getX());
     }
@@ -307,5 +288,13 @@ public class BotoMenu extends AbstractComponent {
 
     public boolean isActiu() {
         return this.actiu;
+    }
+
+    public void setMouseOverSound(Sound sound) {
+        soOver = sound;
+    }
+
+    public void setMouseDownSound(Sound sound) {
+        soClick = sound;
     }
 }
