@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.componentGUI;
 
 import org.newdawn.slick.Graphics;
@@ -12,24 +8,39 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- *
- * @author media
+ * Son els botons que s'utilitzen en l'estat EstatSeguentWave
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class BotoSeleccio extends BotoMenu {
 
+    // Unitat que representa el boto
     private String unitat;
+    // Imatge de la carta
     private static Image imatgeCarta;
+    // Imatge de la carta over
     private static Image imatgeCartaOver;
+    // Indica si s'ha triat el boto
     private boolean botoTriat;
+    // Indica si el boto nota un canvi
     private boolean notaCanvi;
-    private boolean mouseOver;
 
+    /**
+     * Constructor amb 5 parametres
+     * @param container joc
+     * @param image imatge que representa el boto
+     * @param x posicio x del boto
+     * @param y posicio y del boto
+     * @param unitat informació de la unitat
+     */
     public BotoSeleccio(GUIContext container, Image image, int x, int y, String unitat) {
         super(container, image, x, y);
         area = new Rectangle(x, y, imatgeCarta.getWidth(), imatgeCarta.getHeight());
         this.unitat = unitat;
     }
 
+    /**
+     * Afegeix un listener per events
+     */
     public void addListener() {
         addListener(new ComponentListener() {
 
@@ -43,8 +54,9 @@ public class BotoSeleccio extends BotoMenu {
     }
 
     /**
-     * @see org.newdawn.slick.gui.AbstractComponent#render(org.newdawn.slick.gui.GUIContext,
-     *      org.newdawn.slick.Graphics)
+     * Aquest metode s'usa per renderitzar o dibuixar en pantalla els elements que es vulguin
+     * @param container
+     * @param g
      */
     @Override
     public void render(GUIContext container, Graphics g) {
@@ -64,6 +76,9 @@ public class BotoSeleccio extends BotoMenu {
         updateImage();
     }
 
+    /**
+     * Actualitza la imatge que s'ha de mostrar del boto segons l'estat en que es trobi
+     */
     @Override
     protected void updateImage() {
         if (!over) {
@@ -106,9 +121,7 @@ public class BotoSeleccio extends BotoMenu {
         state = NORMAL;
     }
 
-    /**
-     * @see org.newdawn.slick.util.InputAdapter#mouseMoved(int, int, int, int)
-     */
+    // Getters i setters
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         over = area.contains(newx, newy);

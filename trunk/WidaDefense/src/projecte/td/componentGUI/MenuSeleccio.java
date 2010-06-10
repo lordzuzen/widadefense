@@ -9,20 +9,17 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import projecte.td.managers.ManagerPerfil;
 import projecte.td.managers.ManagerRecursos;
-import projecte.td.utilitats.ArxiuConfiguracio;
-import projecte.td.utilitats.Configuracio;
 
 /**
  * Aquesta classe s'utlitza com a suport de l'estat SeguentWave
  * Comprova quines unitats es poden seleccionar a la wave actual i quines unitats
  * ha seleccionat el jugador per començar a jugar la partida
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class MenuSeleccio {
 
     // Contenidor del joc
     private GameContainer container;
-    // Contenidor d'estats que s'usara per accedir als diferents estats del joc
-    private StateBasedGame state;
     // Unitats que es mostraran per poder seleccionar
     private String unitatsAMostrar;
     // Informacio referent a cada unitat
@@ -31,18 +28,20 @@ public class MenuSeleccio {
     private int posXVariable;
     // Posicio Y on es començara a col·locar el primer boto de tria d'unitat
     private int posYVariable;
+    // Posicio X del menu
+    private int posX;
+    // Posicio Y del menu
+    private int posY;
     // Nombre de columnes que es volen mostrar en la tria d'unitats
     private int nColumnesMenu1 = 4;
     // Nombre de columnes que es volen mostrar en la tria d'unitats
     private int nColumnesMenu2 = 8;
     // Indica si hi ha hagut algun canvi
     private boolean canvi;
+    // Indica si s'ha de mostrar informació del boto
     private boolean mostrarInformacio;
+    // Indica si el menu esta actiu
     private boolean actiu;
-    // Posicio X del menu
-    int posX;
-    // Posicio Y del menu
-    int posY;
     // ArrayList on es guarden els botons de seleccio d'unitats
     private ArrayList<BotoSeleccio> botonsSeleccio;
     // ArrayList que s'utilitza per borrar les unitats necessaries de l'arraylist anterior
@@ -51,13 +50,21 @@ public class MenuSeleccio {
     private ArrayList<BotoSeleccio> botonsTriats;
     // ArrayList que s'utilitza per borrar les unitats necessaries de l'arraylist anterior
     private ArrayList<BotoSeleccio> botonsTriats2;
+    // ArrayList amb els labels per representar els enemics
     private ArrayList<LabelSeleccio> cartesEnemics;
-    private ArxiuConfiguracio unitats;
-    private ArxiuConfiguracio enemics;
+    // So al clicar el ratoli
     private Sound soClick;
+    // So per al mouse over
     private Sound soOver;
+    // Font per dibuixar text
     private Font font;
 
+    /**
+     * Constructor amb 3 parametres
+     * @param container joc
+     * @param x posicio x del menu
+     * @param y posicio y del menu
+     */
     public MenuSeleccio(GameContainer container, int x, int y) {
         this.container = container;
         posX = x;
@@ -70,7 +77,6 @@ public class MenuSeleccio {
         botonsTriats2 = new ArrayList<BotoSeleccio>();
         cartesEnemics = new ArrayList<LabelSeleccio>();
         unitatsAMostrar = ManagerPerfil.getUnitatsDisponibles();
-        unitats = Configuracio.getUnitats();
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
         font = ManagerRecursos.getFont("dejavuNormalFont");
@@ -131,24 +137,6 @@ public class MenuSeleccio {
             ls.render(g);
         }
     }
-        /**if (mostrarInformacio && actiu) {
-            g.drawString(informacio, 555, 500);
-            int posicio = 540;
-            String[] infoUnitat = retornaInformacioUnitat();
-            for (String z : infoUnitat) {
-                g.drawString(z, 555, posicio);
-                posicio += 30;
-            }
-        }
-    }
-
-    private String[] retornaInformacioUnitat() {
-        String[] infoUnitat = new String[unitats.getPropietatInt("totalInfo" + informacio)];
-        for (int z = 0; z < infoUnitat.length; z++) {
-            infoUnitat[z] = unitats.getPropietatString("informacio" + informacio + z);
-        }
-        return infoUnitat;
-    }**/
 
     /**
      * Comprova si s'ha de canviar alguna unitat d'una zona a una altra
@@ -218,6 +206,9 @@ public class MenuSeleccio {
         }
     }
 
+    /**
+     * Posiciona les labels dels enemics
+     */
     private void posicionaCartes() {
         int columnes = 0;
         int files = 0;
@@ -252,6 +243,9 @@ public class MenuSeleccio {
         }
     }
 
+    /**
+     * Crea les labels dels enemics
+     */
     private void crearCartes() {
         String[] enemicsImage = ManagerPerfil.getEnemicsWave().split("-");
         for (String z : enemicsImage) {
@@ -279,7 +273,7 @@ public class MenuSeleccio {
 
     /**
      * Comprova si s'ha seleccionat alguna unitat, sino s'ha seleccionat no deixa continuar
-     * @return
+     * @return true si es comensa la partida
      */
     public boolean unitatsNoNull() {
         if (agafarUnitats().length() > 1) {
@@ -288,6 +282,10 @@ public class MenuSeleccio {
         return false;
     }
 
+    /**
+     * Realitza el desplasament dels botons quan comensa la partida
+     * @param incrementY
+     */
     public void moureBotons(int incrementY) {
         for (BotoSeleccio bs : botonsSeleccio) {
             bs.setLocation(bs.getX(), bs.getY() + incrementY);
@@ -300,6 +298,9 @@ public class MenuSeleccio {
         }
     }
 
+    /**
+     * Desactiva els botons per a que no poguin ser clicats
+     */
     public void silenciarBotons() {
         for (BotoSeleccio bs : botonsSeleccio) {
             bs.setActiu(false);

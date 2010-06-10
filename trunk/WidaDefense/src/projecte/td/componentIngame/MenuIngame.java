@@ -20,48 +20,47 @@ import projecte.td.managers.ManagerEnemics;
 import projecte.td.managers.ManagerPerfil;
 
 /**
- *
- * @author media
+ * Menu que s'utilitza en l'estat EstatIngame
+ * @author David Alvarez Palau i Ernest Daban Macià
  */
 public class MenuIngame extends AbstractComponent {
 
-    // gui: context en el que es situara el MenuIngame
+    // context en el que es situara el MenuIngame
     private GUIContext gui;
+    // Contenidor d'estats que s'usara per accedir als estats necessaris
     private StateBasedGame state;
-    // image: imatge que representara el menu
+    // imatge que representara el menu
     private Image image;
+    // imatge de la moneda
     private Image imatgeMoneda;
+    // imatge de la aura
     private Image imatgeAura;
-    private Image contenidor;
-    // area: area que conte el MenuIngame
+    // area que conte el MenuIngame
     private Shape area;
-    // botonsUnitat: arraylist on es guardaran els botonsUnitat de que disposa el menu
+    // arraylist on es guardaran els botonsUnitat de que disposa el menu
     private ArrayList<BotoIngame> botonsUnitat;
-    // botoAux : boto que s'utilitza per guarda la referencia a un boto 
+    // boto que s'utilitza per guarda la referencia a un boto 
     private BotoIngame botoAux;
-    // botoOpcions: para la partida i accedeix al menu
+    // para la partida i accedeix al menu
     private BotoMenu botoOpcions;
-    //botoPala
+    // imatge del boto pala
     private BotoIngame botoPala;
-    // unitats: s'utilitza per inicialitzar correctament els botonsUnitat i les imatges corresponents
+    // s'utilitza per inicialitzar correctament els botonsUnitat i les imatges corresponents
     private String unitats;
-    // elementEsperant: indica quin element esta esperant per ser posicionat
+    // indica quin element esta esperant per ser posicionat
     private String elementEsperant;
+    // indica quin tipus d'aura hi ha disponible
     private String auraDisponible;
-    // enEspera: flag per comprovar si hi ha algun element en espera
+    // flag per comprovar si hi ha algun element en espera
     private boolean enEspera;
-    // cost: variable auxiliar on es guarda el cost del element per posicionar
-    private int cost;
-    // posXVariable: posicio X inicial a partir de la qual es posicionen els botonsUnitat
-    private int posXVariable;
-    // posXVariable: posicio Y inicial a partir de la qual es posicionen els botonsUnitat
-    private int posYVariable;
-    // md:
+    // manager de diners i aures
     private ManagerDinersAures md;
+    // So al fer click sobre un boto
     private Sound soClick;
+    // So al mouse over sobre un boto
     private Sound soOver;
+    // Font per escriure text
     private Font font;
-    private boolean haSonat;
 
     /**
      * Contenidor pel menu ingame del joc on es podran escollir els elements que es posicionaran en
@@ -77,8 +76,6 @@ public class MenuIngame extends AbstractComponent {
         super(gui);
         this.gui = gui;
         this.state = state;
-        this.posXVariable = posX + 30;
-        this.posYVariable = posY;
         this.image = image;
         area = new Rectangle(posX, posY, image.getWidth(), image.getHeight());
         this.unitats = unitats;
@@ -176,6 +173,9 @@ public class MenuIngame extends AbstractComponent {
         }
     }
 
+    /**
+     * Crear el boto de la pala per borrar unitats
+     */
     private void crearBotoPala() {
         BotoIngame.setImatgeSeleccionat2(ManagerRecursos.getImage("botoPalaSeleccionatImage"));
         BotoIngame.setImatgeNoSeleccionat2(ManagerRecursos.getImage("cartaPalaImage"));
@@ -196,6 +196,9 @@ public class MenuIngame extends AbstractComponent {
         botoOpcions.setActiu(true);
     }
 
+    /**
+     * Afegeix un listener al boto
+     */
     private void afegirListener() {
         botoOpcions.addListener(new ComponentListener() {
 
@@ -227,6 +230,18 @@ public class MenuIngame extends AbstractComponent {
     }
 
     /**
+     * Resta diners al ManagerDiners en cas que sigui necessari
+     */
+    public void realitzaTransaccio() {
+        md.restarDiners(botoAux.getCost());
+        reiniciarBotons();
+        botoAux.activarTimer();
+        botoAux = null;
+        soClick.play();
+        ManagerPerfil.sumaUnitat();
+    }
+
+    /**
      * Posiciona l'element al punt indicat
      * @param x : posicio en l'eix X
      * @param y: posicio en l'eix Y
@@ -238,6 +253,7 @@ public class MenuIngame extends AbstractComponent {
         }
     }
 
+    // Getters i setters
     public int getHeight() {
         return (int) (area.getMaxY() - area.getY());
     }
@@ -252,15 +268,6 @@ public class MenuIngame extends AbstractComponent {
 
     public int getY() {
         return (int) area.getY();
-    }
-
-    public void realitzaTransaccio() {
-        md.restarDiners(botoAux.getCost());
-        reiniciarBotons();
-        botoAux.activarTimer();
-        botoAux = null;
-        soClick.play();
-        ManagerPerfil.sumaUnitat();
     }
 
     public ArrayList<BotoIngame> getBotons() {
