@@ -13,6 +13,7 @@ public class FactoriaUnitatsEnemics {
 
     // Arxiu de configuracio amb la informació de les unitats
     private static ArxiuConfiguracio unitats;
+    private static ArxiuConfiguracio enemics;
 
     /**
      * Crea una unitat i la retorna
@@ -29,99 +30,132 @@ public class FactoriaUnitatsEnemics {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaPistoler"),
                     unitats.getPropietatInt("cadenciaPistoler"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationPistoler")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), -2, 20,
-                    ManagerRecursos.getSound("pistolerSound"));
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortPistoler")),
+                    unitats.getPropietatInt("milisegonsPistoler"),
+                    new ProjectilMobil(unitats.getDoublePropietat("danyProjectilPistoler"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("projectilPistoler"))),
+                    unitats.getPropietatFloat("projXPistoler"), unitats.getPropietatFloat("projYPistoler"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soPistoler")));
         } // Unitat Escopeta
         else if (tipus.equals("Escopeta")) {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaEscopeta"),
                     unitats.getPropietatInt("cadenciaEscopeta"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscopeta")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("escopetaProjectilAnimation"),
-                    100), -2, -5, ManagerRecursos.getSound("focSound"));
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortEscopeta")),
+                    unitats.getPropietatInt("milisegonsEscopeta"),
+                    new ProjectilEstatic(unitats.getDoublePropietat("danyProjectilEscopeta"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilEscopeta")),
+                    unitats.getPropietatInt("milisegonsProjectilEscopeta")),
+                    unitats.getPropietatFloat("projXEscopeta"), unitats.getPropietatFloat("projYEscopeta"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soEscopeta")));
         } // Unitat MetralletaLleugera
         else if (tipus.equals("MetralletaLleugera")) {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaMetralletaLleugera"),
                     unitats.getPropietatInt("cadenciaMetralletaLleugera"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationMetralletaLleugera")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")),
-                    -2, 4, ManagerRecursos.getSound("pistolerSound"));
-        } // Unitat Miner
-        else if (tipus.equals("Miner")) {
-            bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
-                    unitats.getPropietatInt("capacitatMiner"),
-                    ManagerRecursos.getImageArray("minerAnimation"), 
-                    ManagerRecursos.getImageArray("sangAnimation"), 60, "Miner",
-                    ManagerRecursos.getSound("minerSound"));
-        } // Unitat Mag Vida
-        else if (tipus.equals("MagVida")) {
-            bo = new Miner(unitats.getPropietatInt("vidaMagVida"),
-                    unitats.getPropietatInt("cadenciaMagVida"),
-                    unitats.getPropietatInt("capacitatMagVida"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMagVida")), 
-                    ManagerRecursos.getImageArray("sangAnimation"), 60, "MagVida",
-                    ManagerRecursos.getSound("auraSound"));
-        } // Unitat Mag Rapidesa
-        else if (tipus.equals("MagRapidesa")) {
-            bo = new Miner(unitats.getPropietatInt("vidaMagRapidesa"),
-                    unitats.getPropietatInt("cadenciaMagRapidesa"),
-                    unitats.getPropietatInt("capacitatMagRapidesa"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMagRapidesa")), 
-                    ManagerRecursos.getImageArray("sangAnimation"), 60, "MagRapidesa",
-                    ManagerRecursos.getSound("auraSound"));
-        } // Unitat Escut
-        else if (tipus.equals("Escut")) {
-            bo = new UnitatAbstract(unitats.getPropietatInt("vidaEscut"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscut")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60);
-        } // Unitat Bomba
-        else if (tipus.equals("Bomba")) {
-            bo = new Bomba(unitats.getPropietatInt("vidaBomba"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBomba")), 60,
-                    new ProjectilEstatic(20, ManagerRecursos.getImageArray("bombaProjectilAnimation"), 100),
-                    ManagerRecursos.getSound("bombaSound"));
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortMetralletaLleugera")),
+                    unitats.getPropietatInt("milisegonsMetralletaLleugera"),
+                    new ProjectilMobil(unitats.getDoublePropietat("danyProjectilMetralletaLleugera"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("projectilMetralletaLleugera"))),
+                    unitats.getPropietatFloat("projXMetralletaLleugera"), unitats.getPropietatFloat("projYMetralletaLleugera"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMetralletaLleugera")));
         } // Unitat Caixa
         else if (tipus.equals("Caixa")) {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaCaixa"),
                     unitats.getPropietatInt("cadenciaCaixa"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationCaixa")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilMobil(25, ManagerRecursos.getImage("lleugerImage")), 10, 4,
-                    ManagerRecursos.getSound("pistolerSound"));
-        } // Unitat Foc
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortCaixa")),
+                    unitats.getPropietatInt("milisegonsCaixa"),
+                    new ProjectilMobil(unitats.getDoublePropietat("danyProjectilCaixa"),
+                    ManagerRecursos.getImage(unitats.getPropietatString("projectilCaixa"))),
+                    unitats.getPropietatFloat("projXCaixa"), unitats.getPropietatFloat("projYCaixa"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soCaixa")));
+        }// Unitat Foc
         else if (tipus.equals("Foc")) {
             bo = new UnitatDispara(unitats.getPropietatInt("vidaFoc"),
                     unitats.getPropietatInt("cadenciaFoc"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationFoc")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 60,
-                    new ProjectilEstatic(0.25, ManagerRecursos.getImageArray("focProjectilAnimation"), 100),
-                    -2, -5, ManagerRecursos.getSound("focSound"));
-        } // Unitat Mina
-        else if (tipus.equals("Mina")) {
-            bo = new Mina(unitats.getPropietatInt("vidaMina"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMina")), 60,
-                    new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation"), 100),
-                    ManagerRecursos.getSound("bombaSound"));
-        } // Unitat Motorista
-        else if (tipus.equals("Motorista")) {
-            bo = new Motorista(unitats.getPropietatInt("vidaMotorista"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMotorista")), 60,
-                    new ProjectilAnimat(200,
-                    ManagerRecursos.getImageArray("motoristaAnimation"), 100),
-                    ManagerRecursos.getSound("pistolerSound"));
-        } // Unitat BombaAerea
-        else if (tipus.equals("BombaAerea")) {
-            bo = new BombaAerea(unitats.getPropietatInt("vidaBombaAerea"),
-                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBombaAerea")), 60,
-                    new ProjectilEstatic(20, ManagerRecursos.getImageArray("minaProjectilAnimation"), 100),
-                    ManagerRecursos.getSound("bombaSound"));
-        } //Unitat Aigua
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortFoc")),
+                    unitats.getPropietatInt("milisegonsFoc"),
+                    new ProjectilEstatic(unitats.getDoublePropietat("danyProjectilFoc"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilFoc")),
+                    unitats.getPropietatInt("milisegonsProjectilFoc")),
+                    unitats.getPropietatFloat("projXFoc"), unitats.getPropietatFloat("projYFoc"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soFoc")));
+        }// Unitat Miner
+        else if (tipus.equals("Miner")) {
+            bo = new Miner(unitats.getPropietatInt("vidaMiner"), unitats.getPropietatInt("cadenciaMiner"),
+                    unitats.getPropietatInt("capacitatMiner"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMiner")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortMiner")),
+                    unitats.getPropietatInt("milisegonsMiner"), unitats.getPropietatString("tipusMiner"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMiner")));
+        } // Unitat Mag Vida
+        else if (tipus.equals("MagVida")) {
+            bo = new Miner(unitats.getPropietatInt("vidaMagVida"),
+                    unitats.getPropietatInt("cadenciaMagVida"),
+                    unitats.getPropietatInt("capacitatMagVida"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMagVida")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortMagVida")),
+                    unitats.getPropietatInt("milisegonsMagVida"), unitats.getPropietatString("tipusMagVida"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMagVida")));
+        } // Unitat Mag Rapidesa
+        else if (tipus.equals("MagRapidesa")) {
+            bo = new Miner(unitats.getPropietatInt("vidaMagRapidesa"),
+                    unitats.getPropietatInt("cadenciaMagRapidesa"),
+                    unitats.getPropietatInt("capacitatMagRapidesa"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMagRapidesa")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortMagRapidesa")),
+                    unitats.getPropietatInt("milisegonsMagRapidesa"), unitats.getPropietatString("tipusMagRapidesa"),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMagRapidesa")));
+        } // Unitat Escut
+        else if (tipus.equals("Escut")) {
+            bo = new UnitatAbstract(unitats.getPropietatInt("vidaEscut"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationEscut")),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortEscut")),
+                    unitats.getPropietatInt("milisegonsEscut"));
+        }//Unitat Aigua
         else if (tipus.equals("Aigua")) {
             bo = new UnitatAigua(unitats.getPropietatInt("vidaAigua"),
                     ManagerRecursos.getImageArray(unitats.getPropietatString("animationAigua")),
-                    ManagerRecursos.getImageArray("sangAnimation"), 90);
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMortAigua")),
+                    unitats.getPropietatInt("milisegonsAigua"));
+        } // Unitat Bomba
+        else if (tipus.equals("Bomba")) {
+            bo = new Bomba(unitats.getPropietatInt("vidaBomba"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBomba")),
+                    unitats.getPropietatInt("milisegonsBomba"),
+                    new ProjectilEstatic(unitats.getDoublePropietat("danyProjectilBomba"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilBomba")),
+                    unitats.getPropietatInt("milisegonsProjectilBomba")),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soBomba")));
+        } // Unitat Mina
+        else if (tipus.equals("Mina")) {
+            bo = new Mina(unitats.getPropietatInt("vidaMina"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMina")),
+                    unitats.getPropietatInt("milisegonsMina"),
+                    new ProjectilEstatic(unitats.getDoublePropietat("danyProjectilMina"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilMina")),
+                    unitats.getPropietatInt("milisegonsProjectilMina")),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMina")));
+        } // Unitat Motorista
+        else if (tipus.equals("Motorista")) {
+            bo = new Motorista(unitats.getPropietatInt("vidaMotorista"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationMotorista")),
+                    unitats.getPropietatInt("milisegonsMotorista"),
+                    new ProjectilAnimat(unitats.getDoublePropietat("danyProjectilMotorista"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilMotorista")),
+                    unitats.getPropietatInt("milisegonsProjectilMotorista")),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soMotorista")));
+        } // Unitat BombaAerea
+        else if (tipus.equals("BombaAerea")) {
+            bo = new BombaAerea(unitats.getPropietatInt("vidaBombaAerea"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("animationBombaAerea")),
+                    unitats.getPropietatInt("milisegonsBombaAerea"),
+                    new ProjectilEstatic(unitats.getDoublePropietat("danyProjectilBombaAerea"),
+                    ManagerRecursos.getImageArray(unitats.getPropietatString("projectilBombaAerea")),
+                    unitats.getPropietatInt("milisegonsProjectilBombaAerea")),
+                    ManagerRecursos.getSound(unitats.getPropietatString("soBombaAerea")));
         }
         return bo;
     }
@@ -132,73 +166,133 @@ public class FactoriaUnitatsEnemics {
      * @return UnitatAbstact amb l'enemic sol·licitada
      */
     public static UnitatAbstract getUnitatDolenta(String tipus) {
+        if (enemics == null) {
+            enemics = Configuracio.getEnemics();
+        }
         UnitatAbstract dolent = null;
+        //Enemic Momia
         if (tipus.equals("Momia")) {
-            dolent = new UnitatEnemigaAtkDistancia(100, 2000,
-                    ManagerRecursos.getImageArray("momiaCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    new ProjectilEstatic(0.10, ManagerRecursos.getImageArray("momiaProjectilAnimation"),
-                    100), ManagerRecursos.getImageArray("momiaAtacaAnimation"), 0.030, 100, -2, 4);
-        } else if (tipus.equals("Natiu")) {
-            dolent = new UnitatEnemigaAtkNormal(100,
-                    ManagerRecursos.getImageArray("natiuCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("natiuAtacaAnimation"), 0.050, 100, 0.25);
-        } else if (tipus.equals("Espasa")) {
-            dolent = new UnitatEnemigaAtkNormal(100,
-                    ManagerRecursos.getImageArray("espasaCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("espasaAtacaAnimation"), 0.060, 100, 0.25);
-        } else if (tipus.equals("Ufo")) {
-            dolent = new UnitatEnemigaAtkDistancia(100, 2000,
-                    ManagerRecursos.getImageArray("ufoAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("ufoProjectilAnimation"),
-                    100), ManagerRecursos.getImageArray("ufoAnimation"), 0.08, 100, -2, 20);
-        } else if (tipus.equals("Cranc")) {
-            dolent = new UnitatEnemigaAtkNormal(100,
-                    ManagerRecursos.getImageArray("crancCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("crancAtacaAnimation"), 0.020, 100, 1);
-        } else if (tipus.equals("Robot")) {
-            dolent = new UnitatEnemigaAtkDistanciaSalta(100, 2000,
-                    ManagerRecursos.getImageArray("robotCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    new ProjectilEstatic(0.50, ManagerRecursos.getImageArray("robotProjectilAnimation"), 100), 
-                    ManagerRecursos.getImageArray("robotAtacaAnimation"), 0.030, 100, -2, 10,
-                    ManagerRecursos.getImageArray("robotCanviAnimation"));
-        } else if (tipus.equals("Cuc")) {
-            dolent = new UnitatEnemigaAtkNormal(100,
-                    ManagerRecursos.getImageArray("cucCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("cucAtacaAnimation"), 0.020, 100, 1);
-        } else if (tipus.equals("Insecte")) {
-            dolent = new UnitatEnemigaVola(100, ManagerRecursos.getImageArray("insecteAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60, 0.050, 0.010);
-        }
+            dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaMomia"),
+                    enemics.getPropietatInt("cadenciaMomia"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMomia1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortMomia")),
+                    enemics.getPropietatInt("milisegonsMomia1"),
+                    new ProjectilEstatic(enemics.getDoublePropietat("atacProjectilMomia"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("projectilMomia")),
+                    enemics.getPropietatInt("milisegonsProjectilMomia")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMomia2")),
+                    enemics.getDoublePropietat("velocitatMomia"), enemics.getPropietatInt("milisegonsMomia2"),
+                    enemics.getPropietatFloat("projXMomia"), enemics.getPropietatFloat("projYMomia"));
+        } //Enemic Natiu
+        else if (tipus.equals("Natiu")) {
+            dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaNatiu"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationNatiu1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortNatiu")),
+                    enemics.getPropietatInt("milisegonsNatiu1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationNatiu2")),
+                    enemics.getDoublePropietat("velocitatNatiu"), enemics.getPropietatInt("milisegonsNatiu2"),
+                    enemics.getDoublePropietat("danyNatiu"));
+        } //Enemic Espasa
+        else if (tipus.equals("Espasa")) {
+            dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaEspasa"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationEspasa1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortEspasa")),
+                    enemics.getPropietatInt("milisegonsEspasa1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationEspasa2")),
+                    enemics.getDoublePropietat("velocitatEspasa"), enemics.getPropietatInt("milisegonsEspasa2"),
+                    enemics.getDoublePropietat("danyEspasa"));
+        } //Enemic Ufo
+        else if (tipus.equals("Ufo")) {
+            dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaUfo"),
+                    enemics.getPropietatInt("cadenciaUfo"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationUfo1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortUfo")),
+                    enemics.getPropietatInt("milisegonsUfo1"),
+                    new ProjectilEstatic(enemics.getDoublePropietat("atacProjectilUfo"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("projectilUfo")),
+                    enemics.getPropietatInt("milisegonsProjectilUfo")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationUfo2")),
+                    enemics.getDoublePropietat("velocitatUfo"), enemics.getPropietatInt("milisegonsUfo2"),
+                    enemics.getPropietatFloat("projXUfo"), enemics.getPropietatFloat("projYUfo"));
+        } //Enemic Cranc
+        else if (tipus.equals("Cranc")) {
+            dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaCranc"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationCranc1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortCranc")),
+                    enemics.getPropietatInt("milisegonsCranc1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationCranc2")),
+                    enemics.getDoublePropietat("velocitatCranc"), enemics.getPropietatInt("milisegonsCranc2"),
+                    enemics.getDoublePropietat("danyCranc"));
+        } //Enemic Robot
+        else if (tipus.equals("Robot")) {
+            dolent = new UnitatEnemigaAtkDistanciaSalta(enemics.getPropietatInt("vidaRobot"),
+                    enemics.getPropietatInt("cadenciaRobot"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortRobot")),
+                    enemics.getPropietatInt("milisegonsRobot1"),
+                    new ProjectilEstatic(enemics.getDoublePropietat("atacProjectilRobot"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("projectilRobot")),
+                    enemics.getPropietatInt("milisegonsProjectilRobot")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot2")),
+                    enemics.getDoublePropietat("velocitatRobot"), enemics.getPropietatInt("milisegonsRobot2"),
+                    enemics.getPropietatFloat("projXRobot"), enemics.getPropietatFloat("projYRobot"), ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot3")));
+        } //Enemic Cuc
+        else if (tipus.equals("Cuc")) {
+            dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaCuc"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationCuc1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortCuc")),
+                    enemics.getPropietatInt("milisegonsCuc1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationCuc2")),
+                    enemics.getDoublePropietat("velocitatCuc"), enemics.getPropietatInt("milisegonsCuc2"),
+                    enemics.getDoublePropietat("danyCuc"));
+        } //Enemic Insecte
+        else if (tipus.equals("Insecte")) {
+            dolent = new UnitatEnemigaVola(enemics.getPropietatInt("vidaInsecte"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationInsecte")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortInsecte")),
+                    enemics.getPropietatInt("milisegonsInsecte"), enemics.getDoublePropietat("velocitatInsecte"),
+                    enemics.getDoublePropietat("danyInsecte"));
+        } //Enemic Gos
         else if (tipus.equals("Gos")) {
-            dolent = new UnitatEnemigaInvisible(100,
-                    ManagerRecursos.getImageArray("gosAtacaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("gosAnimation"), 0.050, 30, 0.80,
+            dolent = new UnitatEnemigaInvisible(enemics.getPropietatInt("vidaGos"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationGos1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortGos")),
+                    enemics.getPropietatInt("milisegonsGos1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationGos2")),
+                    enemics.getDoublePropietat("velocitatGos"), enemics.getPropietatInt("milisegonsGos2"),
+                    enemics.getDoublePropietat("danyGos"),
                     ManagerRecursos.getImageArray("gosCaminaAnimation"),
-                    ManagerRecursos.getImageArray("gosInvisibleAnimation"));
-        }
-        else if(tipus.equals("Zombie")) {
-            dolent = new UnitatEnemigaExplosio(100,
-                    ManagerRecursos.getImageArray("zombieCaminaAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    ManagerRecursos.getImageArray("zombieAtacaAnimation"), 0.010, 100, 1);
-        }
-        else if(tipus.equals("BolaNeu")) {
-            dolent = new UnitatEnemigaBolaNeu(10000,
-                    ManagerRecursos.getImageArray("bolaNeuAnimation"),
-                    ManagerRecursos.getImageArray("sangDretaAnimation"), 60, 0.040, 10000);
-        }
+                    ManagerRecursos.getImageArray("gosInvisibleAnimation"), enemics.getPropietatInt("milisegonsGos3"),
+                    enemics.getPropietatInt("milisegonsGos4"));
+        } //Enemic Zombie
+        else if (tipus.equals("Zombie")) {
+            dolent = new UnitatEnemigaExplosio(enemics.getPropietatInt("vidaZombie"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationZombie1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortZombie")),
+                    enemics.getPropietatInt("milisegonsZombie1"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationZombie2")),
+                    enemics.getDoublePropietat("velocitatZombie"), enemics.getPropietatInt("milisegonsZombie2"),
+                    enemics.getDoublePropietat("danyZombie"));
+        } //Enemic BolaNeu
+        else if (tipus.equals("BolaNeu")) {
+            dolent = new UnitatEnemigaBolaNeu(enemics.getPropietatInt("vidaBolaNeu"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationBolaNeu")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortBolaNeu")),
+                    enemics.getPropietatInt("milisegonsBolaNeu"), enemics.getDoublePropietat("velocitatBolaNeu"),
+                    enemics.getDoublePropietat("danyBolaNeu"));
+        } //Enemic Yeti
         else if (tipus.equals("Yeti")) {
-            dolent = new UnitatEnemigaAtkDistancia(100, 2000,
-                    ManagerRecursos.getImageArray("yetiCaminaAnimation"), ManagerRecursos.getImageArray("sangDretaAnimation"), 60,
-                    new ProjectilEstatic(0.10, ManagerRecursos.getImageArray("yetiProjectilAnimation"), 100), ManagerRecursos.getImageArray("yetiAtacaAnimation"), 0.030, 100, -2, 4);
+            dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaYeti"),
+                    enemics.getPropietatInt("cadenciaYeti"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationYeti1")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortYeti")),
+                    enemics.getPropietatInt("milisegonsYeti1"),
+                    new ProjectilEstatic(enemics.getDoublePropietat("atacProjectilYeti"),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("projectilYeti")),
+                    enemics.getPropietatInt("milisegonsProjectilYeti")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationYeti2")),
+                    enemics.getDoublePropietat("velocitatYeti"), enemics.getPropietatInt("milisegonsYeti2"),
+                    enemics.getPropietatFloat("projXYeti"), enemics.getPropietatFloat("projYYeti"));
         }
         return dolent;
     }
