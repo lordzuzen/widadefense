@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  * Classe UnitatEnemigaAtkDistancia: Unitat Enemiga que dispara
@@ -32,8 +33,8 @@ public class UnitatEnemigaAtkDistancia extends UnitatEnemiga {
      * @param posXProj CoordenadaX projectil
      * @param posYProj CoordenadaY projectil
      */
-    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat, int milisegonsAtck, float posXProj, float posYProj) {
-        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck);
+    public UnitatEnemigaAtkDistancia(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat, int milisegonsAtck, float posXProj, float posYProj,Sound soAtck) {
+        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck,soAtck);
         this.cadencia = cadencia;
         this.projectil = projectil;
         this.posXProj = posXProj;

@@ -4,6 +4,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  *Classe UnitatEnemiga
@@ -15,6 +16,7 @@ public class UnitatEnemiga extends UnitatAbstract {
     protected Animation atck; //Animacio de l'atac de la unitat
     protected double velocitat; //Velocitat de la unitat
     protected boolean haArribat; //Si ha arribat a la meta
+    protected Sound soAtck;
 
     /**
      * Constructor Unitat Enemiga
@@ -26,10 +28,11 @@ public class UnitatEnemiga extends UnitatAbstract {
      * @param velocitat  Velocitat de la unitat
      * @param milisegonsAtck Milisegons entre imatge i imatge de l'Animacio ataca
      */
-    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck) {
+    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck,Sound soAtck) {
         super(vida, frames, framesMort, milisegons);
         atck = new Animation(frames2, milisegonsAtck);
         this.velocitat = velocitat;
+        this.soAtck=soAtck;
     }
 
     /**
@@ -40,9 +43,10 @@ public class UnitatEnemiga extends UnitatAbstract {
      * @param milisegons Milisegons entre imatge i imatge de l'Animacio camina
      * @param velocitat  Velocitat de la unitat
      */
-    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat) {
+    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat,Sound soAtck) {
         super(vida, frames, framesMort, milisegons);
         this.velocitat = velocitat;
+        this.soAtck=soAtck;
     }
 
     /**
@@ -114,4 +118,10 @@ public class UnitatEnemiga extends UnitatAbstract {
     public boolean isHaArribat() {
         return haArribat;
     }
+
+    public Sound getSoAtck() {
+        return soAtck;
+    }
+
+
 }

@@ -1,9 +1,9 @@
 package projecte.td.domini;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -29,10 +29,10 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
      * @param dany
      * @param frames3
      */
-    public UnitatEnemigaInvisible(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany, Image[] frames3, Image[] frames4) {
-        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck, dany);
-        animation2 = new Animation(frames3, 100);
-        ainvisible = new Animation(frames4, 100);
+    public UnitatEnemigaInvisible(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany, Image[] frames3, Image[] frames4, int milisegons3, int milisegons4,Sound soAtck) {
+        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck, dany,soAtck);
+        animation2 = new Animation(frames3, milisegons3);
+        ainvisible = new Animation(frames4, milisegons4);
     }
 
     /**
@@ -65,13 +65,19 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
             } else if (!apareix && activat) {
                 renderVida(gc, g);
                 g.drawAnimation(animation, posX, posY);
+                if (!animation.isStopped() && !soAcabat &&animation.getFrame()==0) {
+                    soAtck.play();
+                    soAcabat = true;
+                }
             } else if (!activat) {
                 renderVida(gc, g);
                 g.drawAnimation(animation2, posX, posY);
             }
+        } else {
+            g.drawAnimation(ainvisible, posX + shape.getWidth() / 2, posY);
         }
-        else{
-            g.drawAnimation(ainvisible, posX+shape.getWidth()/2, posY);
+        if(animation.getFrame()==animation.getFrameCount()-1){
+            soAcabat=false;
         }
     }
 
@@ -94,6 +100,7 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
                 apareix = false;
             }
         }
+
 
     }
 

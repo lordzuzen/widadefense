@@ -6,6 +6,7 @@ import javax.swing.Timer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  * Classe UnitatEnemigaExplosio: Unitat enemiga que explosiona quan té contacte amb una unitat Amiga.
@@ -27,8 +28,8 @@ public class UnitatEnemigaExplosio extends UnitatEnemigaAtkNormal {
      * @param milisegonsAtck
      * @param dany
      */
-    public UnitatEnemigaExplosio(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany) {
-        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck, dany);
+    public UnitatEnemigaExplosio(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany,Sound soAtck) {
+        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck, dany,soAtck);
         timer = new Timer(6000, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +67,10 @@ public class UnitatEnemigaExplosio extends UnitatEnemigaAtkNormal {
         if (activat || cremant) {
             cremant = true;
             g.drawAnimation(atck, posX, posY + animation.getHeight() - atck.getHeight());
+            if(!soAcabat){
+                soAtck.play();
+                soAcabat=true;
+            }
 
         } else {
             g.drawAnimation(animation, posX, posY);

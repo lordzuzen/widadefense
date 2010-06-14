@@ -30,6 +30,7 @@ public class UnitatAbstract extends Entitat implements IAuraVida {
     // Indica si la unitat te una aura activa
     protected boolean auraActiva;
     protected Animation animation_mort;
+    private boolean soMort=true;
 
     /**
      *
@@ -39,7 +40,7 @@ public class UnitatAbstract extends Entitat implements IAuraVida {
      * @param image
      * @param frames
      */
-    public UnitatAbstract(int vida, Image[] frames, Image[] framesMort,int milisegons) {
+    public UnitatAbstract(int vida, Image[] frames, Image[] framesMort, int milisegons) {
         this.vida = vida;
         this.vidaTotal = vida;
         this.animation = new Animation(frames, milisegons);
@@ -47,7 +48,7 @@ public class UnitatAbstract extends Entitat implements IAuraVida {
 
     }
 
-    public UnitatAbstract(int vida, Image[] frames,int milisegons) {
+    public UnitatAbstract(int vida, Image[] frames, int milisegons) {
         this.vida = vida;
         this.vidaTotal = vida;
         this.animation = new Animation(frames, milisegons);
@@ -74,15 +75,26 @@ public class UnitatAbstract extends Entitat implements IAuraVida {
         }
     }
 
+    public boolean efectuarSoMort() {
+        if (mort && animation_mort != null && !animation_mort.isStopped() && soMort) {
+            soMort = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void noEfectuarSoMort() {
+        soMort = false;
+    }
+
     @Override
     public boolean isMort() {
         if (animation_mort != null) {
             if (mort && animation_mort.isStopped()) {
                 return true;
             }
-        }
-        else{
-            if(mort){
+        } else {
+            if (mort) {
                 return true;
             }
         }

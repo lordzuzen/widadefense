@@ -4,6 +4,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  * Classe UnitatEnemigaAtkDistanciaSalta: Unitat enemiga que salta i dispara
@@ -32,8 +33,8 @@ public class UnitatEnemigaAtkDistanciaSalta extends UnitatEnemigaAtkDistancia {
      * @param posYProj
      * @param frames3
      */
-    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat, int milisegonsAtck, float posXProj, float posYProj, Image[] frames3) {
-        super(vida, cadencia, frames, framesMort, milisegons, projectil, frames2, velocitat, milisegonsAtck, posXProj, posYProj);
+    public UnitatEnemigaAtkDistanciaSalta(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, ProjectilEstatic projectil, Image[] frames2, double velocitat, int milisegonsAtck, float posXProj, float posYProj, Image[] frames3,Sound soAtck) {
+        super(vida, cadencia, frames, framesMort, milisegons, projectil, frames2, velocitat, milisegonsAtck, posXProj, posYProj,soAtck);
         salt = new Animation(frames3, 100);
     }
 
