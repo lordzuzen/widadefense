@@ -252,7 +252,7 @@ public class FactoriaUnitatsEnemics {
         } //Enemic Insecte
         else if (tipus.equals("Insecte")) {
             dolent = new UnitatEnemigaVola(enemics.getPropietatInt("vidaInsecte"),
-                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationInsecte")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationInsecte1")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortInsecte")),
                     enemics.getPropietatInt("milisegonsInsecte"), enemics.getDoublePropietat("velocitatInsecte"),
                     enemics.getDoublePropietat("danyInsecte"),ManagerRecursos.getSound(enemics.getPropietatString("soInsecte")));
@@ -280,7 +280,7 @@ public class FactoriaUnitatsEnemics {
         } //Enemic BolaNeu
         else if (tipus.equals("BolaNeu")) {
             dolent = new UnitatEnemigaBolaNeu(enemics.getPropietatInt("vidaBolaNeu"),
-                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationBolaNeu")),
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationBolaNeu1")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortBolaNeu")),
                     enemics.getPropietatInt("milisegonsBolaNeu"), enemics.getDoublePropietat("velocitatBolaNeu"),
                     enemics.getDoublePropietat("danyBolaNeu"),ManagerRecursos.getSound(enemics.getPropietatString("soBolaNeu")));

@@ -70,12 +70,19 @@ public class TDGame extends StateBasedGame {
         addState(new EstatPerd());
         // Estat que apareix si l'usuari supera una wave
         addState(new EstatGuanya());
+        // Estat dades informacio
         addState(new EstatDades());
+        // Estat estadistiques
         addState(new EstatEstadistiques());
+        // Estat inicial mostra info unitats
         addState(new EstatInfoUnitats());
+        // Estat info especifica d'unitats
         addState(new EstatMostraInfoUnitats());
+        // Estat inicial mostra info enemics
         addState(new EstatInfoEnemic());
+        // Estat info especifica enemics
         addState(new EstatMostraInfoEnemics());
+        // Estat opcions musica
         addState(new EstatMusica());
         // Estat on es confirma la sortida a l'escriptori
         addState(new EstatSortir());

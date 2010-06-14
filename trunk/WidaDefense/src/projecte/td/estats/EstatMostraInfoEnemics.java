@@ -144,7 +144,7 @@ public class EstatMostraInfoEnemics extends BasicGameState {
         vida = enemics.getPropietatString("infoVida" + unitatTriada);
         rapidesa = enemics.getPropietatString("infoRapidesa" + unitatTriada);
         atac = enemics.getPropietatString("infoAtac" + unitatTriada);
-        animation = new Animation(ManagerRecursos.getImageArray(enemics.getPropietatString("animation" + unitatTriada)), 80);
+        animation = new Animation(ManagerRecursos.getImageArray(enemics.getPropietatString("animation" + unitatTriada + "1")), 80);
     }
 
     /**

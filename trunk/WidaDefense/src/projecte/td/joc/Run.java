@@ -15,7 +15,7 @@ public class Run {
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer game = new AppGameContainer(new TDGame(
-                "Tower Defense versio 0.1"));
+                "Wida's Defense v1.0"));
         //BoombatGame.loadOptions(game);
         game.setTargetFrameRate(60);
         game.setVSync(true);
