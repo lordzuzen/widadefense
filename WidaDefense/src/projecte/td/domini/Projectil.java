@@ -1,40 +1,61 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package projecte.td.domini;
 
-
 /**
- *
- * @author media
+ * Classe Projectil: Objecte que dispara una unitat Amiga o Enemiga.
+ * @author Ernest Daban i David Alvarez
  */
 public abstract class Projectil extends Entitat {
 
-    protected double dany;
+    protected double dany;//Dany produït per el projectil
 
+    /**
+     * Constructor classe Projectil
+     * @param dany
+     */
     public Projectil(double dany) {
         this.dany = dany;
     }
 
-    public void setLocation(float posX, float posY){
-        super.posX=posX;
-        super.posY=posY;
+    /**
+     * Canvia la posició del projectil
+     * @param posX
+     * @param posY
+     */
+    public void setLocation(float posX, float posY) {
+        super.posX = posX;
+        super.posY = posY;
     }
-    public void update(int delta){
 
+    /**
+     * Updateja el projectil
+     * @param delta
+     */
+    public void update(int delta) {
     }
+
+    /**
+     * Metode per simular un impacte
+     */
     public abstract void impacte();
 
+    /**
+     * Metode emprat per a clonar un projectil
+     * @return
+     */
     public abstract Projectil cloneProjectil();
 
-    // Getters i setters
-
+    /**
+     * Getter dany
+     * @return dany
+     */
     public double getDany() {
         return dany;
     }
 
+    /**
+     * Setter dany
+     * @param dany
+     */
     public void setDany(int dany) {
         this.dany = dany;
     }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -13,19 +9,27 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
 /**
- *
- * @author media
+ * Classe Mina: Unitat Amiga Mina.
+ * @author Ernest Daban i David Alvarez
  */
-public class Mina extends UnitatAbstract implements InterficieBomba{
+public class Mina extends UnitatAbstract implements InterficieBomba {
 
-    private Projectil projectil;
+    private Projectil projectil;//Projectil mina
     private boolean dispara;
-    private Timer timer;
+    private Timer timer;//Timer temps activar
     private boolean activa;
-    private Sound sound;
+    private Sound sound;//So atck
 
-    public Mina(int vida, Image[] frames,int milisegons, Projectil projectil, Sound sound) {
-        super(vida, frames,milisegons);
+    /**
+     * Constructor mina
+     * @param vida
+     * @param frames
+     * @param milisegons
+     * @param projectil
+     * @param sound
+     */
+    public Mina(int vida, Image[] frames, int milisegons, Projectil projectil, Sound sound) {
+        super(vida, frames, milisegons);
         this.projectil = projectil;
         this.sound = sound;
         timer = new Timer(5000, new ActionListener() {
@@ -38,24 +42,42 @@ public class Mina extends UnitatAbstract implements InterficieBomba{
         timer.start();
     }
 
+    /**
+     * Canvia la posicio de la mina
+     * @param posX
+     * @param posY
+     */
     @Override
     public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
         projectil.setLocation(0, 0);
     }
 
+    /**
+     * Updateja la unitat
+     * @param delta
+     */
     @Override
     public void update(int delta) {
     }
 
+    /**
+     * Efectua un impacte
+     * @param dany
+     */
     @Override
     public void impacte(double dany) {
         if (activa) {
             dispara = true;
-            projectil.setLocation(posX - ((projectil.getWidth()-shape.getWidth())/2), posY +shape.getHeight()-projectil.getHeight()+5);
+            projectil.setLocation(posX - ((projectil.getWidth() - shape.getWidth()) / 2), posY + shape.getHeight() - projectil.getHeight() + 5);
         }
     }
 
+    /**
+     * Dibuixa la unitat
+     * @param gc GameContainer
+     * @param g Graphics
+     */
     @Override
     public void render(GameContainer gc, Graphics g) {
         renderVida(gc, g);
@@ -67,27 +89,50 @@ public class Mina extends UnitatAbstract implements InterficieBomba{
         }
     }
 
+    /**
+     * Ha finalitzat el dispar
+     */
     public void haDisparat() {
         dispara = false;
         mort = true;
     }
 
+    /**
+     * Getter dispara
+     * @return dispara
+     */
     public boolean isDispara() {
         return dispara;
     }
 
+    /**
+     * Setter dispara
+     * @param dispara
+     */
     public void setDispara(boolean dispara) {
         this.dispara = dispara;
     }
 
+    /**
+     * Getter projectil
+     * @return projectil
+     */
     public Projectil getProjectil() {
         return projectil;
     }
 
+    /**
+     * Setter projectil
+     * @param projectil
+     */
     public void setProjectil(Projectil projectil) {
         this.projectil = projectil.cloneProjectil();
     }
 
+    /**
+     * Getter sound
+     * @return sound
+     */
     public Sound getSound() {
         return sound;
     }

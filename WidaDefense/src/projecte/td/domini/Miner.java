@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -16,20 +12,31 @@ import projecte.td.managers.ManagerDinersAures;
 import projecte.td.managers.ManagerPerfil;
 
 /**
- *
- * @author media
+ * Classe Miner: Unitat Amiga encargada de treure diners o aures.
+ * @author Ernest Daban i David Alvarez
  */
 public class Miner extends UnitatAbstract implements IAuraRapidesa {
 
     private int cadencia;
     private int capacitat;
     private Timer timer;
-    private Moneda moneda;
-    private static ManagerDinersAures diners;
-    private String tipus;
-    private Sound sound;
+    private Moneda moneda;//Objecte que extreurà la unitat
+    private static ManagerDinersAures diners;//Manager encargat dels diners
+    private String tipus;//Tipus miner(Miner,MagVida,MagRapidesa)
+    private Sound sound;//So accio
     private boolean haSonat;
 
+    /**
+     * Constructor classe Miner
+     * @param vida
+     * @param cadencia
+     * @param capacitat
+     * @param frames
+     * @param framesMort
+     * @param milisegons
+     * @param tipus
+     * @param sound
+     */
     public Miner(int vida, int cadencia, int capacitat, Image[] frames, Image[] framesMort,
             int milisegons, String tipus, Sound sound) {
         super(vida, frames, framesMort, milisegons);
@@ -42,6 +49,11 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
 
     }
 
+    /**
+     * Dibuixa la unitat
+     * @param gc GameContainer
+     * @param g Graphics
+     */
     @Override
     public void render(GameContainer gc, Graphics g) {
         super.render(gc, g);
@@ -51,6 +63,10 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         }
     }
 
+    /**
+     * Updateja la unitat
+     * @param delta
+     */
     @Override
     public void update(int delta) {
         if (moneda != null) {
@@ -72,6 +88,9 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         }
     }
 
+    /**
+     * Crea i activa el timer
+     */
     public void activar() {
         timer = new Timer(cadencia, new ActionListener() {
 
@@ -83,6 +102,11 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         timer.start();
     }
 
+    /**
+     * Comrpova si pot equipar o no l'aura
+     * @param aura
+     * @return
+     */
     @Override
     public boolean potEquiparAura(Aura aura) {
         if (aura.getTipus().equals("MagRapidesa") || aura.getTipus().equals("MagVida")) {
@@ -91,31 +115,57 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         return false;
     }
 
+    /**
+     * Ajusta el timer de la unitat
+     */
     protected void ajustarTimer() {
         timer.setDelay(cadencia);
     }
 
+    /**
+     * Getter auraActiva;
+     * @return auraActiva
+     */
     @Override
     public boolean isAuraActiva() {
         return auraActiva;
     }
 
+    /**
+     * Getter capacitat
+     * @return capacitat
+     */
     public int getCapacitat() {
         return capacitat;
     }
 
+    /**
+     * Setter Capacitat
+     * @param capacitat
+     */
     public void setCapacitat(int capacitat) {
         this.capacitat = capacitat;
     }
 
+    /**
+     * Getter cadencia
+     * @return
+     */
     public int getCadencia() {
         return cadencia;
     }
 
+    /**
+     * Setter cadencia
+     * @param cadencia
+     */
     public void setCadencia(int cadencia) {
         this.cadencia = cadencia;
     }
 
+    /**
+     * Para el timer
+     */
     public void desactivarTimer() {
         if (timer != null) {
             if (timer.isRunning()) {
@@ -124,6 +174,10 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         }
     }
 
+    /**
+     * Getter sound
+     * @return sound
+     */
     public Sound getSound() {
         return sound;
     }
