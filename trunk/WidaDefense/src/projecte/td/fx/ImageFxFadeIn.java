@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package projecte.td.fx;
 
 import mdes.slick.animation.Easing;
@@ -18,95 +13,115 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- * 
- * @author Admin
+ * Aquesta classe s'utilitza per realitzar fade ins en la pantalla intro
+ * @author Modificada per David Alvarez Palau i Ernest Daban Macià
  */
 public class ImageFxFadeIn extends AbstractComponent implements AlphaEntity {
-	private int x;
-	private int y;
-	private int startAt;
-	private int longUpdate;
-	private int counter;
-	private Image image;
-	private Rectangle area;
-	private Fx fx;
-	private Timeline timeline;
-	private Color filter = new Color(Color.white);
 
-	public ImageFxFadeIn(GUIContext container, Image image, int x, int y,
-			int width, int height, int startAt, int longUpdate) {
-		super(container);
-		this.x = x;
-		this.y = y;
-		this.startAt = startAt;
-		this.longUpdate = longUpdate;
-		this.image = image;
-		setLocation(x, y);
-		area = new Rectangle(x, y, width, height);
-		timeline = new Timeline();
-		Easing ease = Easing.CUBIC_IN;
-		fx = new AlphaFx(2000, this, .0f, 1f, ease);
-		timeline.add(fx);
-	}
+    private int x;
+    private int y;
+    private int startAt;
+    private int longUpdate;
+    private int counter;
+    private Image image;
+    private Rectangle area;
+    private Fx fx;
+    private Timeline timeline;
+    private Color filter = new Color(Color.white);
 
-	private void fxFadeIn() {
-		timeline.rewind();
-		timeline.setActive(true);
-	}
+    /**
+     * Constructor amb 8 parametres
+     * @param container
+     * @param image
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param startAt
+     * @param longUpdate
+     */
+    public ImageFxFadeIn(GUIContext container, Image image, int x, int y,
+            int width, int height, int startAt, int longUpdate) {
+        super(container);
+        this.x = x;
+        this.y = y;
+        this.startAt = startAt;
+        this.longUpdate = longUpdate;
+        this.image = image;
+        setLocation(x, y);
+        area = new Rectangle(x, y, width, height);
+        timeline = new Timeline();
+        Easing ease = Easing.CUBIC_IN;
+        fx = new AlphaFx(2000, this, .0f, 1f, ease);
+        timeline.add(fx);
+    }
 
-	
-	public void render(GUIContext container, Graphics g) {
-		if (counter > startAt && counter < startAt + longUpdate) {
-			image.draw(x, y, filter);
-		}
-	}
+    /**
+     * S'inicia el fade in (fos de negre)
+     */
+    private void fxFadeIn() {
+        timeline.rewind();
+        timeline.setActive(true);
+    }
 
-	public void update(int delta) {
-		if (counter == startAt) {
-			fxFadeIn();
-		} else if (counter > startAt && counter < startAt + longUpdate) {
-			timeline.update(delta);
-		}
-		counter += delta;
-	}
+    /**
+     * Es renderitza la imatge
+     * @param container
+     * @param g
+     */
+    public void render(GUIContext container, Graphics g) {
+        if (counter > startAt && counter < startAt + longUpdate) {
+            image.draw(x, y, filter);
+        }
+    }
 
-	
-	public void setLocation(int xPos, int yPos) {
-		if (area != null) {
-			area.setX(xPos);
-			area.setY(yPos);
-		}
-	}
+    /**
+     * S'actualitza la lógica de la classe
+     * @param delta
+     */
+    public void update(int delta) {
+        if (counter == startAt) {
+            fxFadeIn();
+        } else if (counter > startAt && counter < startAt + longUpdate) {
+            timeline.update(delta);
+        }
+        counter += delta;
+    }
 
-	
-	public int getX() {
-		return (int) area.getX();
-	}
+    /**
+     * Es posiciona l'area en el lloc correcte
+     * @param xPos
+     * @param yPos
+     */
+    public void setLocation(int xPos, int yPos) {
+        if (area != null) {
+            area.setX(xPos);
+            area.setY(yPos);
+        }
+    }
 
-	
-	public int getY() {
-		return (int) area.getY();
-	}
+    // Getters i setters
+    public int getX() {
+        return (int) area.getX();
+    }
 
-	
-	public int getWidth() {
-		return (int) (area.getMaxX() - area.getX());
-	}
+    public int getY() {
+        return (int) area.getY();
+    }
 
-	
-	public int getHeight() {
-		return (int) (area.getMaxY() - area.getY());
-	}
+    public int getWidth() {
+        return (int) (area.getMaxX() - area.getX());
+    }
 
-	
-	public float getAlpha() {
-		// TODO Auto-generated method stub
-		return filter.a;
-	}
+    public int getHeight() {
+        return (int) (area.getMaxY() - area.getY());
+    }
 
-	
-	public void setAlpha(float alpha) {
-		// TODO Auto-generated method stub
-		filter.a = alpha;
-	}
+    public float getAlpha() {
+        return filter.a;
+    }
+
+    public void setAlpha(float alpha) {
+        filter.a = alpha;
+    }
 }

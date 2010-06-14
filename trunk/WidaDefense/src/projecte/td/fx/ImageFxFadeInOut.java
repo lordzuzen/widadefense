@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.fx;
 
 import org.newdawn.slick.Graphics;
@@ -10,8 +6,8 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- * 
- * @author Admin
+ * Aquesta classe s'utilitza per realitzar fade out i fade in en la pantalla intro
+ * @author Modificada per David Alvarez Palau i Ernest Daban Macià
  */
 public class ImageFxFadeInOut extends AbstractComponent {
 
@@ -22,6 +18,17 @@ public class ImageFxFadeInOut extends AbstractComponent {
     private ImageFxFadeIn fxFadeIn;
     private ImageFxFadeOut fxFadeOut;
 
+    /**
+     * Constructor amb 8 parametres
+     * @param container
+     * @param image
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param startAt
+     * @param longUpdate
+     */
     public ImageFxFadeInOut(GUIContext container, Image image, int x, int y,
             int width, int height, int startAt, int longUpdate) {
         super(container);
@@ -35,12 +42,21 @@ public class ImageFxFadeInOut extends AbstractComponent {
         this.heigth = height;
     }
 
+    /**
+     * Es renderitza la imatge
+     * @param container
+     * @param g
+     */
     @Override
     public void render(GUIContext container, Graphics g) {
         fxFadeIn.render(container, g);
         fxFadeOut.render(container, g);
     }
 
+    /**
+     * S'actualitza la lógica de la classe
+     * @param delta
+     */
     public void update(int delta) {
         fxFadeIn.setLocation(x, y);
         fxFadeOut.setLocation(x, y);
@@ -48,12 +64,18 @@ public class ImageFxFadeInOut extends AbstractComponent {
         fxFadeOut.update(delta);
     }
 
+    /**
+     * Es posiciona l'area en el lloc correcte
+     * @param xPos
+     * @param yPos
+     */
     @Override
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    // Getters i setters
     @Override
     public int getX() {
         return x;

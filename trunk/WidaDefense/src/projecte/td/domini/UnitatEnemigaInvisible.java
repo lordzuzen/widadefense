@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  * Classe UnitatEnemigaInvisible: Unitat enemiga que es invisible fins que colisiona amb una unitat amiga.
@@ -66,7 +67,7 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
                 renderVida(gc, g);
                 g.drawAnimation(animation, posX, posY);
                 if (!animation.isStopped() && !soAcabat &&animation.getFrame()==0) {
-                    soAtck.play();
+                    soAtck.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                     soAcabat = true;
                 }
             } else if (!activat) {

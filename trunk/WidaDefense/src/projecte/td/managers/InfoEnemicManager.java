@@ -13,7 +13,6 @@ public class InfoEnemicManager implements Comparable{
 
     private String tipusEnemic;
     private int tempsSortida;
-    private int carril;
 
     public InfoEnemicManager(String tipusEnemic, int tempsSortida) {
         this.tipusEnemic = tipusEnemic;
@@ -23,7 +22,6 @@ public class InfoEnemicManager implements Comparable{
     public InfoEnemicManager(String tipusEnemic, int tempsSortida, int carril) {
         this.tipusEnemic = tipusEnemic;
         this.tempsSortida = tempsSortida;
-        this.carril = carril;
     }
 
     public int compareTo(Object object) {
@@ -45,4 +43,27 @@ public class InfoEnemicManager implements Comparable{
         return this.tipusEnemic;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InfoEnemicManager other = (InfoEnemicManager) obj;
+        if ((this.tipusEnemic == null) ? (other.tipusEnemic != null) : !this.tipusEnemic.equals(other.tipusEnemic)) {
+            return false;
+        }
+        if (this.tempsSortida != other.tempsSortida) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
 }

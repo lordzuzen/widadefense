@@ -131,7 +131,7 @@ public class MenuSeleccio {
         }
         if (actiu) {
             g.setFont(font);
-            g.drawString("Wave: " + ManagerPerfil.getWave(), 730, 220);
+            g.drawString("Wave: " + ManagerPerfil.getWave(), 745, 227);
         }
         for (LabelSeleccio ls : cartesEnemics) {
             ls.render(g);

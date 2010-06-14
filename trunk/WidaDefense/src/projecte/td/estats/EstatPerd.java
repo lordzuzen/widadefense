@@ -32,10 +32,16 @@ public class EstatPerd extends BasicGameState {
     private BotoMenu botoMenuPrincipal;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    // Titol del estat
+    private Image titolEstat;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
     private Image imatgeBotoOver;
+    // Image del boto repetir
+    private Image textRepetir;
+    // Imatge del text sortir
+    private Image textSortir;
     // So del boto quan es clicat
     private Sound soClick;
     // So del boto quan hi ha mouse over
@@ -62,6 +68,9 @@ public class EstatPerd extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        titolEstat = ManagerRecursos.getImage("textPerdreImage");
+        textRepetir = ManagerRecursos.getImage("textRepetirImage");
+        textSortir = ManagerRecursos.getImage("textSortirImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
     }
@@ -89,9 +98,9 @@ public class EstatPerd extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
+        titolEstat.draw(250, 150);
         botoMenuPrincipal.render(container, g);
         botoReiniciarWave.render(container, g);
-        g.drawString("Has perdut!!!", 420, 120);
     }
 
     /**
@@ -111,14 +120,16 @@ public class EstatPerd extends BasicGameState {
      */
     private void crearBotonsMenuNormal() {
         // BotoMenu tornar a jugar wave
-        botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 420, 250);
+        botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
         botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
+        botoReiniciarWave.setImageText(textRepetir);
         botoReiniciarWave.setMouseDownSound(soClick);
         botoReiniciarWave.setMouseOverSound(soOver);
         botoReiniciarWave.setActiu(true);
         // BotoMenu tornar al menu principal
-        botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 420, 450);
+        botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 380, 490);
         botoMenuPrincipal.setMouseOverImage(imatgeBotoOver);
+        botoMenuPrincipal.setImageText(textSortir);
         botoMenuPrincipal.setMouseDownSound(soClick);
         botoMenuPrincipal.setMouseOverSound(soOver);
         botoMenuPrincipal.setActiu(true);

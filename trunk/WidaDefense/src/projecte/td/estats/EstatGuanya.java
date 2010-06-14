@@ -42,6 +42,8 @@ public class EstatGuanya extends BasicGameState {
     private String informacioNovesUnitats;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    // Titol del estat
+    private Image titolEstat;
     // Imatge del boto normal (Sense mouse over)
     private Image imatgeBotoNormal;
     // Image del boto amb mouse over
@@ -50,6 +52,12 @@ public class EstatGuanya extends BasicGameState {
     private Image imatgeCarta;
     // Image del boto amb mouse over
     private Image imatgePersonatge;
+    // Image del boto repetir
+    private Image textRepetir;
+    // Image del boto seguir
+    private Image textSeguir;
+    // Imatge del text sortir
+    private Image textSortir;
     // Boolean per comprovar si s'ha de mostrar una unitat nova
     private boolean unitatNova;
     // So del boto quan es clicat
@@ -81,6 +89,10 @@ public class EstatGuanya extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        titolEstat = ManagerRecursos.getImage("textGuanyarImage");
+        textSeguir = ManagerRecursos.getImage("textSeguirImage");
+        textRepetir = ManagerRecursos.getImage("textRepetirImage");
+        textSortir = ManagerRecursos.getImage("textSortirImage");
         imatgeCarta = ManagerRecursos.getImage("botoCartaImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
@@ -110,15 +122,14 @@ public class EstatGuanya extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
+        titolEstat.draw(250, 150);
         botoMenuPrincipal.render(container, g);
         botoReiniciarWave.render(container, g);
         botoSeguentWave.render(container, g);
         g.setFont(font);
         if (unitatNova) {
-            g.drawString("Has Guanyat!!!", 420, 120);
-            imatgeCarta.draw(450, 220);
-            imatgePersonatge.draw(470, 240);
-            g.drawString(informacioNovesUnitats, 450, 190);
+            imatgeCarta.draw(480, 220);
+            imatgePersonatge.draw(490, 230);
         }
     }
 
@@ -147,18 +158,21 @@ public class EstatGuanya extends BasicGameState {
         // BotoMenu tornar a jugar wave
         botoSeguentWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
         botoSeguentWave.setMouseOverImage(imatgeBotoOver);
+        botoSeguentWave.setImageText(textSeguir);
         botoSeguentWave.setMouseDownSound(soClick);
         botoSeguentWave.setMouseOverSound(soOver);
         botoSeguentWave.setActiu(true);
         // BotoMenu tornar al menu principal
         botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 380, 450);
         botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
+        botoReiniciarWave.setImageText(textRepetir);
         botoReiniciarWave.setMouseDownSound(soClick);
         botoReiniciarWave.setMouseOverSound(soOver);
         botoReiniciarWave.setActiu(true);
         // BotoMenu per seguir jugant en la següent Wave
         botoMenuPrincipal = new BotoMenu(container, imatgeBotoNormal, 380, 550);
         botoMenuPrincipal.setMouseOverImage(imatgeBotoOver);
+        botoMenuPrincipal.setImageText(textSortir);
         botoMenuPrincipal.setMouseDownSound(soClick);
         botoMenuPrincipal.setMouseOverSound(soOver);
         botoMenuPrincipal.setActiu(true);

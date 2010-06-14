@@ -13,6 +13,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import projecte.td.managers.ManagerContext;
 import projecte.td.managers.ManagerDinersAures;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  *
@@ -27,17 +28,18 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     private static ManagerDinersAures diners;
     private String tipus;
     private Sound sound;
+    private boolean haSonat;
 
-    public Miner(int vida, int cadencia, int capacitat, Image[] frames,Image[] framesMort, 
+    public Miner(int vida, int cadencia, int capacitat, Image[] frames, Image[] framesMort,
             int milisegons, String tipus, Sound sound) {
-        super(vida, frames,framesMort,milisegons);
+        super(vida, frames, framesMort, milisegons);
         this.cadencia = cadencia;
         this.capacitat = capacitat;
         this.tipus = tipus;
         this.sound = sound;
         diners = ManagerContext.getDiners();
         activar();
-        
+
     }
 
     @Override
@@ -53,6 +55,10 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
     public void update(int delta) {
         if (moneda != null) {
             moneda.update();
+            if (!haSonat) {
+                sound.play(1, (float) ManagerPerfil.getVolumEfectes() / 100);
+                haSonat = true;
+            }
             if (moneda.isDesapareix()) {
                 moneda = null;
             } else if (moneda.isActiu()) {
@@ -60,7 +66,7 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
                     diners.afegirDiners(capacitat);
                 } else if (tipus.equals("MagVida") || tipus.equals("MagRapidesa")) {
                     diners.setTipusAuraEspera(tipus);
-                }   
+                }
                 moneda = null;
             }
         }
@@ -71,6 +77,7 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
 
             public void actionPerformed(ActionEvent e) {
                 moneda = new Moneda(ManagerContext.getGui(), (int) posX, (int) posY, tipus);
+                haSonat = false;
             }
         });
         timer.start();
@@ -109,8 +116,12 @@ public class Miner extends UnitatAbstract implements IAuraRapidesa {
         this.cadencia = cadencia;
     }
 
-    public void desactivarTimer(){
-        timer.stop();
+    public void desactivarTimer() {
+        if (timer != null) {
+            if (timer.isRunning()) {
+                timer.stop();
+            }
+        }
     }
 
     public Sound getSound() {

@@ -10,7 +10,7 @@ package projecte.td.domini;
  *
  * @author media
  */
-public abstract class Projectil extends Entitat{
+public abstract class Projectil extends Entitat {
 
     protected double dany;
 
@@ -26,9 +26,6 @@ public abstract class Projectil extends Entitat{
 
     }
     public abstract void impacte();
-
-    @Override
-    public abstract Object clone();
 
     public abstract Projectil cloneProjectil();
 

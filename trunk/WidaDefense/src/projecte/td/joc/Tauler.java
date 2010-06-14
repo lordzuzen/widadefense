@@ -202,6 +202,7 @@ public class Tauler {
             UnitatDispara ud = (UnitatDispara) unitatsAmigues[fil][col];
             ud.desactivarDispars();//Parar timers
         } else if (unitatsAmigues[fil][col] instanceof Miner) {
+            System.out.println("miner eliminat");
             Miner miner = (Miner) unitatsAmigues[fil][col];
             miner.desactivarTimer();//Parar timers
         }
@@ -276,7 +277,7 @@ public class Tauler {
         if (ud.estaDisparant()) {
             arrays_projectils_amics[numFila].add(p);
             ud.haDisparat();
-            ud.getSound().play();
+            ud.getSound().play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
             ManagerPerfil.sumaBala();
         }
         if (!ud.estaActivat()) {
@@ -295,7 +296,7 @@ public class Tauler {
                     if (u.isDispara()) {
                         arrays_projectils_amics[i].add(u.getProjectil());
                         u.haDisparat();
-                        u.getSound().play();
+                        u.getSound().play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                         ManagerPerfil.sumaBala();
                     }
                 } else {
@@ -336,7 +337,7 @@ public class Tauler {
                         if (enemic.estaActivat() && enemic.estaDisparant()) {
                             arrays_projectils_enemics[i].add(enemic.getProjectil());
                             enemic.haDisparat();
-                            enemic.getSoAtck().play();
+                            enemic.getSoAtck().play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
 
                         }
                     }
@@ -374,7 +375,7 @@ public class Tauler {
                     t.renderMort(gc, g);
                     if(t.efectuarSoMort()){
                         Sound so =ManagerRecursos.getSound("mortBonsSound");
-                        so.play();
+                        so.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                     }
                 }
             }

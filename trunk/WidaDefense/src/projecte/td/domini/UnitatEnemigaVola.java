@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  *
@@ -65,7 +66,7 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
         g.drawAnimation(animation, posX, posY);
         if (activat) {
             if (!animation.isStopped() && !soAcabat && animation.getFrame() == 0) {
-                soAtck.play();
+                soAtck.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                 soAcabat = true;
             }
 

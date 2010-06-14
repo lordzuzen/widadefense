@@ -163,7 +163,7 @@ public class EstatInGame extends BasicGameState {
             state.enterState(EstatPerd.ID);
         }
         // Comprova si la partida ha finalitzat i l'usuari ha guanyat
-        if (ManagerEnemics.fidelaWave()) {
+        if (ManagerEnemics.fidelaWave() && !p.enemicsEnTauler()) {
             p.borrarTot();
             ManagerPerfil.sumaGuanyada();
             ManagerPerfil.guardarEstadistiques();
@@ -202,7 +202,6 @@ public class EstatInGame extends BasicGameState {
         md = new ManagerDinersAures();
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
         ManagerContext.setDiners(md);
-        //ManagerEnemics.iniciaWave(ID);
         ManagerEnemics.iniciarCompteEnrere();
     }
 

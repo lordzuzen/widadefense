@@ -38,6 +38,10 @@ public class EstatSeguentWave extends BasicGameState {
     private Image imatgeBotoX;
     // Image del boto V que s'utilitza per començar a jugar.
     private Image imatgeBotoV;
+    // Image del boto X Over que s'utilitza per començar a jugar
+    private Image imatgeBotoXOver;
+    // Image del boto V Over que s'utilitza per començar a jugar.
+    private Image imatgeBotoVOver;
     // Objecte menu que comprova les unitats que es poden seleccionar i les que s'han seleccionat
     private MenuSeleccio ms;
     // Boto per accedir al seguent estat
@@ -77,6 +81,8 @@ public class EstatSeguentWave extends BasicGameState {
         imatgeFons = ManagerRecursos.getImage("fonsSeguentWaveImage");
         imatgeBotoX = ManagerRecursos.getImage("botoXImage");
         imatgeBotoV = ManagerRecursos.getImage("botoVImage");
+        imatgeBotoXOver = ManagerRecursos.getImage("botoXOverImage");
+        imatgeBotoVOver = ManagerRecursos.getImage("botoVOverImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
     }
@@ -121,6 +127,7 @@ public class EstatSeguentWave extends BasicGameState {
                 }
             }
         });
+        botoContinuar.setMouseOverImage(imatgeBotoVOver);
         botoContinuar.setMouseDownSound(soClick);
         botoContinuar.setMouseOverSound(soOver);
         botoContinuar.setActiu(true);
@@ -132,6 +139,7 @@ public class EstatSeguentWave extends BasicGameState {
                 state.enterState(EstatMenuPrincipal.ID, new FadeOutTransition(), new FadeInTransition());
             }
         });
+        botoTornar.setMouseOverImage(imatgeBotoXOver);
         botoTornar.setMouseDownSound(soClick);
         botoTornar.setMouseOverSound(soOver);
         botoTornar.setActiu(true);

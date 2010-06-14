@@ -43,6 +43,8 @@ public class EstatInfoUnitats extends BasicGameState {
     private ArrayList<BotoSeleccio> botonsSeleccio;
     // Imatge del fons de pantalla
     private Image imatgeFons;
+    // Titol del estat
+    private Image titolEstat;
     // Imatge del text del boto Tornar
     private Image textTornar;
     // Imatge del boto normal (Sense mouse over)
@@ -80,6 +82,7 @@ public class EstatInfoUnitats extends BasicGameState {
         imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
         imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         textTornar = ManagerRecursos.getImage("textTornarImage");
+        titolEstat = ManagerRecursos.getImage("textUnitatsGranImage");
         soClick = ManagerRecursos.getSound("clickSound");
         soOver = ManagerRecursos.getSound("overSound");
 
@@ -118,6 +121,7 @@ public class EstatInfoUnitats extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         imatgeFons.draw(0, 0);
+        titolEstat.draw(250, 130);
         botoDades.render(container, g);
         for (BotoSeleccio b : botonsSeleccio) {
             b.render(container, g);

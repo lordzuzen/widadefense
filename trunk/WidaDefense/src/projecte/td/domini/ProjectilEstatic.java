@@ -15,7 +15,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author media
  */
-public class ProjectilEstatic extends Projectil {
+public class ProjectilEstatic extends Projectil implements Cloneable{
 
     Animation animation;
     Image[] frames;

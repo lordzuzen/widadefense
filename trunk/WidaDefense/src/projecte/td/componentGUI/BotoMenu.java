@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.GUIContext;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  * Son els botons principals del joc que s'utilitzen per desplasar-se entre menus
@@ -158,7 +159,7 @@ public class BotoMenu extends AbstractComponent {
                 // Clicat
                 if ((state != MOUSE_CLICK) && (noClick)) {
                     if (soClick != null && actiu) {
-                        soClick.play();
+                        soClick.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                     }
                     imatgeActual = mouseDownImage;
                     colorActual = colorMouseClick;
@@ -172,7 +173,7 @@ public class BotoMenu extends AbstractComponent {
                 if (state != MOUSE_OVER) {
                     if (soOver != null) {
                         if (!reproduit && actiu) {
-                            soOver.play();
+                            soOver.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                             reproduit = true;
                         }
                     }
