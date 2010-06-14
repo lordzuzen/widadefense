@@ -182,7 +182,8 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsProjectilMomia")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationMomia2")),
                     enemics.getDoublePropietat("velocitatMomia"), enemics.getPropietatInt("milisegonsMomia2"),
-                    enemics.getPropietatFloat("projXMomia"), enemics.getPropietatFloat("projYMomia"));
+                    enemics.getPropietatFloat("projXMomia"), enemics.getPropietatFloat("projYMomia"),
+                    ManagerRecursos.getSound(enemics.getPropietatString("soMomia")));
         } //Enemic Natiu
         else if (tipus.equals("Natiu")) {
             dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaNatiu"),
@@ -191,7 +192,7 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsNatiu1"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationNatiu2")),
                     enemics.getDoublePropietat("velocitatNatiu"), enemics.getPropietatInt("milisegonsNatiu2"),
-                    enemics.getDoublePropietat("danyNatiu"));
+                    enemics.getDoublePropietat("danyNatiu"),ManagerRecursos.getSound(enemics.getPropietatString("soNatiu")));
         } //Enemic Espasa
         else if (tipus.equals("Espasa")) {
             dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaEspasa"),
@@ -200,7 +201,7 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsEspasa1"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationEspasa2")),
                     enemics.getDoublePropietat("velocitatEspasa"), enemics.getPropietatInt("milisegonsEspasa2"),
-                    enemics.getDoublePropietat("danyEspasa"));
+                    enemics.getDoublePropietat("danyEspasa"),ManagerRecursos.getSound(enemics.getPropietatString("soEspasa")));
         } //Enemic Ufo
         else if (tipus.equals("Ufo")) {
             dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaUfo"),
@@ -213,7 +214,8 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsProjectilUfo")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationUfo2")),
                     enemics.getDoublePropietat("velocitatUfo"), enemics.getPropietatInt("milisegonsUfo2"),
-                    enemics.getPropietatFloat("projXUfo"), enemics.getPropietatFloat("projYUfo"));
+                    enemics.getPropietatFloat("projXUfo"), enemics.getPropietatFloat("projYUfo"),
+                    ManagerRecursos.getSound(enemics.getPropietatString("soUfo")));
         } //Enemic Cranc
         else if (tipus.equals("Cranc")) {
             dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaCranc"),
@@ -222,7 +224,7 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsCranc1"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationCranc2")),
                     enemics.getDoublePropietat("velocitatCranc"), enemics.getPropietatInt("milisegonsCranc2"),
-                    enemics.getDoublePropietat("danyCranc"));
+                    enemics.getDoublePropietat("danyCranc"),ManagerRecursos.getSound(enemics.getPropietatString("soCranc")));
         } //Enemic Robot
         else if (tipus.equals("Robot")) {
             dolent = new UnitatEnemigaAtkDistanciaSalta(enemics.getPropietatInt("vidaRobot"),
@@ -235,7 +237,9 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsProjectilRobot")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot2")),
                     enemics.getDoublePropietat("velocitatRobot"), enemics.getPropietatInt("milisegonsRobot2"),
-                    enemics.getPropietatFloat("projXRobot"), enemics.getPropietatFloat("projYRobot"), ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot3")));
+                    enemics.getPropietatFloat("projXRobot"), enemics.getPropietatFloat("projYRobot"), 
+                    ManagerRecursos.getImageArray(enemics.getPropietatString("animationRobot3")),
+                    ManagerRecursos.getSound(enemics.getPropietatString("soRobot")));
         } //Enemic Cuc
         else if (tipus.equals("Cuc")) {
             dolent = new UnitatEnemigaAtkNormal(enemics.getPropietatInt("vidaCuc"),
@@ -244,14 +248,14 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsCuc1"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationCuc2")),
                     enemics.getDoublePropietat("velocitatCuc"), enemics.getPropietatInt("milisegonsCuc2"),
-                    enemics.getDoublePropietat("danyCuc"));
+                    enemics.getDoublePropietat("danyCuc"),ManagerRecursos.getSound(enemics.getPropietatString("soCuc")));
         } //Enemic Insecte
         else if (tipus.equals("Insecte")) {
             dolent = new UnitatEnemigaVola(enemics.getPropietatInt("vidaInsecte"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationInsecte")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortInsecte")),
                     enemics.getPropietatInt("milisegonsInsecte"), enemics.getDoublePropietat("velocitatInsecte"),
-                    enemics.getDoublePropietat("danyInsecte"));
+                    enemics.getDoublePropietat("danyInsecte"),ManagerRecursos.getSound(enemics.getPropietatString("soInsecte")));
         } //Enemic Gos
         else if (tipus.equals("Gos")) {
             dolent = new UnitatEnemigaInvisible(enemics.getPropietatInt("vidaGos"),
@@ -263,7 +267,7 @@ public class FactoriaUnitatsEnemics {
                     enemics.getDoublePropietat("danyGos"),
                     ManagerRecursos.getImageArray("gosCaminaAnimation"),
                     ManagerRecursos.getImageArray("gosInvisibleAnimation"), enemics.getPropietatInt("milisegonsGos3"),
-                    enemics.getPropietatInt("milisegonsGos4"));
+                    enemics.getPropietatInt("milisegonsGos4"),ManagerRecursos.getSound(enemics.getPropietatString("soGos")));
         } //Enemic Zombie
         else if (tipus.equals("Zombie")) {
             dolent = new UnitatEnemigaExplosio(enemics.getPropietatInt("vidaZombie"),
@@ -272,14 +276,14 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsZombie1"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationZombie2")),
                     enemics.getDoublePropietat("velocitatZombie"), enemics.getPropietatInt("milisegonsZombie2"),
-                    enemics.getDoublePropietat("danyZombie"));
+                    enemics.getDoublePropietat("danyZombie"),ManagerRecursos.getSound(enemics.getPropietatString("soZombie")));
         } //Enemic BolaNeu
         else if (tipus.equals("BolaNeu")) {
             dolent = new UnitatEnemigaBolaNeu(enemics.getPropietatInt("vidaBolaNeu"),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationBolaNeu")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationMortBolaNeu")),
                     enemics.getPropietatInt("milisegonsBolaNeu"), enemics.getDoublePropietat("velocitatBolaNeu"),
-                    enemics.getDoublePropietat("danyBolaNeu"));
+                    enemics.getDoublePropietat("danyBolaNeu"),ManagerRecursos.getSound(enemics.getPropietatString("soBolaNeu")));
         } //Enemic Yeti
         else if (tipus.equals("Yeti")) {
             dolent = new UnitatEnemigaAtkDistancia(enemics.getPropietatInt("vidaYeti"),
@@ -292,7 +296,8 @@ public class FactoriaUnitatsEnemics {
                     enemics.getPropietatInt("milisegonsProjectilYeti")),
                     ManagerRecursos.getImageArray(enemics.getPropietatString("animationYeti2")),
                     enemics.getDoublePropietat("velocitatYeti"), enemics.getPropietatInt("milisegonsYeti2"),
-                    enemics.getPropietatFloat("projXYeti"), enemics.getPropietatFloat("projYYeti"));
+                    enemics.getPropietatFloat("projXYeti"), enemics.getPropietatFloat("projYYeti"),
+                    ManagerRecursos.getSound(enemics.getPropietatString("soYeti")));
         }
         return dolent;
     }
