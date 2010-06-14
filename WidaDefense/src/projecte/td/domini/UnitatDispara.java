@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import java.awt.event.ActionEvent;
@@ -11,8 +7,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
 /**
- *
- * @author media
+ * Classe UnitatDispara: Unitats Amigues que efectuen dispars.
+ * @author Ernest Daban i David Alvarez
  */
 public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
 
@@ -22,11 +18,23 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
     private Timer timer;
     private boolean dispara = true;
     private boolean activat;
-    private float posXProj;
-    private float posYProj;
-    private Sound sound;
+    private float posXProj;//CoordendaX posicio projectil
+    private float posYProj;//CoordendaY posicio projectil
+    private Sound sound;//So dispar
 
-    public UnitatDispara(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons, 
+    /**
+     * Constructor classe UnitatDispara
+     * @param vida
+     * @param cadencia
+     * @param frames
+     * @param framesMort
+     * @param milisegons
+     * @param projectil
+     * @param posXProj
+     * @param posYProj
+     * @param sound
+     */
+    public UnitatDispara(int vida, int cadencia, Image[] frames, Image[] framesMort, int milisegons,
             Projectil projectil, float posXProj, float posYProj, Sound sound) {
         super(vida, frames, framesMort, milisegons);
         this.cadencia = cadencia;
@@ -45,6 +53,11 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
         });
     }
 
+    /**
+     * Canvia la posicio de la unitat
+     * @param posX
+     * @param posY
+     */
     @Override
     public void setLocation(float posX, float posY) {
         super.setLocation(posX, posY);
@@ -52,6 +65,11 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
 
     }
 
+    /**
+     * Metode que especifica si pot equipar una aura o no
+     * @param aura
+     * @return
+     */
     @Override
     public boolean potEquiparAura(Aura aura) {
         if (aura.getTipus().equals("MagRapidesa") || aura.getTipus().equals("MagVida")) {
@@ -60,53 +78,80 @@ public class UnitatDispara extends UnitatAbstract implements IAuraRapidesa {
         return false;
     }
 
+    /**
+     * Mètode emprat per a activar els dispars de la unitat
+     */
     public void activarDispars() {
-
-
         timer.start();
         activat = true;
-
     }
 
+    /**
+     * Mètode per indicar que el dispar ha finalitzat
+     */
     public void haDisparat() {
         dispara = false;
-
     }
 
+    /**
+     * Mètode emprat per a desactivar els dispars de la unitat
+     */
     public void desactivarDispars() {
         activat = false;
         timer.stop();
-
     }
 
+    /**
+     * Getter activat
+     * @return activat
+     */
     public boolean estaActivat() {
         return activat;
     }
 
+    /**
+     * Getter disparant
+     * @return
+     */
     public boolean estaDisparant() {
         return dispara;
     }
 
+    /**
+     * Ajusta el timer
+     */
     protected void ajustarTimer() {
         timer.setDelay(cadencia);
     }
 
+    /**
+     * Getter cadencia
+     * @return cadencia
+     */
     public int getCadencia() {
         return cadencia;
     }
 
+    /**
+     * Setter cadencia
+     * @param cadencia
+     */
     public void setCadencia(int cadencia) {
         this.cadencia = cadencia;
     }
 
+    /**
+     * Getter projectil
+     * @return projectil
+     */
     public Projectil getProjectil() {
         return projectil.cloneProjectil();
     }
 
-    public void setP2(Projectil p2) {
-        this.projectil = p2;
-    }
-
+    /**
+     * Getter sound
+     * @return sound
+     */
     public Sound getSound() {
         return sound;
     }

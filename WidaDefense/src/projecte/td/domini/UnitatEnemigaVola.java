@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import org.newdawn.slick.GameContainer;
@@ -11,8 +7,8 @@ import org.newdawn.slick.Sound;
 import projecte.td.managers.ManagerPerfil;
 
 /**
- *
- * @author wida47909974
+ * Classe UnitatEnemigaVola: Unitat enemiga que apareix volant al tauler.
+ * @author Ernest Daban i David Alvarez
  */
 public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
 
@@ -21,16 +17,34 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
     private float posXVol;
     private int contadorSo;
 
+    /**
+     * Constructor UnitatEnemigaVola
+     * @param vida
+     * @param frames
+     * @param framesMort
+     * @param milisegons
+     * @param velocitat
+     * @param dany
+     * @param soAtck
+     */
     public UnitatEnemigaVola(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat, double dany, Sound soAtck) {
         super(vida, frames, framesMort, milisegons, velocitat, dany, soAtck);
         calcularVol();
 
     }
 
+    /**
+     * Calcula la posició on volarà
+     */
     public void calcularVol() {
         posXVol = (int) (Math.random() * 700) + 200;
     }
 
+    /**
+     * Canvia la posicio de la unitat
+     * @param posX
+     * @param posY
+     */
     @Override
     public void setLocation(float posX, float posY) {
         if (!inici) {
@@ -44,6 +58,10 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
 
     }
 
+    /**
+     * Updateja la unitat
+     * @param delta
+     */
     @Override
     public void update(int delta) {
         if (posX <= 0 - getWidth() / 2) {
@@ -60,20 +78,25 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
         }
     }
 
+    /**
+     * Renderitza la unitat
+     * @param gc
+     * @param g
+     */
     @Override
     public void render(GameContainer gc, Graphics g) {
         renderVida(gc, g);
         g.drawAnimation(animation, posX, posY);
         if (activat) {
             if (!animation.isStopped() && !soAcabat && animation.getFrame() == 0) {
-                soAtck.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
+                soAtck.play(1, (float) ManagerPerfil.getVolumEfectes() / 100);
                 soAcabat = true;
             }
 
         }
-        if(animation.getFrame()==animation.getFrameCount()-1 && contadorSo%20==0){
-            soAcabat=false;
-            
+        if (animation.getFrame() == animation.getFrameCount() - 1 && contadorSo % 20 == 0) {
+            soAcabat = false;
+
         }
         contadorSo++;
     }

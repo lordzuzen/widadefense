@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
 /**
- *Classe UnitatEnemiga
+ * Classe UnitatEnemiga
  * @author Ernest Daban i David Alvarez
  */
 public class UnitatEnemiga extends UnitatAbstract {
@@ -28,11 +28,11 @@ public class UnitatEnemiga extends UnitatAbstract {
      * @param velocitat  Velocitat de la unitat
      * @param milisegonsAtck Milisegons entre imatge i imatge de l'Animacio ataca
      */
-    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck,Sound soAtck) {
+    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, Sound soAtck) {
         super(vida, frames, framesMort, milisegons);
         atck = new Animation(frames2, milisegonsAtck);
         this.velocitat = velocitat;
-        this.soAtck=soAtck;
+        this.soAtck = soAtck;
     }
 
     /**
@@ -43,10 +43,10 @@ public class UnitatEnemiga extends UnitatAbstract {
      * @param milisegons Milisegons entre imatge i imatge de l'Animacio camina
      * @param velocitat  Velocitat de la unitat
      */
-    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat,Sound soAtck) {
+    public UnitatEnemiga(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat, Sound soAtck) {
         super(vida, frames, framesMort, milisegons);
         this.velocitat = velocitat;
-        this.soAtck=soAtck;
+        this.soAtck = soAtck;
     }
 
     /**
@@ -119,9 +119,11 @@ public class UnitatEnemiga extends UnitatAbstract {
         return haArribat;
     }
 
+    /**
+     * Getter soAtck
+     * @return soAtck
+     */
     public Sound getSoAtck() {
         return soAtck;
     }
-
-
 }
