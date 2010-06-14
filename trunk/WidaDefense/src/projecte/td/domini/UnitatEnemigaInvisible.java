@@ -101,10 +101,11 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
                 apareix = false;
             }
         }
-
-
     }
-
+    /**
+     * Getter dany
+     * @return
+     */
     @Override
     public double getDany() {
         if (!mort && !invisible && !apareix) {
@@ -113,14 +114,20 @@ public class UnitatEnemigaInvisible extends UnitatEnemigaAtkNormal {
             return 0;
         }
     }
-
+    /**
+     * Genera un impacte sobre la unitat
+     * @param dany
+     */
     @Override
     public void impacte(double dany) {
         if (!invisible && !apareix) {
             super.impacte(dany);
         }
     }
-
+    /**
+     * Getter invisible
+     * @return
+     */
     public boolean isInvisible() {
         return invisible;
     }

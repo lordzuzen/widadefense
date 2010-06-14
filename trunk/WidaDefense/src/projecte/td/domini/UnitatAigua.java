@@ -1,17 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import org.newdawn.slick.Image;
 
 /**
- *
- * @author wida47909974
+ * Classe UnitatAigua: Unitats Amiga utilitzada per acabar amb les Boles de Neu.
+ * @author Ernest Daban i David Alvarez
  */
 public class UnitatAigua extends UnitatAbstract {
 
+    /**
+     * Constructor classe UnitatAigua
+     * @param vida
+     * @param frames
+     * @param framesMort
+     * @param milisegons
+     */
     public UnitatAigua(int vida, Image[] frames, Image[] framesMort, int milisegons) {
         super(vida, frames, framesMort, milisegons);
     }
