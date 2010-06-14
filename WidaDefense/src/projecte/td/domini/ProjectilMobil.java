@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author media
  */
-public class ProjectilMobil extends Projectil {
+public class ProjectilMobil extends Projectil implements Cloneable{
 
     protected Image image;
 

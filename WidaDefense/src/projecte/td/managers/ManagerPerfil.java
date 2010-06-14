@@ -19,7 +19,7 @@ public class ManagerPerfil {
     // Volum de la música
     private static int volumMusica;
     // Volum dels efectes de so
-    private static int volumEfectes;
+    private static int volumEfectes = 20;
     // Total de temps que durara la wave
     private static int tempsTotal;
     // Total d'enemics que apareixeran
@@ -210,7 +210,7 @@ public class ManagerPerfil {
      */
     public static void guardarValorsMusica() {
         dadesPerfil.setPropietatInt("volumMusica", volumMusica);
-        dadesPerfil.setPropietatInt("volumPerfil", volumEfectes);
+        dadesPerfil.setPropietatInt("volumEfectes", volumEfectes);
         dadesPerfil.guardar();
     }
 

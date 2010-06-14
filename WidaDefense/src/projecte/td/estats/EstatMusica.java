@@ -118,9 +118,12 @@ public class EstatMusica extends BasicGameState {
         botoRestaMusica.render(container, g);
         botoSumaMusica.render(container, g);
         g.setColor(Color.black);
-        g.drawString("Volum Musica", 455, 410);
-        g.drawString("Volum Efectes", 450, 480);
-        g.setColor(Color.white);
+        g.drawString("Volum Musica", 455, 400);
+        g.drawString("Volum Efectes", 455, 470);
+        g.setColor(Color.red);
+        g.fillRect(botoRestaMusica.getX() + botoRestaMusica.getWidth() + 6, botoRestaMusica.getY() + 20, ((float) volumMusica / 100) * 170, 5);
+        g.fillRect(botoRestaEfectes.getX() + botoRestaEfectes.getWidth() + 6, botoRestaEfectes.getY() + 20, ((float) volumEfectes / 100) * 170, 5);
+        g.setColor(Color.black);
     }
 
     /**
@@ -190,10 +193,10 @@ public class EstatMusica extends BasicGameState {
         botoRestaEfectes.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                if (volumEfectes >= 10) {
-                    volumEfectes += 10;
-                    game.setMusicVolume(volumEfectes);
-                    ReproductorMusica.update(game);
+                if (volumEfectes > 10) {
+                    volumEfectes -= 10;
+                    ManagerPerfil.setVolumEfectes(volumEfectes);
+                    ManagerPerfil.guardarValorsMusica();
                 }
             }
         });
@@ -206,9 +209,10 @@ public class EstatMusica extends BasicGameState {
         botoSumaEfectes.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
-                if (volumEfectes <= 90) {
+                if (volumEfectes < 100) {
                     volumEfectes += 10;
-                    game.setMusicVolume(volumEfectes);
+                    ManagerPerfil.setVolumEfectes(volumEfectes);
+                    ManagerPerfil.guardarValorsMusica();
                 }
             }
         });

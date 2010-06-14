@@ -205,7 +205,7 @@ public class ManagerEnemics {
      * @param g
      */
     public static void renderCartell(GameContainer gc, Graphics g) {
-        iniciWaveImatge.draw(200, 200);
+        iniciWaveImatge.draw(gc.getWidth() / 2 - iniciWaveImatge.getWidth() / 2 , 80);
     }
 
     // Getters i setters

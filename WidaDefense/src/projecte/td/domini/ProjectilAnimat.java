@@ -16,7 +16,7 @@ import projecte.td.managers.ManagerRecursos;
  *
  * @author media
  */
-public class ProjectilAnimat extends Projectil {
+public class ProjectilAnimat extends Projectil implements Cloneable{
 
     private Animation animation;
     private int milisegons;

@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  * Classe UnitatEnemigaExplosio: Unitat enemiga que explosiona quan té contacte amb una unitat Amiga.
@@ -68,7 +69,7 @@ public class UnitatEnemigaExplosio extends UnitatEnemigaAtkNormal {
             cremant = true;
             g.drawAnimation(atck, posX, posY + animation.getHeight() - atck.getHeight());
             if(!soAcabat){
-                soAtck.play();
+                soAtck.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                 soAcabat=true;
             }
 

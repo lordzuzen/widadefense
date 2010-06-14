@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
+import projecte.td.managers.ManagerPerfil;
 
 /**
  * Classe UnitatEnemigaAtkNormal: Unitat enemiga que ataca cos a cos.
@@ -84,7 +85,7 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga {
             float x = getPosX() - (atck.getWidth() - getWidth());
             g.drawAnimation(atck, x, posY);
             if (!atck.isStopped() && !soAcabat && atck.getFrame() == 0) {
-                soAtck.play();
+                soAtck.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
                 soAcabat = true;
             }
 

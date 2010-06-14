@@ -237,7 +237,7 @@ public class MenuIngame extends AbstractComponent {
         reiniciarBotons();
         botoAux.activarTimer();
         botoAux = null;
-        soClick.play();
+        soClick.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
         ManagerPerfil.sumaUnitat();
     }
 
