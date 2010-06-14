@@ -76,7 +76,17 @@ public class ArxiuConfiguracio {
     }
 
     public float getPropietatFloat(String clau) {
-        return Float.parseFloat(propietats.getProperty(clau));
+        Float f=null;
+        String propietat=propietats.getProperty(clau);
+        if(propietat.contains("-")){
+            String[] linia=propietat.split("-");
+            f=Float.parseFloat(linia[1]);
+            f*=-1;
+        }
+        else{
+            f=Float.parseFloat(propietat);
+        }
+        return f;
     }
 
     public void setPropietatFloat(String clau, float valor) {
