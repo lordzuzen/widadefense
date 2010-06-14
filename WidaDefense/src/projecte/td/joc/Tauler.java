@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import projecte.td.domini.InterficieBomba;
 import projecte.td.domini.Miner;
@@ -19,6 +20,7 @@ import projecte.td.domini.UnitatEnemigaAtkDistanciaSalta;
 import projecte.td.domini.UnitatEnemigaAtkNormal;
 import projecte.td.domini.UnitatEnemigaInvisible;
 import projecte.td.managers.ManagerPerfil;
+import projecte.td.managers.ManagerRecursos;
 
 /**
  * Classe Tauler encarregada de tot el funcionament de la Partida
@@ -334,6 +336,7 @@ public class Tauler {
                         if (enemic.estaActivat() && enemic.estaDisparant()) {
                             arrays_projectils_enemics[i].add(enemic.getProjectil());
                             enemic.haDisparat();
+                            enemic.getSoAtck().play();
 
                         }
                     }
@@ -369,6 +372,10 @@ public class Tauler {
             for (UnitatAbstract t : unitatsAmigues[i]) {
                 if (t != null) {
                     t.renderMort(gc, g);
+                    if(t.efectuarSoMort()){
+                        Sound so =ManagerRecursos.getSound("mortBonsSound");
+                        so.play();
+                    }
                 }
             }
             for (Object en : arrays_enemics[i]) {
@@ -586,6 +593,7 @@ public class Tauler {
             for (UnitatAbstract amic : unitatsAmigues[i]) {
                 if (amic != null) {
                     amic.setMort(true);
+                    amic.noEfectuarSoMort();
                 }
             }
             for (Object ob : arrays_enemics[i]) {
