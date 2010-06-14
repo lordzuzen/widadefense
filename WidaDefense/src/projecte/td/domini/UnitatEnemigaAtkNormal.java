@@ -3,6 +3,7 @@ package projecte.td.domini;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 /**
  * Classe UnitatEnemigaAtkNormal: Unitat enemiga que ataca cos a cos.
@@ -11,6 +12,7 @@ import org.newdawn.slick.Image;
 public class UnitatEnemigaAtkNormal extends UnitatEnemiga {
 
     double dany;//Dany de l'atac
+    protected boolean soAcabat;
 
     /**
      * Constructor UnitatEnemigaAtkNormal
@@ -23,8 +25,8 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga {
      * @param milisegonsAtck
      * @param dany
      */
-    public UnitatEnemigaAtkNormal(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany) {
-        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck);
+    public UnitatEnemigaAtkNormal(int vida, Image[] frames, Image[] framesMort, int milisegons, Image[] frames2, double velocitat, int milisegonsAtck, double dany, Sound soAtck) {
+        super(vida, frames, framesMort, milisegons, frames2, velocitat, milisegonsAtck, soAtck);
         this.dany = dany;
     }
 
@@ -37,8 +39,8 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga {
      * @param velocitat
      * @param dany
      */
-    public UnitatEnemigaAtkNormal(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat, double dany) {
-        super(vida, frames, framesMort, milisegons, velocitat);
+    public UnitatEnemigaAtkNormal(int vida, Image[] frames, Image[] framesMort, int milisegons, double velocitat, double dany, Sound soAtck) {
+        super(vida, frames, framesMort, milisegons, velocitat, soAtck);
         this.dany = dany;
     }
 
@@ -81,9 +83,16 @@ public class UnitatEnemigaAtkNormal extends UnitatEnemiga {
         if (activat) {
             float x = getPosX() - (atck.getWidth() - getWidth());
             g.drawAnimation(atck, x, posY);
+            if (!atck.isStopped() && !soAcabat && atck.getFrame() == 0) {
+                soAtck.play();
+                soAcabat = true;
+            }
 
         } else {
             g.drawAnimation(animation, posX, posY);
+        }
+        if(atck.getFrame()==atck.getFrameCount()-1){
+            soAcabat=false;
         }
     }
 }
