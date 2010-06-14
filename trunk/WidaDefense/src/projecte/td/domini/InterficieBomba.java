@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package projecte.td.domini;
 
 import org.newdawn.slick.Sound;
 
 /**
- *
- * @author wida47909974
+ * Interficie Bomba: Utilitzada per totes les UnitatsAmigues que son Bombes.
+ * @author Ernest Daban i David Alvarez
  */
 public interface InterficieBomba {
 

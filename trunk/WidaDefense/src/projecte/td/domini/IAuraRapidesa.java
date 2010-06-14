@@ -1,24 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package projecte.td.domini;
 
 /**
- *
- * @author media
+ * Interficie Aura Rapidesa: Utilitzada per saber si les unitats amigues
+ * poden equipar aquesta aura.
+ * @author Ernest Daban i David Alvarez
  */
 public interface IAuraRapidesa {
 
+    //Observa si pot equipar una aura
     public boolean potEquiparAura(Aura aura);
 
+    //Activa una aura
     public void activarAura(Aura aura);
 
+    //Desactiva una aura
     public void desactivarAura();
 
+    //Getter AuraActiva
     public boolean isAuraActiva();
 
+    //Setter AuraActiva
     public void setAuraActiva(boolean activa);
-
 }
