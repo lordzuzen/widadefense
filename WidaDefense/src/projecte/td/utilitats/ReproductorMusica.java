@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
 import projecte.td.managers.ManagerPerfil;
@@ -12,148 +11,144 @@ import projecte.td.managers.ManagerRecursos;
 
 public class ReproductorMusica {
 
-    private static List<String> names = new ArrayList<String>();
+    private static List<String> noms = new ArrayList<String>();
     private static float volumMusica;
-    private static int currIdx = -1;
-    private static int maxIdx = -1;
-    private static int minIdx = -1;
-    private static boolean repeatAll = false;
-    private static boolean shuffle = false;
+    private static int indexActual = -1;
+    private static int indexMax = -1;
+    private static int indexMin = -1;
+    private static boolean repeteix = false;
+    private static boolean aleatori = false;
     private static boolean reproduint = false;
-    private static Music currentMusic;
+    private static Music musicaActual;
     transient static SecureRandom random = null;
 
     static {
         try {
             random = SecureRandom.getInstance("SHA1PRNG");
         } catch (NoSuchAlgorithmException ex) {
-            // should never happen ...
         }
     }
 
     public static void init() {
         for (String s : ManagerRecursos.getMusics().keySet()) {
-            names.add(s);
-            maxIdx++;
+            noms.add(s);
+            indexMax++;
         }
-        if (maxIdx > -1) {
-            minIdx = 0;
+        if (indexMax > -1) {
+            indexMin = 0;
         }
 
     }
 
     public static void toggleShuffle() {
-        shuffle = !shuffle;
+        aleatori = !aleatori;
     }
 
     public static void toggleRepeatAll() {
-        repeatAll = !repeatAll;
+        repeteix = !repeteix;
     }
 
     public static void last() {
-        if (currIdx < maxIdx && !reproduint) {
-            currIdx = maxIdx;
+        if (indexActual < indexMax && !reproduint) {
+            indexActual = indexMax;
             changeMusic();
             reproduint = true;
         }
     }
 
     public static void first() {
-        if (currIdx != 0 && minIdx == 0 && !reproduint) {
-            currIdx = minIdx;
+        if (indexActual != 0 && indexMin == 0 && !reproduint) {
+            indexActual = indexMin;
             changeMusic();
             reproduint = true;
         }
     }
 
     public static void next() {
-        if (currIdx < maxIdx) {
-            currIdx++;
+        if (indexActual < indexMax) {
+            indexActual++;
             changeMusic();
         }
     }
 
     public static void prev() {
-        if (currIdx > minIdx) {
-            currIdx--;
+        if (indexActual > indexMin) {
+            indexActual--;
             changeMusic();
         }
     }
 
     public static void update(GameContainer container) {
 
-        if (currentMusic != null) {
-            if (!currentMusic.playing()) {
-                if (repeatAll) {
-                    int tmp = currIdx;
-                    if (tmp < maxIdx) {
-                        currIdx++;
+        if (musicaActual != null) {
+            if (!musicaActual.playing()) {
+                if (repeteix) {
+                    int tmp = indexActual;
+                    if (tmp < indexMax) {
+                        indexActual++;
                     } else {
-                        currIdx = minIdx;
+                        indexActual = indexMin;
                     }
-
                 }
-
-                if (shuffle && maxIdx > 0) {
-                    currIdx = random.nextInt(maxIdx);
+                if (aleatori && indexMax > 0) {
+                    indexActual = random.nextInt(indexMax);
                 }
-
                 changeMusic();
             }
-            currentMusic.setVolume(volumMusica);
+            musicaActual.setVolume(volumMusica);
         }
     }
 
     public static void stop() {
-        if (currentMusic != null) {
-            if (currentMusic.playing()) {
-                currentMusic.stop();
-                currentMusic = null;
+        if (musicaActual != null) {
+            if (musicaActual.playing()) {
+                musicaActual.stop();
+                musicaActual = null;
             }
         }
     }
 
     public static void pause() {
-        if (currentMusic != null) {
-            if (currentMusic.playing()) {
-                currentMusic.pause();
+        if (musicaActual != null) {
+            if (musicaActual.playing()) {
+                musicaActual.pause();
             }
         }
     }
 
     public static void resume() {
-        if (currentMusic != null) {
-            if (currentMusic.playing()) {
-                currentMusic.resume();
+        if (musicaActual != null) {
+            if (musicaActual.playing()) {
+                musicaActual.resume();
             }
         }
     }
 
     private static void changeMusic() {
-        if (currentMusic != null) {
-            currentMusic.stop();
-            currentMusic = null;
+        if (musicaActual != null) {
+            musicaActual.stop();
+            musicaActual = null;
         }
 
-        String musicName = names.get(currIdx);
-        currentMusic = ManagerRecursos.getMusic(musicName);
-        currentMusic.play();
+        String musicName = noms.get(indexActual);
+        musicaActual = ManagerRecursos.getMusic(musicName);
+        musicaActual.play();
     }
 
     public static int getMusicCount() {
-        return names.size();
+        return noms.size();
     }
 
     public static int getCurrentIndex() {
-        return currIdx;
+        return indexActual;
     }
 
     public static boolean isRepeatAll() {
-        return repeatAll;
+        return repeteix;
     }
 
     public static boolean isShuffle() {
-        return shuffle;
+        return aleatori;
     }
 
     public static void setVolumMusic() {
