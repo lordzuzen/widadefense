@@ -37,7 +37,7 @@ public class UnitatEnemigaVola extends UnitatEnemigaAtkNormal {
      * Calcula la posició on volarà
      */
     public void calcularVol() {
-        posXVol = (int) (Math.random() * 700) + 200;
+        posXVol = (int) (Math.random() * 600) + 400;
     }
 
     /**
