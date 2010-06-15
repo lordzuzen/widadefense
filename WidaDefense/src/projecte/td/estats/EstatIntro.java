@@ -23,12 +23,16 @@ public class EstatIntro extends BasicGameState {
     public static final int ID = 0;
     // Imatge del logo
     private Image imatgeIntro;
+    // Imatge del logo
+    private Image imatgeIntro2;
     // Efecte que s'usara per fer els canvis d'estat
     private ImageFxFadeInOut fxFadeInOutLogo;
+    // Efecte que s'usara per fer els canvis d'estat
+    private ImageFxFadeInOut fxFadeInOutLogo2;
     // Variable comptador que fara de "timer"
     private int comptador = 0;
     // Limit al que podra arribar la variable comptador
-    private int limitComptador = 8000;
+    private int limitComptador = 12000;
 
     /**
      * BasicGameState ens obliga a implementar aquest metode 
@@ -49,6 +53,7 @@ public class EstatIntro extends BasicGameState {
         ManagerContext.setGui(container);
         ManagerContext.setState(game);
         imatgeIntro = ManagerRecursos.getImage("fonsIntroImage");
+        imatgeIntro2 = ManagerRecursos.getImage("fonsIntro2Image");
     }
 
     /**
@@ -61,10 +66,9 @@ public class EstatIntro extends BasicGameState {
      */
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
-
         fxFadeInOutLogo.update(delta);
+        fxFadeInOutLogo2.update(delta);
         comptador += delta;
-
         // Si el comptador supera el limit o es prem la tecla Escape es procedira a carregar el seguent estat
         // en aquest cas, Estat Loading on es carregaran els recursos necessaris
         if (comptador > limitComptador || container.getInput().isKeyDown(Input.KEY_ESCAPE)) {
@@ -82,6 +86,7 @@ public class EstatIntro extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException {
         fxFadeInOutLogo.render(container, g);
+        fxFadeInOutLogo2.render(container, g);
     }
 
     /**
@@ -91,7 +96,8 @@ public class EstatIntro extends BasicGameState {
      */
     @Override
     public void enter(GameContainer gc, StateBasedGame state) {
-        fxFadeInOutLogo = new ImageFxFadeInOut(gc, imatgeIntro, 0, 0, 48, 51, 0, 5000);
+        fxFadeInOutLogo = new ImageFxFadeInOut(gc, imatgeIntro, 0, 0, 48, 51, 0, 4000);
+        fxFadeInOutLogo2 = new ImageFxFadeInOut(gc, imatgeIntro2, 0, 0, 48, 51, 5000, 10000);
     }
 }
 

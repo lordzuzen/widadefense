@@ -202,7 +202,6 @@ public class Tauler {
             UnitatDispara ud = (UnitatDispara) unitatsAmigues[fil][col];
             ud.desactivarDispars();//Parar timers
         } else if (unitatsAmigues[fil][col] instanceof Miner) {
-            System.out.println("miner eliminat");
             Miner miner = (Miner) unitatsAmigues[fil][col];
             miner.desactivarTimer();//Parar timers
         }
