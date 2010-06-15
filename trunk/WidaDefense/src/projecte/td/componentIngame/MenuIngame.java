@@ -117,9 +117,9 @@ public class MenuIngame extends AbstractComponent {
         g.drawImage(imatgeMoneda, 820, 625);
         g.drawString(md.getTotal() + "", 880, 625);
         if (auraDisponible.equals("MagVida")) {
-            g.drawImage(imatgeAura, 830, 670);
+            g.drawImage(imatgeAura, 940, 665);
         } else if (auraDisponible.equals("MagRapidesa")) {
-            g.drawImage(imatgeAura, 830, 670);
+            g.drawImage(imatgeAura, 940, 665);
         }
     }
 
@@ -233,11 +233,13 @@ public class MenuIngame extends AbstractComponent {
      * Resta diners al ManagerDiners en cas que sigui necessari
      */
     public void realitzaTransaccio() {
-        md.restarDiners(botoAux.getCost());
+        if (botoAux != null) {
+            md.restarDiners(botoAux.getCost());
+        }
         reiniciarBotons();
         botoAux.activarTimer();
         botoAux = null;
-        soClick.play(1, (float)ManagerPerfil.getVolumEfectes() / 100);
+        soClick.play(1, (float) ManagerPerfil.getVolumEfectes() / 100);
         ManagerPerfil.sumaUnitat();
     }
 

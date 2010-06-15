@@ -19,7 +19,7 @@ public class ManagerDinersAures {
      * Constructor sense parametres
      */
     public ManagerDinersAures() {
-        total = 600;
+        total = 200;
     }
 
     /**

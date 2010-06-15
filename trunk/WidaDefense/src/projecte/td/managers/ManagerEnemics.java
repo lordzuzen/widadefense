@@ -94,7 +94,6 @@ public class ManagerEnemics {
             }
         }
         ordenarArray();
-        print();
     }
 
     /**
@@ -102,13 +101,6 @@ public class ManagerEnemics {
      */
     public static void ordenarArray() {
         Collections.sort(llistaEnemics);
-    }
-
-    private static void print() {
-        for (Object o : llistaEnemics) {
-            InfoEnemicManager e = (InfoEnemicManager) o;
-            System.out.println(e.getTipusEnemic() + "-" + e.getTempsSortida());
-        }
     }
 
     /**

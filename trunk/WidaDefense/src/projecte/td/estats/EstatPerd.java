@@ -66,8 +66,8 @@ public class EstatPerd extends BasicGameState {
         this.state = game;
         this.container = container;
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         titolEstat = ManagerRecursos.getImage("textPerdreImage");
         textRepetir = ManagerRecursos.getImage("textRepetirImage");
         textSortir = ManagerRecursos.getImage("textSortirImage");

@@ -38,7 +38,6 @@ public class BombaAerea extends UnitatAbstract implements InterficieBomba {
     @Override
     public void setLocation(float posX, float posY) {
         posicioYExplosio = posY;
-        System.out.println(posY + "see");
         super.setLocation(posX, -20);
         projectil.setLocation(0, 0);
     }

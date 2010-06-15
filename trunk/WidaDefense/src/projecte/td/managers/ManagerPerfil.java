@@ -87,11 +87,13 @@ public class ManagerPerfil {
      * Quan un jugador supera una wave s'escriuen les dades necessaries
      */
     public static void passaASeguentWave() {
-        wave++;
-        waveActual++;
-        dadesPerfil.setPropietatInt("seguentWave", wave);
-        dadesPerfil.guardar();
-        canviWave = true;
+        if (waveActual==wave) {
+            wave++;
+            waveActual++;
+            dadesPerfil.setPropietatInt("seguentWave", wave);
+            dadesPerfil.guardar();
+            canviWave = true;
+        }
     }
 
     /**

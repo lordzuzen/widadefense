@@ -201,6 +201,8 @@ public class EstatInGame extends BasicGameState {
         p = new Tauler(6, 10, 1024, 600);
         md = new ManagerDinersAures();
         mi = new MenuIngame(gc, 0, 600, ManagerRecursos.getImage("contenidorIngameImage"), ManagerPerfil.getUnitatsTriades(), md, state);
+        mi.clear();
+        mi.reiniciarBotons();
         ManagerContext.setDiners(md);
         ManagerEnemics.iniciarCompteEnrere();
     }

@@ -60,6 +60,8 @@ public class EstatGuanya extends BasicGameState {
     private Image textSortir;
     // Boolean per comprovar si s'ha de mostrar una unitat nova
     private boolean unitatNova;
+    // Indica si es l'ultima wave disponible
+    private boolean finalWave;
     // So del boto quan es clicat
     private Sound soClick;
     // So del boto quan hi ha mouse over
@@ -87,8 +89,8 @@ public class EstatGuanya extends BasicGameState {
         this.container = container;
         waves = Configuracio.getWaves();
         imatgeFons = ManagerRecursos.getImage("fonsSelectorImage");
-        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfilNormalImage");
-        imatgeBotoOver = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoNormal = ManagerRecursos.getImage("botoPerfil2OverImage");
+        imatgeBotoOver = ManagerRecursos.getImage("botoPerfilNormalImage");
         titolEstat = ManagerRecursos.getImage("textGuanyarImage");
         textSeguir = ManagerRecursos.getImage("textSeguirImage");
         textRepetir = ManagerRecursos.getImage("textRepetirImage");
@@ -125,11 +127,15 @@ public class EstatGuanya extends BasicGameState {
         titolEstat.draw(250, 150);
         botoMenuPrincipal.render(container, g);
         botoReiniciarWave.render(container, g);
-        botoSeguentWave.render(container, g);
+        if (!finalWave) {
+            botoSeguentWave.render(container, g);
+        }
         g.setFont(font);
         if (unitatNova) {
             imatgeCarta.draw(480, 220);
             imatgePersonatge.draw(490, 230);
+        } else if (finalWave) {
+            g.drawString("Enhorabona, has superat totes les waves!", 265, 270);
         }
     }
 
@@ -145,9 +151,17 @@ public class EstatGuanya extends BasicGameState {
         informacioNovesUnitats = waves.getPropietatString("unitatNova" + ManagerPerfil.getWave());
         imatgePersonatge = ManagerRecursos.getImage("carta" + informacioNovesUnitats + "Image");
         unitatNova = false;
-        if (!informacioNovesUnitats.equals("null")) {
+        if (informacioNovesUnitats.equals("final")) {
+            finalWave = true;
+        } else if (!informacioNovesUnitats.equals("null")) {
             unitatNova = true;
         }
+    }
+
+    @Override
+    public void leave(GameContainer gc, StateBasedGame state) {
+        unitatNova = false;
+        finalWave = false;
     }
 
     /**
@@ -155,13 +169,15 @@ public class EstatGuanya extends BasicGameState {
      * A través del manager de recursos assignem una imatge i una posicio als botons
      */
     private void crearBotonsMenuNormal() {
-        // BotoMenu tornar a jugar wave
-        botoSeguentWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
-        botoSeguentWave.setMouseOverImage(imatgeBotoOver);
-        botoSeguentWave.setImageText(textSeguir);
-        botoSeguentWave.setMouseDownSound(soClick);
-        botoSeguentWave.setMouseOverSound(soOver);
-        botoSeguentWave.setActiu(true);
+        if (!finalWave) {
+            // BotoMenu tornar a jugar wave
+            botoSeguentWave = new BotoMenu(container, imatgeBotoNormal, 380, 350);
+            botoSeguentWave.setMouseOverImage(imatgeBotoOver);
+            botoSeguentWave.setImageText(textSeguir);
+            botoSeguentWave.setMouseDownSound(soClick);
+            botoSeguentWave.setMouseOverSound(soOver);
+            botoSeguentWave.setActiu(true);
+        }
         // BotoMenu tornar al menu principal
         botoReiniciarWave = new BotoMenu(container, imatgeBotoNormal, 380, 450);
         botoReiniciarWave.setMouseOverImage(imatgeBotoOver);
@@ -182,12 +198,14 @@ public class EstatGuanya extends BasicGameState {
      * S'afegeixen els listeners que faran accionar els botons
      */
     private void afegirListeners() {
-        botoReiniciarWave.addListener(new ComponentListener() {
+        if (!finalWave) {
+            botoReiniciarWave.addListener(new ComponentListener() {
 
-            public void componentActivated(AbstractComponent comp) {
-                state.enterState(EstatSeguentWave.ID);
-            }
-        });
+                public void componentActivated(AbstractComponent comp) {
+                    state.enterState(EstatSeguentWave.ID);
+                }
+            });
+        }
         botoMenuPrincipal.addListener(new ComponentListener() {
 
             public void componentActivated(AbstractComponent comp) {
